@@ -1,13 +1,13 @@
 Package: mtdnaANNO
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Title: Association Analysis of Heteroplasmic mtDNA Mutations 
+Version: 0.0.1.1
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Chunyu",
+           family = "Liu",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
+           email = "liuc@bu.edu",
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: What license it uses
+Description: Association analysis of heteroplasmic mtDNA mutations.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
