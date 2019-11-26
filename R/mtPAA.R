@@ -5,6 +5,7 @@
 #' @param coverage Coverage, numeric matrix
 #' @param allele Allele dataset, numeric matrix
 #' @param freq Frequency dataset, numeric matrix
+#' @param loci Numeric vector, default 1:16569
 #'
 #' @return PAA, numeric matrix with dimensions of n subjects x 16569 SNPs
 #' @export
@@ -27,7 +28,7 @@
 #' #                    ncol = length( head ), byrow = TRUE)
 #'
 #' #mtPAA (coverage, allele, freq)
-mtPAA <- function( coverage, allele, freq ){
+mtPAA <- function( coverage, allele, freq, loci = 1:16569 ){
 
 
   if((sum(dim(coverage) != dim(allele) ) > 0) | (sum(dim(coverage) != dim(freq))>0)){
@@ -51,44 +52,29 @@ mtPAA <- function( coverage, allele, freq ){
   coverage <- t(coverage )
 
 
-  ### to make the function be flexible for any loci, we need an additional parameter of loci position
-  ### it is vector provided by users, with default of c(1:16569)
-  loci <- c(1:16569)
-
-
   if (length(loci)!=(dim(allele)[1])){
-    warning("the length of loci should be the same as the dataset")
+    stop("the length of loci should be the same as the dataset")
   }
 
   if(length(loci)>16569){
     warning("loci should have no more than 16569")
   }
 
-  AAF3.m <- array(0,rev(dim(allele)) )
+  AAF3.m <- array(0, dim(allele) )
+  complex.allele <- which(allele != .mtRef)
+  AAF3.m [complex.allele] <- 1
+
+  complex.allele <- complex.allele[ grepl( "/",  allele[complex.allele])]
+  complex.all2 <- strsplit( allele[complex.allele], split="/" )
+
+  complex.freqsplit <- strsplit( freq[complex.allele], split="/")
+  complex.freqsplit <- lapply( complex.freqsplit, as.numeric)
+
+  complex.ref <- .mtRef[ (complex.allele -1) %% length(.mtRef) + 1]
+  AAF3.m[complex.allele] <- mapply(function(x, y, z){ pos <- which(x == z); if(length(pos) > 0) max(y[-pos]) else max(y)  } ,
+                                   x= complex.all2, y = complex.freqsplit, z = complex.ref)
+  AAF3.m <- t(AAF3.m)
   rownames(AAF3.m) <- subjectID
-
-  for (m in 1:dim(allele)[2]) {
-
-    m.allele   <- allele[,m]
-    m.freq     <- freq[,m]
-
-    complex.allele <- grep("/", m.allele)
-    AAF2 <- array(NA, 16569)
-
-    if(length(complex.allele)==0){
-      AAF2 <- ifelse(m.allele == ref, 0, 1)
-    }else{
-      AAF2[-complex.allele] <- ifelse(m.allele[-complex.allele] == ref[-complex.allele], 0, 1)
-
-      complex.all2 <- strsplit(m.allele[complex.allele],split="/")
-      complex.freqsplit <- strsplit(m.freq[complex.allele],split="/")
-      complex.freqsplit <- lapply(complex.freqsplit, as.numeric)
-      complex.ref <- ref[complex.allele]
-      AAF2[complex.allele] <- mapply(function(x, y, z){ pos <- which(x %in% z); if(length(pos) > 0) max(y[-pos]) else max(y)  } , x= complex.all2, y = complex.freqsplit, z = complex.ref)
-    }
-
-    AAF3.m[ m, ] <- AAF2
-  }
   AAF3.m
 
 }
