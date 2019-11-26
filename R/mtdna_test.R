@@ -12,7 +12,7 @@
 #' coverage_file <- "/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/coverage/coverage.csv"
 #' allele_file <- "/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/allele/allele.csv"
 #' freq_file <- "/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/freq/freq.csv"
-#' mtdna_test (head_file, coverage_file, allele_file, freq_file)
+#' mtdna_test (coverage_file, allele_file, freq_file)
 mtdna_test <- function( coverage_file, allele_file, freq_file){
 
   head <- scan( file = allele_file, sep = ",", character(), nlines = 1)
@@ -58,6 +58,7 @@ mtdna_test <- function( coverage_file, allele_file, freq_file){
   }
 
   AAF3.m <- array(0,rev(dim(allele)) )
+  rownames(AAF3.m) <- subjectID
 
   for (m in 1:dim(allele)[2]) {
 
@@ -79,12 +80,8 @@ mtdna_test <- function( coverage_file, allele_file, freq_file){
       AAF2[complex.allele] <- mapply(function(x, y, z){ pos <- which(x %in% z); if(length(pos) > 0) max(y[-pos]) else max(y)  } , x= complex.all2, y = complex.freqsplit, z = complex.ref)
     }
 
-    AAF3.m[ m, ]<-AAF2
+    AAF3.m[ m, ] <- AAF2
   }
-
-  rownames(AAF3.m) <- subjectID
   AAF3.m
-
-
 
 }
