@@ -1,6 +1,6 @@
 Package: mtdnaANNO
 Title: Association Analysis of Heteroplasmic mtDNA Mutations 
-Version: 0.0.1.1
+Version: 0.0.2.7
 Authors@R: 
     c(person(given = "Chunyu",
            family = "Liu",
