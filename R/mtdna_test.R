@@ -15,7 +15,7 @@
 #' mtdna_test (coverage_file, allele_file, freq_file)
 mtdna_test <- function( coverage_file, allele_file, freq_file){
 
-  head <- scan( file = allele_file, sep = ",", character(), nlines = 1)
+  head <- scan( file = allele_file, sep = ",", character(), nlines = 1, quiet = TRUE)
   coverage <- matrix( scan( file = coverage_file, sep = ",", character() ),
                       ncol = length( head ), byrow = TRUE)
   allele <- matrix( scan( file = allele_file, sep = ",", character() ),
@@ -49,7 +49,8 @@ mtdna_test <- function( coverage_file, allele_file, freq_file){
   ### it is vector provided by users, with default of c(1:16569)
   loci <- c(1:16569)
 
-  if (length(loci)!=(dim(allele)[2])){
+
+  if (length(loci)!=(dim(allele)[1])){
     warning("the length of loci should be the same as the dataset")
   }
 
