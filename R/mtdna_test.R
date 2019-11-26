@@ -70,14 +70,14 @@ mtdna_test <- function( coverage_file, allele_file, freq_file){
     AAF2 <- array(NA, 16569)
 
     if(length(complex.allele)==0){
-      AAF2 <- ifelse(m.allele == ref, 0, 1)
+      AAF2 <- ifelse(m.allele == .mtRef, 0, 1)
     }else{
-      AAF2[-complex.allele] <- ifelse(m.allele[-complex.allele] == ref[-complex.allele], 0, 1)
+      AAF2[-complex.allele] <- ifelse(m.allele[-complex.allele] == .mtRef[-complex.allele], 0, 1)
 
       complex.all2 <- strsplit(m.allele[complex.allele],split="/")
       complex.freqsplit <- strsplit(m.freq[complex.allele],split="/")
       complex.freqsplit <- lapply(complex.freqsplit, as.numeric)
-      complex.ref <- ref[complex.allele]
+      complex.ref <- .mtRef[complex.allele]
       AAF2[complex.allele] <- mapply(function(x, y, z){ pos <- which(x %in% z); if(length(pos) > 0) max(y[-pos]) else max(y)  } , x= complex.all2, y = complex.freqsplit, z = complex.ref)
     }
 
