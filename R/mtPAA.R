@@ -15,12 +15,18 @@
 #' allele_file <- "/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/allele/allele.csv"
 #' freq_file <- "/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/freq/freq.csv"
 #'
-#' head <- scan( file = allele_file, sep = ",", character(), nlines = 1, quiet = TRUE)
-#' coverage <- matrix( scan( file = coverage_file, sep = ",", character() ), ncol = length( head ), byrow = TRUE)
-#' allele <- matrix( scan( file = allele_file, sep = ",", character() ), ncol = length( head ), byrow = TRUE)
-#' freq <- matrix( scan( file = freq_file, sep = ",", character() ), ncol = length( head ), byrow = TRUE)
+#' #head <- scan( file = allele_file, sep = ",", character(), nlines = 1, quiet = TRUE)
+#' #coverage <- matrix( scan( file = coverage_file,
+#' #                          sep = ",", character() ),
+#' #                    ncol = length( head ), byrow = TRUE)
+#' #allele   <- matrix( scan( file = allele_file,
+#' #                          sep = ",", character() ),
+#' #                    ncol = length( head ), byrow = TRUE)
+#' #freq     <- matrix( scan( file = freq_file,
+#' #                          sep = ",", character() ),
+#' #                    ncol = length( head ), byrow = TRUE)
 #'
-#' mtPAA (coverage, allele, freq)
+#' #mtPAA (coverage, allele, freq)
 mtPAA <- function( coverage, allele, freq ){
 
 

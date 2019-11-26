@@ -23,5 +23,5 @@ Test function for the package
 coverage_file <- "/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/coverage/coverage.csv"
 allele_file <- "/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/allele/allele.csv"
 freq_file <- "/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/freq/freq.csv"
-mtdna_test (coverage_file, allele_file, freq_file)
+#mtdna_test (coverage_file, allele_file, freq_file)
 }

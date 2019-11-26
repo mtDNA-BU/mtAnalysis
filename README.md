@@ -21,16 +21,21 @@ devtools::install_github("mtDNA-BU/mtdnaANNO")
 
 ## Example
 
-This is an example how to run mtdna\_test() function
+This is an example how to run mtPAA() function
 
 ``` r
 library(mtdnaANNO)
 
-## Define input files:
-coverage_file <- "coverage.csv"
-allele_file <- "allele.csv"
-freq_file <- "freq.csv"
+# Read input data
+coverage_file <- "/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/coverage/coverage.csv"
+allele_file <- "/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/allele/allele.csv"
+freq_file <- "/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/freq/freq.csv"
 
-## Run function
-#mtdna_test ( coverage_file, allele_file, freq_file)
+#head <- scan( file = allele_file, sep = ",", character(), nlines = 1, quiet = TRUE)
+#coverage <- matrix( scan( file = coverage_file, sep = ",", character() ), ncol = length( head ), byrow = TRUE)
+#allele <- matrix( scan( file = allele_file, sep = ",", character() ), ncol = length( head ), byrow = TRUE)
+#freq <- matrix( scan( file = freq_file, sep = ",", character() ), ncol = length( head ), byrow = TRUE)
+
+#PAA <- mtPAA (coverage, allele, freq)
+#dim (PAA)
 ```
