@@ -36,10 +36,10 @@ This is a basic example which shows you how to solve a common problem:
 library(mtdnaANNO)
 
 ## basic example code
-head_file <- "allele.csv"
+
 coverage_file <- "coverage.csv"
 allele_file <- "allele.csv"
 freq_file <- "freq.csv"
-#mtdna_test (head_file, coverage_file, allele_file, freq_file)
+#mtdna_test ( coverage_file, allele_file, freq_file)
 ```
 
