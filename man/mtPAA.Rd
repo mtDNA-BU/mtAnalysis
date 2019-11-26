@@ -4,7 +4,7 @@
 \alias{mtPAA}
 \title{mtPAA function}
 \usage{
-mtPAA(coverage, allele, freq)
+mtPAA(coverage, allele, freq, loci = 1:16569)
 }
 \arguments{
 \item{coverage}{Coverage, numeric matrix}
@@ -12,6 +12,8 @@ mtPAA(coverage, allele, freq)
 \item{allele}{Allele dataset, numeric matrix}
 
 \item{freq}{Frequency dataset, numeric matrix}
+
+\item{loci}{Numeric vector, default 1:16569}
 }
 \value{
 PAA, numeric matrix with dimensions of n subjects x 16569 SNPs
