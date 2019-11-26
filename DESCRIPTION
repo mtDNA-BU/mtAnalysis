@@ -2,11 +2,18 @@ Package: mtdnaANNO
 Title: Association Analysis of Heteroplasmic mtDNA Mutations 
 Version: 0.0.1.1
 Authors@R: 
-    person(given = "Chunyu",
+    c(person(given = "Chunyu",
            family = "Liu",
            role = c("aut", "cre"),
-           email = "liuc@bu.edu",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+           email = "liuc@bu.edu"),
+      person(given = "Xianbang",
+           family = "Sun",
+           role = c("aut"),
+           email = "sxb3000@bu.edu"),
+      person(given = "Jessica",
+           family = "Fetterman",
+           role = "aut",
+           email = "jefetter@bu.edu")) 
 Description: Association analysis of heteroplasmic mtDNA mutations.
 License: MIT + file LICENSE
 Encoding: UTF-8
