@@ -30,16 +30,17 @@ devtools::install_github("mtDNA-BU/mtdnaANNO")
 ```
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+This is an example how to run mtdna_test() function
 
 ```{r example}
 library(mtdnaANNO)
 
-## basic example code
-
+## Define input files:
 coverage_file <- "coverage.csv"
 allele_file <- "allele.csv"
 freq_file <- "freq.csv"
+
+## Run function
 #mtdna_test ( coverage_file, allele_file, freq_file)
 ```
 
