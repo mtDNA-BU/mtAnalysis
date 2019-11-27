@@ -11,7 +11,7 @@ Association analysis of heteroplasmic mtDNA mutations.
 
 ## Installation
 
-You can install the development version of mtdnaANNO packag from
+You can install the development version of mtdnaANNO package from
 [GitHub](https://github.com/) with:
 
 ``` r
