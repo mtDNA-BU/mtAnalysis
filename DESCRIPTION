@@ -1,6 +1,6 @@
 Package: mtdnaANNO
-Title: Association Analysis of Heteroplasmic mtDNA Mutations 
-Version: 0.0.2.8
+Title: Annotation of mtDNA sequence variations
+Version: 0.0.3.1
 Authors@R: 
     c(person(given = "Chunyu",
            family = "Liu",
@@ -14,7 +14,7 @@ Authors@R:
            family = "Fetterman",
            role = "aut",
            email = "jefetter@bu.edu")) 
-Description: Association analysis of heteroplasmic mtDNA mutations.
+Description: ANNOmtDNA is an R/BioConductor package for identifying and annotating mtDNA sequence variations. This package allows to identify mtDNA sequence variations with user-specified thresholds, and provide several plots to visualize mtDNA sequence variations. It also annotates all mtDNA variations and predicts functionality for mtDNA variants in the coding and tRNA regions. 
 License: MIT + file LICENSE
 URL: https://github.com/mtDNA-BU/mtdnaANNO
 BugReports: https://github.com/mtDNA-BU/mtdnaANNO/issues
