@@ -1,11 +1,11 @@
-#' mtPAA function
+#' mtAAF function
 #'
 #' Derivation of alternative allele fraction
 #'
 #' @param allele Allele dataset, numeric matrix
 #' @param freq Frequency dataset, numeric matrix
 #'
-#' @return PAA, numeric matrix with dimensions of n subjects x 16569 SNPs
+#' @return AAF, numeric matrix with dimensions of n subjects x 16569 SNPs
 #' @export
 #' @examples
 #'
@@ -22,7 +22,7 @@
 #' #                    ncol = length( head ), byrow = TRUE)
 #'
 #' #mtPAA (coverage, allele, freq)
-mtPAA <- function( allele, freq ){
+mtAAF <- function( allele, freq ){
 
 
   # if((sum(dim(coverage) != dim(allele) ) > 0) | (sum(dim(coverage) != dim(freq))>0)){
