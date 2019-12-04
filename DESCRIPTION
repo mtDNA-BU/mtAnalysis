@@ -1,19 +1,24 @@
 Package: mtdnaANNO
 Title: Annotation of mtDNA sequence variations
-Version: 0.0.3.1
+Version: 0.0.3.2
 Authors@R: 
-    c(person(given = "Chunyu",
-           family = "Liu",
-           role = c("aut", "cre"),
-           email = "liuc@bu.edu"),
+    c(
       person(given = "Xianbang",
            family = "Sun",
            role = c("aut"),
            email = "sxb3000@bu.edu"),
+      person(given = "Chunyu",
+           family = "Liu",
+           role = c("aut", "cre"),
+           email = "liuc@bu.edu"),     
       person(given = "Jessica",
            family = "Fetterman",
            role = "aut",
-           email = "jefetter@bu.edu")) 
+           email = "jefetter@bu.edu"),
+      person(given = "Katia",
+           family = "Oleinik",
+           role = c("aut") ,
+           email = "koleinik@bu.edu"))
 Description: ANNOmtDNA is an R/BioConductor package for identifying and annotating mtDNA sequence variations. This package allows to identify mtDNA sequence variations with user-specified thresholds, and provide several plots to visualize mtDNA sequence variations. It also annotates all mtDNA variations and predicts functionality for mtDNA variants in the coding and tRNA regions. 
 License: MIT + file LICENSE
 URL: https://github.com/mtDNA-BU/mtdnaANNO
