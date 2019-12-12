@@ -4,15 +4,25 @@
 \alias{mtAAF}
 \title{mtAAF function}
 \usage{
-mtAAF(allele, freq)
+mtAAF(allele, freq, AAFplot = F)
 }
 \arguments{
-\item{allele}{Allele dataset, numeric matrix}
+\item{allele}{data frame (N x 16569) provided by the user. This data frame contains
+N subjects with mtDNA sequencing data of 16569 loci. The data frame contains subject ID as
+the row names, and the allele calls of all mtDNA loci for each subject as the columns.
+“/” is used to delimited different allele calls in a locus.}
 
-\item{freq}{Frequency dataset, numeric matrix}
+\item{freq}{data frame (N x 16569) provided by the user. This data frame contains
+N subjects with mtDNA sequencing data of 16569 loci. The data frame contains subject ID as
+the row names, and the allele fractions of the called alleles for each subject as the columns.
+“/” is used to delimited the allele fractions.}
+
+\item{AAFplot}{logical(default is False). A user can specify if the calculated AAF is plotted.}
 }
 \value{
-AAF, numeric matrix with dimensions of n subjects x 16569 SNPs
+AAF, numeric matrix (N x 16569). It contains subject ID as the row names,
+and the AAF of all 16569 mtDNA loci for each subject. It will also generate a scatter plot
+of AAF based on user’s choice.
 }
 \description{
 Derivation of alternative allele fraction
