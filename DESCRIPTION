@@ -1,6 +1,6 @@
 Package: mtdnaANNO
 Title: Annotation of mtDNA sequence variations
-Version: 0.0.3.3
+Version: 0.0.3.4
 Authors@R: 
     c(
       person(given = "Xianbang",
