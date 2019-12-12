@@ -2,10 +2,20 @@
 #'
 #' Derivation of alternative allele fraction
 #'
-#' @param allele Allele dataset, numeric matrix
-#' @param freq Frequency dataset, numeric matrix
+#' @param allele data frame (N x 16569) provided by the user. This data frame contains
+#' N subjects with mtDNA sequencing data of 16569 loci. The data frame contains subject ID as
+#' the row names, and the allele calls of all mtDNA loci for each subject as the columns.
+#' “/” is used to delimited different allele calls in a locus.
+#' @param freq data frame (N x 16569) provided by the user. This data frame contains
+#' N subjects with mtDNA sequencing data of 16569 loci. The data frame contains subject ID as
+#' the row names, and the allele fractions of the called alleles for each subject as the columns.
+#' “/” is used to delimited the allele fractions.
+#' @param AAFplot logical(default is False). A user can specify if the calculated AAF is plotted.
 #'
-#' @return AAF, numeric matrix with dimensions of n subjects x 16569 SNPs
+#' @return AAF, numeric matrix (N x 16569). It contains subject ID as the row names,
+#' and the AAF of all 16569 mtDNA loci for each subject. It will also generate a scatter plot
+#' of AAF based on user’s choice.
+#' @import graphics
 #' @export
 #' @examples
 #'
@@ -22,23 +32,27 @@
 #' #                    ncol = length( head ), byrow = TRUE)
 #'
 #' #mtPAA (coverage, allele, freq)
-mtAAF <- function( allele, freq ){
+mtAAF <- function( allele, freq , AAFplot=F){
 
 
-  # if((sum(dim(coverage) != dim(allele) ) > 0) | (sum(dim(coverage) != dim(freq))>0)){
-  #   stop("the coverage, allele and frequency should have same dimension")
-  # }
+  # warning message if the allele and freq do not have the column number of 16569 (loci)
+  if(dim(allele)[2]!=16569 | dim(freq)[2]!=16569){
+    stop("the allele and frequency should have column number of 16569")
+  }
 
-  # order the allele, freq and coverage datasets by ID
-  allele <- allele[order(allele[,1]), ]
-  freq <- freq[order(freq[,1]), ]
+  # warning message if the allele and freq do not have the same dimension
+  if((sum(dim(allele) != dim(freq) ) > 0)){
+    stop("the allele and frequency should have the same dimension")
+  }
 
-  # record the IDs in the vector of subjectID, and remove the ID column from the original dataset
-  subjectID <- allele[,1]
-  allele <- allele[,-1]
-  freq   <- freq[,-1]
+  # order the allele, freq datasets by ID
+  allele <- allele[order(rownames(allele)), ]
+  freq <- freq[order(rownames(freq)), ]
 
-  # transpose the allele, freq and coverage datasets, so each column vector represents the sequence of a subject
+  # record the IDs in the vector of subjectID
+  subjectID <- rownames(allele)
+
+  # transpose the allele, freq dataset, so each column vector represents the sequence of a subject
   allele <- t(allele)
   freq <- t(freq)
 
@@ -54,10 +68,24 @@ mtAAF <- function( allele, freq ){
   complex.freqsplit <- lapply( complex.freqsplit, as.numeric)
 
   complex.ref <- .mtRef[ (complex.allele -1) %% length(.mtRef) + 1]
-  AAF3.m[complex.allele] <- mapply(function(x, y, z){ pos <- which(x == z); if(length(pos) > 0) max(y[-pos]) else max(y)  } ,
+  # here Chunyu and me discussed the case of more than 1 alternative allele
+  # we decided to calculate the AAF as 1-frequency of reference allele
+  # instead of maximun of frequencies of alternative alleles
+  AAF3.m[complex.allele] <- mapply(function(x, y, z){ pos <- which(x == z); if(length(pos) > 0) 1-y[pos] else 1 } ,
                                    x= complex.all2, y = complex.freqsplit, z = complex.ref)
+  AAF3.m[is.na(AAF3.m)]<-0
+
+  # plot the AAF
+  # takes about 46 seconds, maybe we could speed up
+  if(AAFplot){
+    AAF_scatter_x<-rep(c(1:16569),dim(AAF3.m)[2])
+    AAF_scatter_y<-as.vector(AAF3.m)
+    plot(x=AAF_scatter_x, y=AAF_scatter_y,col = "blue",pch='.',cex=0.2,xlab="",ylab="")
+  }
+
   AAF3.m <- t(AAF3.m)
   rownames(AAF3.m) <- subjectID
+  colnames(AAF3.m) <- c(1:16569)
   AAF3.m
 
 }
