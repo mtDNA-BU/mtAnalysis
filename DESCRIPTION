@@ -1,6 +1,6 @@
 Package: ANNOmtDNA
 Title: Annotation of mtDNA sequence variations
-Version: 0.0.4.1
+Version: 0.0.4.2
 Authors@R: 
     c(
       person(given = "Xianbang",
@@ -31,3 +31,6 @@ LazyData: true
 RoxygenNote: 6.1.1
 Suggests: 
     testthat (>= 2.1.0)
+Imports: 
+    graphics,
+    ggplot2
