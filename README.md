@@ -11,12 +11,12 @@ Association analysis of heteroplasmic mtDNA mutations.
 
 ## Installation
 
-You can install the development version of mtdnaANNO package from
+You can install the development version of ANNOmtDNA package from
 [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("mtDNA-BU/mtdnaANNO")
+devtools::install_github("mtDNA-BU/ANNOmtDNA")
 ```
 
 ## Example
@@ -24,7 +24,7 @@ devtools::install_github("mtDNA-BU/mtdnaANNO")
 This is an example how to run mtPAA() function
 
 ``` r
-library(mtdnaANNO)
+#library(ANNOmtDNA)
 
 # Read input data
 coverage_file <- "/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/coverage/coverage.csv"
