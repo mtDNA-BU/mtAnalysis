@@ -6,13 +6,24 @@
 Identification of mtDNA variations, output summary statistics,
 annotation of heteroplasmic and/or homoplasmic variations.}
 \usage{
-mtSummary(aaf, allele, freq, coverage, coverage.qc = 100,
-  thre.lower = 0.03, thre.upper = 0.97, loci = c(1:16569),
-  type = 0, coverSummary = T, varHist = T, annot.select = c("Pos",
-  "ref", "Gene", "TypeMutation", "MissensMutation", "CodonPosition",
-  "ProteinDomain", "dbSNP_150_id", "PolyPhen2", "PolyPhen2_score", "SIFT",
-  "SIFT_score", "CADD", "CADD_score", "CADD_phred_score"), path = "",
-  study = "Study")
+mtSummary(
+  aaf,
+  allele,
+  freq,
+  coverage,
+  coverage.qc = 100,
+  thre.lower = 0.03,
+  thre.upper = 0.97,
+  loci = c(1:16569),
+  type = "both",
+  coverSummary = T,
+  varHist = T,
+  annot.select = c("Pos", "ref", "Gene", "TypeMutation", "MissensMutation",
+    "CodonPosition", "ProteinDomain", "dbSNP_150_id", "PolyPhen2", "PolyPhen2_score",
+    "SIFT", "SIFT_score", "CADD", "CADD_score", "CADD_phred_score"),
+  path = "",
+  study = "Study"
+)
 }
 \arguments{
 \item{aaf}{a numeric matrix (N x 16569). It contains subject ID as the row names, and the AAF of
@@ -42,11 +53,12 @@ and homoplasmic variations}
 
 \item{loci}{one of: 1. a vector(default is c(1:16569)) of mitochondrial DNA loci to specify which loci
 should be used to identify the variations and annotate, 2. a character string for the regions
-(e.g. “coding”, “tRNA”, “Dloop”, …).}
+(e.g. “coding”, “tRNA”, “RNR1”, "RNR2", …).}
 
-\item{type}{a number of indicator choosing to output annotation to all variations, heteroplasmic
-variations, or homoplasmic variations. 0 returns annotation to all variations (default), 1 returns
-annotation to heteroplasmic variations and 2 returns annotation to homoplasmic variations.}
+\item{type}{a character of indicator choosing to output annotation to all variations,
+heteroplasmic variations, or homoplasmic variations. “both” returns annotation to all
+variations (default), “heter” returns annotation to heteroplasmic variations and “homo”
+returns annotation to homoplasmic variations.}
 
 \item{coverSummary}{logical(default is True). A user can specify to output scatter plot of mean
 coverage across mtDNA loci and summary of coverage at each mtDNA loci (across all participants) and
