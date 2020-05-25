@@ -70,6 +70,9 @@ mtSummary<-function(aaf, allele, freq, coverage, coverage.qc=100, thre.lower=0.0
     stop("loci should be a subset of 1:16569")
   }
 
+  # Check if the given Path exists:
+  if( ! dir.exists(path) ) stop( paste(" Output path", path,"does not exist.") )
+
   # assign loci value when the specified loci are strings (e.g. coding)
   if(loci=="coding"){
     loci<-sort(unique(c(3307:4262, 4470:5511,5904:7445,7586:8269,8366:8572,8527:9207
@@ -300,40 +303,40 @@ mtSummary<-function(aaf, allele, freq, coverage, coverage.qc=100, thre.lower=0.0
       for (k in 1:length(pos.not)){
         point    <- x2[pos.not[k]]
         if (which (point == c("A","C","G","T"))==1) {
-          score   <- AA[AA$Pos==pos,annot.select]
+          score   <- .AA[.AA$Pos==pos,annot.select]
           all   <- cbind(pos,ref_allele,x,n_mutation[i],heter_loci[loci==pos],homo_loci[loci==pos],point ,score)
           write.table(all, file= paste0(path,study,"_annotation_variation.csv"),sep=",",row.names=F,col.names=F, quote=F, append=T)
         } else if (which (point == c("A","C","G","T"))==2) {
-          score <- CC[CC$Pos==pos,annot.select]
+          score <- .CC[.CC$Pos==pos,annot.select]
           all   <- cbind(pos,ref_allele,x,n_mutation[i],heter_loci[loci==pos],homo_loci[loci==pos],point ,score)
           write.table(all, file= paste0(path,study,"_annotation_variation.csv"),sep=",",row.names=F,col.names=F, quote=F, append=T)
 
         } else if (which (point == c("A","C","G","T"))==3) {
-          score <- GG[GG$Pos==pos,annot.select]
+          score <- .GG[.GG$Pos==pos,annot.select]
           all   <- cbind(pos,ref_allele,x,n_mutation[i],heter_loci[loci==pos],homo_loci[loci==pos],point ,score)
           write.table(all, file= paste0(path,study,"_annotation_variation.csv"),sep=",",row.names=F,col.names=F, quote=F, append=T)
         } else if (which (point == c("A","C","G","T"))==4) {
-          score   <- TT[TT$Pos==pos,annot.select]
+          score   <- .TT[.TT$Pos==pos,annot.select]
           all   <- cbind(pos,ref_allele,x,n_mutation[i],heter_loci[loci==pos],homo_loci[loci==pos],point ,score)
           write.table(all, file= paste0(path,study,"_annotation_variation.csv"),sep=",",row.names=F,col.names=F, quote=F, append=T)
         }
       }
       } else if(length(x2)==1 & x2!=ref_allele){
           if (which (x2 == c("A","C","G","T"))==1) {
-            score   <- AA[AA$Pos==pos,annot.select]
+            score   <- .AA[.AA$Pos==pos,annot.select]
             all   <- cbind(pos,ref_allele,x,n_mutation[i],heter_loci[loci==pos],homo_loci[loci==pos],x2 ,score)
             write.table(all, file= paste0(path,study,"_annotation_variation.csv"),sep=",",row.names=F,col.names=F, quote=F, append=T)
           } else if (which (x2 == c("A","C","G","T"))==2) {
-            score <- CC[CC$Pos==pos,annot.select]
+            score <- .CC[.CC$Pos==pos,annot.select]
             all   <- cbind(pos,ref_allele,x,n_mutation[i],heter_loci[loci==pos],homo_loci[loci==pos],x2 ,score)
             write.table(all, file= paste0(path,study,"_annotation_variation.csv"),sep=",",row.names=F,col.names=F, quote=F, append=T)
 
           } else if (which (x2 == c("A","C","G","T"))==3) {
-            score <- GG[GG$Pos==pos,annot.select]
+            score <- .GG[.GG$Pos==pos,annot.select]
             all   <- cbind(pos,ref_allele,x,n_mutation[i],heter_loci[loci==pos],homo_loci[loci==pos],x2 ,score)
             write.table(all, file= paste0(path,study,"_annotation_variation.csv"),sep=",",row.names=F,col.names=F, quote=F, append=T)
           } else if (which (x2 == c("A","C","G","T"))==4) {
-            score   <- TT[TT$Pos==pos,annot.select]
+            score   <- .TT[.TT$Pos==pos,annot.select]
             all   <- cbind(pos,ref_allele,x,n_mutation[i],heter_loci[loci==pos],homo_loci[loci==pos],x2 ,score)
             write.table(all, file= paste0(path,study,"_annotation_variation.csv"),sep=",",row.names=F,col.names=F, quote=F, append=T)
           }
@@ -404,20 +407,20 @@ mtSummary<-function(aaf, allele, freq, coverage, coverage.qc=100, thre.lower=0.0
       for (k in 1:length(pos.not)){
         point    <- x2[pos.not[k]]
         if (which (point == c("A","C","G","T"))==1) {
-          score   <- AA[AA$Pos==pos,annot.select]
+          score   <- .AA[.AA$Pos==pos,annot.select]
           all   <- cbind(pos,ref_allele,x,heter_loci[loci==pos],point ,score)
           write.table(all, file= paste0(path,study,"_annotation_heteroplasmy.csv"),sep=",",row.names=F,col.names=F, quote=F, append=T)
         } else if (which (point == c("A","C","G","T"))==2) {
-          score <- CC[CC$Pos==pos,annot.select]
+          score <- .CC[.CC$Pos==pos,annot.select]
           all   <- cbind(pos,ref_allele,x,heter_loci[loci==pos],point ,score)
           write.table(all, file= paste0(path,study,"_annotation_heteroplasmy.csv"),sep=",",row.names=F,col.names=F, quote=F, append=T)
 
         } else if (which (point == c("A","C","G","T"))==3) {
-          score <- GG[GG$Pos==pos,annot.select]
+          score <- .GG[.GG$Pos==pos,annot.select]
           all   <- cbind(pos,ref_allele,x,heter_loci[loci==pos],point ,score)
           write.table(all, file= paste0(path,study,"_annotation_heteroplasmy.csv"),sep=",",row.names=F,col.names=F, quote=F, append=T)
         } else if (which (point == c("A","C","G","T"))==4) {
-          score   <- TT[TT$Pos==pos,annot.select]
+          score   <- .TT[.TT$Pos==pos,annot.select]
           all   <- cbind(pos,ref_allele,x,heter_loci[loci==pos],point ,score)
           write.table(all, file= paste0(path,study,"_annotation_heteroplasmy.csv"),sep=",",row.names=F,col.names=F, quote=F, append=T)
         }
@@ -489,40 +492,40 @@ mtSummary<-function(aaf, allele, freq, coverage, coverage.qc=100, thre.lower=0.0
       for (k in 1:length(pos.not)){
         point    <- x2[pos.not[k]]
         if (which (point == c("A","C","G","T"))==1) {
-          score   <- AA[AA$Pos==pos,annot.select]
+          score   <- .AA[.AA$Pos==pos,annot.select]
           all   <- cbind(pos,ref_allele,x,homo_loci[loci==pos],point ,score)
           write.table(all, file= paste0(path,study,"_annotation_homoplasmy.csv"),sep=",",row.names=F,col.names=F, quote=F, append=T)
         } else if (which (point == c("A","C","G","T"))==2) {
-          score <- CC[CC$Pos==pos,annot.select]
+          score <- .CC[.CC$Pos==pos,annot.select]
           all   <- cbind(pos,ref_allele,x,homo_loci[loci==pos],point ,score)
           write.table(all, file= paste0(path,study,"_annotation_homoplasmy.csv"),sep=",",row.names=F,col.names=F, quote=F, append=T)
 
         } else if (which (point == c("A","C","G","T"))==3) {
-          score <- GG[GG$Pos==pos,annot.select]
+          score <- .GG[.GG$Pos==pos,annot.select]
           all   <- cbind(pos,ref_allele,x,homo_loci[loci==pos],point ,score)
           write.table(all, file= paste0(path,study,"_annotation_homoplasmy.csv"),sep=",",row.names=F,col.names=F, quote=F, append=T)
         } else if (which (point == c("A","C","G","T"))==4) {
-          score   <- TT[TT$Pos==pos,annot.select]
+          score   <- .TT[.TT$Pos==pos,annot.select]
           all   <- cbind(pos,ref_allele,x,homo_loci[loci==pos],point ,score)
           write.table(all, file= paste0(path,study,"_annotation_homoplasmy.csv"),sep=",",row.names=F,col.names=F, quote=F, append=T)
         }
       }
       } else if(length(x2)==1 & x2!=ref_allele){
         if (which (x2 == c("A","C","G","T"))==1) {
-          score   <- AA[AA$Pos==pos,annot.select]
+          score   <- .AA[.AA$Pos==pos,annot.select]
           all   <- cbind(pos,ref_allele,x,homo_loci[loci==pos],x2 ,score)
           write.table(all, file= paste0(path,study,"_annotation_homoplasmy.csv"),sep=",",row.names=F,col.names=F, quote=F, append=T)
         } else if (which (x2 == c("A","C","G","T"))==2) {
-          score <- CC[CC$Pos==pos,annot.select]
+          score <- .CC[.CC$Pos==pos,annot.select]
           all   <- cbind(pos,ref_allele,x,homo_loci[loci==pos],x2 ,score)
           write.table(all, file= paste0(path,study,"_annotation_homoplasmy.csv"),sep=",",row.names=F,col.names=F, quote=F, append=T)
 
         } else if (which (x2 == c("A","C","G","T"))==3) {
-          score <- GG[GG$Pos==pos,annot.select]
+          score <- .GG[.GG$Pos==pos,annot.select]
           all   <- cbind(pos,ref_allele,x,homo_loci[loci==pos],x2 ,score)
           write.table(all, file= paste0(path,study,"_annotation_homoplasmy.csv"),sep=",",row.names=F,col.names=F, quote=F, append=T)
         } else if (which (x2 == c("A","C","G","T"))==4) {
-          score   <- TT[TT$Pos==pos,annot.select]
+          score   <- .TT[.TT$Pos==pos,annot.select]
           all   <- cbind(pos,ref_allele,x,homo_loci[loci==pos],x2 ,score)
           write.table(all, file= paste0(path,study,"_annotation_homoplasmy.csv"),sep=",",row.names=F,col.names=F, quote=F, append=T)
         }
