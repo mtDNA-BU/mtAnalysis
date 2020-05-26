@@ -1,6 +1,6 @@
 Package: ANNOmtDNA
 Title: Annotation of mtDNA sequence variations
-Version: 0.0.5.1
+Version: 0.0.5.3
 Authors@R: 
     c(
       person(given = "Xianbang",

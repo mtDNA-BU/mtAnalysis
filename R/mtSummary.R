@@ -77,13 +77,13 @@ mtSummary<-function(aaf, allele, freq, coverage, coverage.qc=100, thre.lower=0.0
   if (is.character(loci) ){
     if( loci=="coding"){
       loci<-sort(unique(c(3307:4262, 4470:5511,5904:7445,7586:8269,8366:8572,8527:9207
-                                  ,9207:9990 ,10059:10404, 10470:12137, 12337:14148, 14149:14673
-                                  , 14747:15887)))
+                          ,9207:9990 ,10059:10404, 10470:12137, 12337:14148, 14149:14673
+                          , 14747:15887)))
     }else if(loci=="tRNA"){
       loci<-sort(unique(c(577:647, 1602:1670, 3230:3304, 4263:4331, 4329:4400, 4402:4469, 5512:5579
-                        , 5587:5655, 5657:5729, 5761:5826, 5826:5891, 7446:7514, 7518:7585
-                        , 8295:8364, 9991:10058, 10405:10469, 12138:12206, 12207:12265
-                        , 12266:12336, 14674:14742, 15888:15953, 15956:16023)))
+                          , 5587:5655, 5657:5729, 5761:5826, 5826:5891, 7446:7514, 7518:7585
+                          , 8295:8364, 9991:10058, 10405:10469, 12138:12206, 12207:12265
+                          , 12266:12336, 14674:14742, 15888:15953, 15956:16023)))
     }else if( loci=="RNR1"){
       loci<-sort(unique(c(648:1601)))
     }else if( loci=="RNR2"){
@@ -128,7 +128,7 @@ mtSummary<-function(aaf, allele, freq, coverage, coverage.qc=100, thre.lower=0.0
     # scatter plot of the mean coverage across loci
     y_coverage_scatter<-coverage_mean_loci
     x_coverage_scatter<-loci
-    plot(x=x_coverage_scatter, y=y_coverage_scatter,col = "blue",pch = ".",cex=0.2,xlab="mtloci",ylab="",main="mean coverage across all mtDNA loci")
+    #plot(x=x_coverage_scatter, y=y_coverage_scatter,col = "blue",pch = ".",cex=0.2,xlab="mtloci",ylab="",main="mean coverage across all mtDNA loci")
     # scatter plot of the mean coverage across subjects
     # y_coverage_scatter<-colMeans(coverage,na.rm=T)
     # x_coverage_scatter<-seq(1:dim(coverage)[2])
@@ -138,10 +138,14 @@ mtSummary<-function(aaf, allele, freq, coverage, coverage.qc=100, thre.lower=0.0
   # categorize by AAF: AAF<thre.lower means no variation(coded as 0)
   # thre.lower<=AAF<=thre.upper means heteroplasmic variation(coded as 1)
   # thre.upper<AAF means homoplastic variation(coded as 2)
-  aaf_cat<-aaf
-  aaf_cat[ aaf< thre.lower ]    <- 0
+
+  #katia: this is faster
+  #aaf_cat <- aaf
+  #aaf_cat[ aaf< thre.lower ]    <- 0
+  aaf_cat <- matrix(0, nrow=nrow(aaf), ncol=ncol(aaf))
   aaf_cat[ aaf>=thre.lower & aaf<=thre.upper ] <- 1
   aaf_cat[ aaf> thre.upper ]    <- 2
+  rownames(aaf_cat) <- rownames(aaf)
 
   # if coverage<coverage.qc, means unreliable read, so assign aaf_cat to NA
   aaf_cat[ coverage < coverage.qc ]       <- NA
@@ -201,44 +205,44 @@ mtSummary<-function(aaf, allele, freq, coverage, coverage.qc=100, thre.lower=0.0
   # generate histograms of heter and homo burden of across subjects and across mtDNA loci
   if(varHist){
     # histogram of heteroplasmic burden across subjects
-    heter_burden_hist<-as.data.frame(heter_burden)
-    p_heter_hist<-ggplot(heter_burden_hist, aes(x=heter_burden_hist[,1])) + geom_histogram(bins=100)
-    p_heter_hist<-p_heter_hist+ theme_bw()
-    p_heter_hist<-p_heter_hist+xlab("Histogram of heteroplasmic burden score")
-    p_heter_hist<-p_heter_hist+theme(plot.title = element_text(hjust = 0.5),axis.text = element_text(size=15),axis.title=element_text(size=15,face="bold"))
-    p_heter_hist<-p_heter_hist+coord_cartesian(xlim = c(0, 50))
+    #heter_burden_hist<-as.data.frame(heter_burden)
+    #p_heter_hist<-ggplot(heter_burden_hist, aes(x=heter_burden_hist[,1])) + geom_histogram(bins=100)
+    #p_heter_hist<-p_heter_hist+ theme_bw()
+    #p_heter_hist<-p_heter_hist+xlab("Histogram of heteroplasmic burden score")
+    #p_heter_hist<-p_heter_hist+theme(plot.title = element_text(hjust = 0.5),axis.text = element_text(size=15),axis.title=element_text(size=15,face="bold"))
+    #p_heter_hist<-p_heter_hist+coord_cartesian(xlim = c(0, 50))
     #katiap_heter_hist<-p_heter_hist+stat_bin(aes(y=..count.., label=..count..), geom="text", vjust=-.5,bins=100)
-    plot(p_heter_hist)
+    #plot(p_heter_hist)
 
     # histogram of counts of heteroplasmic variations across mtDNA loci
-    heter_loci_hist<-as.data.frame(heter_loci)
-    p_heter_hist_loci<-ggplot(heter_loci_hist, aes(x=heter_loci_hist[,1])) + geom_histogram(bins=50)
-    p_heter_hist_loci<-p_heter_hist_loci+ theme_bw()
-    p_heter_hist_loci<-p_heter_hist_loci+xlab("Histogram of heteroplasmic variations of mtDNA loci")
-    p_heter_hist_loci<-p_heter_hist_loci+theme(plot.title = element_text(hjust = 0.5),axis.text = element_text(size=15),axis.title=element_text(size=15,face="bold"))
-    p_heter_hist_loci<-p_heter_hist_loci+coord_cartesian(xlim = c(0, 50))
+    #heter_loci_hist<-as.data.frame(heter_loci)
+    #p_heter_hist_loci<-ggplot(heter_loci_hist, aes(x=heter_loci_hist[,1])) + geom_histogram(bins=50)
+    #p_heter_hist_loci<-p_heter_hist_loci+ theme_bw()
+    #p_heter_hist_loci<-p_heter_hist_loci+xlab("Histogram of heteroplasmic variations of mtDNA loci")
+    #p_heter_hist_loci<-p_heter_hist_loci+theme(plot.title = element_text(hjust = 0.5),axis.text = element_text(size=15),axis.title=element_text(size=15,face="bold"))
+    #p_heter_hist_loci<-p_heter_hist_loci+coord_cartesian(xlim = c(0, 50))
     #katiap_heter_hist_loci<-p_heter_hist_loci+stat_bin(aes(y=..count.., label=..count..), geom="text", vjust=-.5,bins=50)
-    plot(p_heter_hist_loci)
+    #plot(p_heter_hist_loci)
 
     # histogram of homoplasmic burden across subjects
-    homo_burden_hist<-as.data.frame(homo_burden)
-    p_homo_hist<-ggplot(homo_burden_hist, aes(x=homo_burden_hist[,1])) + geom_histogram(bins=100)
-    p_homo_hist<-p_homo_hist+ theme_bw()
-    p_homo_hist<-p_homo_hist+xlab("Histogram of homoplasmic burden score")
-    p_homo_hist<-p_homo_hist+theme(plot.title = element_text(hjust = 0.5),axis.text = element_text(size=15),axis.title=element_text(size=15,face="bold"))
-    p_homo_hist<-p_homo_hist+coord_cartesian(xlim = c(0, 100))
+    #homo_burden_hist<-as.data.frame(homo_burden)
+    #p_homo_hist<-ggplot(homo_burden_hist, aes(x=homo_burden_hist[,1])) + geom_histogram(bins=100)
+    #p_homo_hist<-p_homo_hist+ theme_bw()
+    #p_homo_hist<-p_homo_hist+xlab("Histogram of homoplasmic burden score")
+    #p_homo_hist<-p_homo_hist+theme(plot.title = element_text(hjust = 0.5),axis.text = element_text(size=15),axis.title=element_text(size=15,face="bold"))
+    #p_homo_hist<-p_homo_hist+coord_cartesian(xlim = c(0, 100))
     #katiap_homo_hist<-p_homo_hist+stat_bin(aes(y=..count.., label=..count..), geom="text", size=2.5,vjust=-1,bins=100)
-    plot(p_homo_hist)
+    #plot(p_homo_hist)
 
     # histogram of counts of homoplasmic variations across mtDNA loci
-    homo_loci_hist<-as.data.frame(homo_loci)
-    p_homo_hist_loci<-ggplot(homo_loci_hist, aes(x=homo_loci_hist[,1])) + geom_histogram(bins=1000)
-    p_homo_hist_loci<-p_homo_hist_loci+ theme_bw()
-    p_homo_hist_loci<-p_homo_hist_loci+xlab("Histogram of homoplasmic variations of mtDNA loci")
-    p_homo_hist_loci<-p_homo_hist_loci+theme(plot.title = element_text(hjust = 0.5),axis.text = element_text(size=15),axis.title=element_text(size=15,face="bold"))
-    p_homo_hist_loci<-p_homo_hist_loci+coord_cartesian(xlim = c(0, 100))
+    #homo_loci_hist<-as.data.frame(homo_loci)
+    #p_homo_hist_loci<-ggplot(homo_loci_hist, aes(x=homo_loci_hist[,1])) + geom_histogram(bins=1000)
+    #p_homo_hist_loci<-p_homo_hist_loci+ theme_bw()
+    #p_homo_hist_loci<-p_homo_hist_loci+xlab("Histogram of homoplasmic variations of mtDNA loci")
+    #p_homo_hist_loci<-p_homo_hist_loci+theme(plot.title = element_text(hjust = 0.5),axis.text = element_text(size=15),axis.title=element_text(size=15,face="bold"))
+    #p_homo_hist_loci<-p_homo_hist_loci+coord_cartesian(xlim = c(0, 100))
     #katiap_homo_hist_loci<-p_homo_hist_loci+stat_bin(aes(y=..count.., label=..count..), geom="text", vjust=-.5,bins=1000)
-    plot(p_homo_hist_loci)
+    #plot(p_homo_hist_loci)
   }
 
   # annotation for all heter and/or homo variations at each mutation loci based on user's choice
@@ -309,48 +313,43 @@ mtSummary<-function(aaf, allele, freq, coverage, coverage.qc=100, thre.lower=0.0
         # according to the AA, CC, GG, TT annotation files
         for (k in 1:length(pos.not)){
           point    <- x2[pos.not[k]]
-          if (which (point == c("A","C","G","T"))==1) {
-            score   <- .AA[.AA$Pos==pos,annot.select]
-            all   <- cbind(pos,ref_allele,x,n_mutation[i],heter_loci[loci==pos],homo_loci[loci==pos],point ,score)
-            write.table(all, file= file.conn,sep=",", row.names=F,col.names=F, quote=F, append=T)
-          } else if (which (point == c("A","C","G","T"))==2) {
-            score <- .CC[.CC$Pos==pos,annot.select]
-            all   <- cbind(pos,ref_allele,x,n_mutation[i],heter_loci[loci==pos],homo_loci[loci==pos],point ,score)
-            write.table(all, file= file.conn,sep=",", row.names=F,col.names=F, quote=F, append=T)
+          # if (which (point == c("A","C","G","T"))==1) {
+          #   score   <- .AA[.AA$Pos==pos,annot.select]
+          #   all   <- cbind(pos,ref_allele,x,n_mutation[i],heter_loci[loci==pos],homo_loci[loci==pos],point ,score)
+          #   write.table(all, file= file.conn,sep=",", row.names=F,col.names=F, quote=F, append=T)
+          # } else if (which (point == c("A","C","G","T"))==2) {
+          #   score <- .CC[.CC$Pos==pos,annot.select]
+          #   all   <- cbind(pos,ref_allele,x,n_mutation[i],heter_loci[loci==pos],homo_loci[loci==pos],point ,score)
+          #   write.table(all, file= file.conn,sep=",", row.names=F,col.names=F, quote=F, append=T)
+          #
+          # } else if (which (point == c("A","C","G","T"))==3) {
+          #   score <- .GG[.GG$Pos==pos,annot.select]
+          #   all   <- cbind(pos,ref_allele,x,n_mutation[i],heter_loci[loci==pos],homo_loci[loci==pos],point ,score)
+          #   write.table(all, file= file.conn,sep=",", row.names=F,col.names=F, quote=F, append=T)
+          # } else if (which (point == c("A","C","G","T"))==4) {
+          #   score   <- .TT[.TT$Pos==pos,annot.select]
+          #   all   <- cbind(pos,ref_allele,x,n_mutation[i],heter_loci[loci==pos],homo_loci[loci==pos],point ,score)
+          #   write.table(all, file= file.conn, sep=",", row.names=F,col.names=F, quote=F, append=T)
+          # } else {
+          #   print("none")
+          # }
+          score = switch(point,
+                         A = .AA[.AA$Pos==pos,annot.select],
+                         C = .CC[.CC$Pos==pos,annot.select],
+                         G = .GG[.GG$Pos==pos,annot.select],
+                         T = .TT[.TT$Pos==pos,annot.select] )
+          cat(paste(pos,ref_allele,x,n_mutation[i],heter_loci[loci==pos],homo_loci[loci==pos],point ,paste(score, collapse=","), sep=","),
+              file=file.conn, fill=TRUE, append=TRUE)
 
-          } else if (which (point == c("A","C","G","T"))==3) {
-            score <- .GG[.GG$Pos==pos,annot.select]
-            all   <- cbind(pos,ref_allele,x,n_mutation[i],heter_loci[loci==pos],homo_loci[loci==pos],point ,score)
-            write.table(all, file= file.conn,sep=",", row.names=F,col.names=F, quote=F, append=T)
-          } else if (which (point == c("A","C","G","T"))==4) {
-            score   <- .TT[.TT$Pos==pos,annot.select]
-            all   <- cbind(pos,ref_allele,x,n_mutation[i],heter_loci[loci==pos],homo_loci[loci==pos],point ,score)
-            write.table(all, file= file.conn, sep=",", row.names=F,col.names=F, quote=F, append=T)
-          } else {
-            print("none")
-          }
         }
       } else if(length(x2)==1 & x2!=ref_allele){
-        if (which (x2 == c("A","C","G","T"))==1) {
-          score   <- .AA[.AA$Pos==pos,annot.select]
-          all   <- cbind(pos,ref_allele,x,n_mutation[i],heter_loci[loci==pos],homo_loci[loci==pos],x2 ,score)
-          write.table(all, file= file.conn, sep=",",row.names=F,col.names=F, quote=F, append=T)
-        } else if (which (x2 == c("A","C","G","T"))==2) {
-          score <- .CC[.CC$Pos==pos,annot.select]
-          all   <- cbind(pos,ref_allele,x,n_mutation[i],heter_loci[loci==pos],homo_loci[loci==pos],x2 ,score)
-          write.table(all, file= file.conn, sep=",",row.names=F,col.names=F, quote=F, append=T)
-
-        } else if (which (x2 == c("A","C","G","T"))==3) {
-          score <- .GG[.GG$Pos==pos,annot.select]
-          all   <- cbind(pos,ref_allele,x,n_mutation[i],heter_loci[loci==pos],homo_loci[loci==pos],x2 ,score)
-          write.table(all, file= file.conn, sep=",",row.names=F,col.names=F, quote=F, append=T)
-        } else if (which (x2 == c("A","C","G","T"))==4) {
-          score   <- .TT[.TT$Pos==pos,annot.select]
-          all   <- cbind(pos,ref_allele,x,n_mutation[i],heter_loci[loci==pos],homo_loci[loci==pos],x2 ,score)
-          write.table(all, file= file.conn,sep=",",row.names=F,col.names=F, quote=F, append=T)
-        }else {
-          print("none")
-        }
+        score = switch(x2,
+                       A = .AA[.AA$Pos==pos,annot.select],
+                       C = .CC[.CC$Pos==pos,annot.select],
+                       G = .GG[.GG$Pos==pos,annot.select],
+                       T = .TT[.TT$Pos==pos,annot.select] )
+        all   <- cbind(pos,ref_allele,x,n_mutation[i],heter_loci[loci==pos],homo_loci[loci==pos],x2 ,score)
+        write.table(all, file= file.conn, sep=",",row.names=F,col.names=F, quote=F, append=T)
       }
 
 
@@ -426,26 +425,13 @@ mtSummary<-function(aaf, allele, freq, coverage, coverage.qc=100, thre.lower=0.0
         # according to the AA, CC, GG, TT annotation files
         for (k in 1:length(pos.not)){
           point    <- x2[pos.not[k]]
-          if (which (point == c("A","C","G","T"))==1) {
-            score   <- .AA[.AA$Pos==pos,annot.select]
-            all   <- cbind(pos,ref_allele,x,heter_loci[loci==pos],point ,score)
-            write.table(all, file= file.conn, sep=",",row.names=F,col.names=F, quote=F, append=T)
-          } else if (which (point == c("A","C","G","T"))==2) {
-            score <- .CC[.CC$Pos==pos,annot.select]
-            all   <- cbind(pos,ref_allele,x,heter_loci[loci==pos],point ,score)
-            write.table(all, file= file.conn, sep=",",row.names=F,col.names=F, quote=F, append=T)
-
-          } else if (which (point == c("A","C","G","T"))==3) {
-            score <- .GG[.GG$Pos==pos,annot.select]
-            all   <- cbind(pos,ref_allele,x,heter_loci[loci==pos],point ,score)
-            write.table(all, file= file.conn, sep=",",row.names=F,col.names=F, quote=F, append=T)
-          } else if (which (point == c("A","C","G","T"))==4) {
-            score   <- .TT[.TT$Pos==pos,annot.select]
-            all   <- cbind(pos,ref_allele,x,heter_loci[loci==pos],point ,score)
-            write.table(all, file= file.conn, sep=",",row.names=F,col.names=F, quote=F, append=T)
-          }else {
-            print("none")
-          }
+          score = switch(point,
+                         A = .AA[.AA$Pos==pos,annot.select],
+                         C = .CC[.CC$Pos==pos,annot.select],
+                         G = .GG[.GG$Pos==pos,annot.select],
+                         T = .TT[.TT$Pos==pos,annot.select] )
+          all   <- cbind(pos,ref_allele,x,heter_loci[loci==pos],point ,score)
+          write.table(all, file= file.conn, sep=",",row.names=F,col.names=F, quote=F, append=T)
         }
       }
     }
@@ -519,48 +505,22 @@ mtSummary<-function(aaf, allele, freq, coverage, coverage.qc=100, thre.lower=0.0
         # according to the AA, CC, GG, TT annotation files
         for (k in 1:length(pos.not)){
           point    <- x2[pos.not[k]]
-          if (which (point == c("A","C","G","T"))==1) {
-            score   <- .AA[.AA$Pos==pos,annot.select]
-            all   <- cbind(pos,ref_allele,x,homo_loci[loci==pos],point ,score)
-            write.table(all, file= file.conn,sep=",",row.names=F,col.names=F, quote=F, append=T)
-          } else if (which (point == c("A","C","G","T"))==2) {
-            score <- .CC[.CC$Pos==pos,annot.select]
-            all   <- cbind(pos,ref_allele,x,homo_loci[loci==pos],point ,score)
-            write.table(all, file= file.conn,sep=",",row.names=F,col.names=F, quote=F, append=T)
-
-          } else if (which (point == c("A","C","G","T"))==3) {
-            score <- .GG[.GG$Pos==pos,annot.select]
-            all   <- cbind(pos,ref_allele,x,homo_loci[loci==pos],point ,score)
-            write.table(all, file= file.conn,sep=",",row.names=F,col.names=F, quote=F, append=T)
-          } else if (which (point == c("A","C","G","T"))==4) {
-            score   <- .TT[.TT$Pos==pos,annot.select]
-            all   <- cbind(pos,ref_allele,x,homo_loci[loci==pos],point ,score)
-            write.table(all, file= file.conn,sep=",",row.names=F,col.names=F, quote=F, append=T)
-          }else {
-            print("none")
-          }
+          score = switch(point,
+                         A = .AA[.AA$Pos==pos,annot.select],
+                         C = .CC[.CC$Pos==pos,annot.select],
+                         G = .GG[.GG$Pos==pos,annot.select],
+                         T = .TT[.TT$Pos==pos,annot.select] )
+          all   <- cbind(pos,ref_allele,x,homo_loci[loci==pos],point ,score)
+          write.table(all, file= file.conn,sep=",",row.names=F,col.names=F, quote=F, append=T)
         }
       } else if(length(x2)==1 & x2!=ref_allele){
-        if (which (x2 == c("A","C","G","T"))==1) {
-          score   <- .AA[.AA$Pos==pos,annot.select]
-          all   <- cbind(pos,ref_allele,x,homo_loci[loci==pos],x2 ,score)
-          write.table(all, file= file.conn,sep=",",row.names=F,col.names=F, quote=F, append=T)
-        } else if (which (x2 == c("A","C","G","T"))==2) {
-          score <- .CC[.CC$Pos==pos,annot.select]
-          all   <- cbind(pos,ref_allele,x,homo_loci[loci==pos],x2 ,score)
-          write.table(all, file= file.conn,sep=",",row.names=F,col.names=F, quote=F, append=T)
-
-        } else if (which (x2 == c("A","C","G","T"))==3) {
-          score <- .GG[.GG$Pos==pos,annot.select]
-          all   <- cbind(pos,ref_allele,x,homo_loci[loci==pos],x2 ,score)
-          write.table(all, file= file.conn,sep=",",row.names=F,col.names=F, quote=F, append=T)
-        } else if (which (x2 == c("A","C","G","T"))==4) {
-          score   <- .TT[.TT$Pos==pos,annot.select]
-          all   <- cbind(pos,ref_allele,x,homo_loci[loci==pos],x2 ,score)
-          write.table(all, file= file.conn,sep=",",row.names=F,col.names=F, quote=F, append=T)
-        }else {
-          print("none")
-        }
+        score = switch(x2,
+                       A = .AA[.AA$Pos==pos,annot.select],
+                       C = .CC[.CC$Pos==pos,annot.select],
+                       G = .GG[.GG$Pos==pos,annot.select],
+                       T = .TT[.TT$Pos==pos,annot.select] )
+        all   <- cbind(pos,ref_allele,x,homo_loci[loci==pos],x2 ,score)
+        write.table(all, file= file.conn,sep=",",row.names=F,col.names=F, quote=F, append=T)
       }
     }
     close(file.conn)
