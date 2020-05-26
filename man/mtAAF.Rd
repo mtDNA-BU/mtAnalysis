@@ -4,7 +4,7 @@
 \alias{mtAAF}
 \title{mtAAF function}
 \usage{
-mtAAF(allele, freq, AAFplot = F)
+mtAAF(allele, freq)
 }
 \arguments{
 \item{allele}{data frame (N x 16569) provided by the user. This data frame contains
@@ -16,8 +16,6 @@ the row names, and the allele calls of all mtDNA loci for each subject as the co
 N subjects with mtDNA sequencing data of 16569 loci. The data frame contains subject ID as
 the row names, and the allele fractions of the called alleles for each subject as the columns.
 “/” is used to delimited the allele fractions.}
-
-\item{AAFplot}{logical(default is False). A user can specify if the calculated AAF is plotted.}
 }
 \value{
 AAF, numeric matrix (N x 16569). It contains subject ID as the row names,
@@ -41,5 +39,5 @@ freq_file <- "/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/freq/freq.cs
 #                          sep = ",", character() ),
 #                    ncol = length( head ), byrow = TRUE)
 
-#mtPAA (coverage, allele, freq)
+#mtPAA ( allele, freq)
 }

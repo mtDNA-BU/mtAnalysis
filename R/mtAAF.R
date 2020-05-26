@@ -10,8 +10,6 @@
 #' N subjects with mtDNA sequencing data of 16569 loci. The data frame contains subject ID as
 #' the row names, and the allele fractions of the called alleles for each subject as the columns.
 #' “/” is used to delimited the allele fractions.
-#' @param AAFplot logical(default is False). A user can specify if the calculated AAF is plotted.
-#'
 #' @return AAF, numeric matrix (N x 16569). It contains subject ID as the row names,
 #' and the AAF of all 16569 mtDNA loci for each subject. It will also generate a scatter plot
 #' of AAF based on user’s choice.
@@ -31,8 +29,8 @@
 #' #                          sep = ",", character() ),
 #' #                    ncol = length( head ), byrow = TRUE)
 #'
-#' #mtPAA (coverage, allele, freq)
-mtAAF <- function( allele, freq , AAFplot=F){
+#' #mtPAA ( allele, freq)
+mtAAF <- function( allele, freq ){
 
 
   # warning message if the allele and freq do not have the column number of 16569 (loci)
@@ -75,17 +73,11 @@ mtAAF <- function( allele, freq , AAFplot=F){
                                    x= complex.all2, y = complex.freqsplit, z = complex.ref)
   AAF3.m[is.na(AAF3.m)]<-0
 
-  # plot the AAF
-  # takes about 46 seconds, maybe we could speed up
-  if(AAFplot){
-    AAF_scatter_x<-rep(c(1:16569),dim(AAF3.m)[2])
-    AAF_scatter_y<-as.vector(AAF3.m)
-    plot(x=AAF_scatter_x, y=AAF_scatter_y,col = "blue",pch='.',cex=0.2,xlab="",ylab="")
-  }
-
   AAF3.m <- t(AAF3.m)
   rownames(AAF3.m) <- subjectID
   colnames(AAF3.m) <- c(1:16569)
+  class(AAF3.m) <- c('matrix', 'mtDNAaaf')
   AAF3.m
+
 
 }

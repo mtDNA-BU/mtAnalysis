@@ -74,19 +74,21 @@ mtSummary<-function(aaf, allele, freq, coverage, coverage.qc=100, thre.lower=0.0
   if( ! dir.exists(path) ) stop( paste(" Output path", path,"does not exist.") )
 
   #assign loci value when the specified loci are strings (e.g. coding)
-  if(loci=="coding"){
-    loci<-sort(unique(c(3307:4262, 4470:5511,5904:7445,7586:8269,8366:8572,8527:9207
+  if (is.character(loci) ){
+    if( loci=="coding"){
+      loci<-sort(unique(c(3307:4262, 4470:5511,5904:7445,7586:8269,8366:8572,8527:9207
                                   ,9207:9990 ,10059:10404, 10470:12137, 12337:14148, 14149:14673
                                   , 14747:15887)))
-  }else if(loci=="tRNA"){
-    loci<-sort(unique(c(577:647, 1602:1670, 3230:3304, 4263:4331, 4329:4400, 4402:4469, 5512:5579
+    }else if(loci=="tRNA"){
+      loci<-sort(unique(c(577:647, 1602:1670, 3230:3304, 4263:4331, 4329:4400, 4402:4469, 5512:5579
                         , 5587:5655, 5657:5729, 5761:5826, 5826:5891, 7446:7514, 7518:7585
                         , 8295:8364, 9991:10058, 10405:10469, 12138:12206, 12207:12265
                         , 12266:12336, 14674:14742, 15888:15953, 15956:16023)))
-  }else if(loci=="RNR1"){
-    loci<-sort(unique(c(648:1601)))
-  }else if(loci=="RNR2"){
-    loci<-sort(unique(c(1671:3229)))
+    }else if( loci=="RNR1"){
+      loci<-sort(unique(c(648:1601)))
+    }else if( loci=="RNR2"){
+      loci<-sort(unique(c(1671:3229)))
+    }
   }
 
 
@@ -112,12 +114,14 @@ mtSummary<-function(aaf, allele, freq, coverage, coverage.qc=100, thre.lower=0.0
 
   if(coverSummary){
     # calculate the mean coverage of each locus
-    coverage_mean_loci<-apply(coverage, 1, mean, na.rm=T)
+    #katia coverage_mean_loci<-apply(coverage, 1, mean, na.rm=T)
+    coverage_mean_loci <- rowMeans(coverage, na.rm=T)
     # output the summary of mean coverage of each locus
     mt_summary_obj$coverLoci<-summary(coverage_mean_loci)
     #length(coverage_mean_loci)
     # calculate the mean coverage of each individual
-    coverage_mean_subjects<-apply(coverage, 2, mean)
+    #katia coverage_mean_subjects<-apply(coverage, 2, mean)
+    coverage_mean_subjects<-colMeans(coverage, na.rm=T)
     # output the summary of mean coverage of each subject
     mt_summary_obj$coverSubjects<-summary(coverage_mean_subjects)
     #length(coverage_mean_subjects)
@@ -203,7 +207,7 @@ mtSummary<-function(aaf, allele, freq, coverage, coverage.qc=100, thre.lower=0.0
     p_heter_hist<-p_heter_hist+xlab("Histogram of heteroplasmic burden score")
     p_heter_hist<-p_heter_hist+theme(plot.title = element_text(hjust = 0.5),axis.text = element_text(size=15),axis.title=element_text(size=15,face="bold"))
     p_heter_hist<-p_heter_hist+coord_cartesian(xlim = c(0, 50))
-    p_heter_hist<-p_heter_hist+stat_bin(aes(y=..count.., label=..count..), geom="text", vjust=-.5,bins=100)
+    #katiap_heter_hist<-p_heter_hist+stat_bin(aes(y=..count.., label=..count..), geom="text", vjust=-.5,bins=100)
     plot(p_heter_hist)
 
     # histogram of counts of heteroplasmic variations across mtDNA loci
@@ -213,7 +217,7 @@ mtSummary<-function(aaf, allele, freq, coverage, coverage.qc=100, thre.lower=0.0
     p_heter_hist_loci<-p_heter_hist_loci+xlab("Histogram of heteroplasmic variations of mtDNA loci")
     p_heter_hist_loci<-p_heter_hist_loci+theme(plot.title = element_text(hjust = 0.5),axis.text = element_text(size=15),axis.title=element_text(size=15,face="bold"))
     p_heter_hist_loci<-p_heter_hist_loci+coord_cartesian(xlim = c(0, 50))
-    p_heter_hist_loci<-p_heter_hist_loci+stat_bin(aes(y=..count.., label=..count..), geom="text", vjust=-.5,bins=50)
+    #katiap_heter_hist_loci<-p_heter_hist_loci+stat_bin(aes(y=..count.., label=..count..), geom="text", vjust=-.5,bins=50)
     plot(p_heter_hist_loci)
 
     # histogram of homoplasmic burden across subjects
@@ -223,7 +227,7 @@ mtSummary<-function(aaf, allele, freq, coverage, coverage.qc=100, thre.lower=0.0
     p_homo_hist<-p_homo_hist+xlab("Histogram of homoplasmic burden score")
     p_homo_hist<-p_homo_hist+theme(plot.title = element_text(hjust = 0.5),axis.text = element_text(size=15),axis.title=element_text(size=15,face="bold"))
     p_homo_hist<-p_homo_hist+coord_cartesian(xlim = c(0, 100))
-    p_homo_hist<-p_homo_hist+stat_bin(aes(y=..count.., label=..count..), geom="text", size=2.5,vjust=-1,bins=100)
+    #katiap_homo_hist<-p_homo_hist+stat_bin(aes(y=..count.., label=..count..), geom="text", size=2.5,vjust=-1,bins=100)
     plot(p_homo_hist)
 
     # histogram of counts of homoplasmic variations across mtDNA loci
@@ -233,7 +237,7 @@ mtSummary<-function(aaf, allele, freq, coverage, coverage.qc=100, thre.lower=0.0
     p_homo_hist_loci<-p_homo_hist_loci+xlab("Histogram of homoplasmic variations of mtDNA loci")
     p_homo_hist_loci<-p_homo_hist_loci+theme(plot.title = element_text(hjust = 0.5),axis.text = element_text(size=15),axis.title=element_text(size=15,face="bold"))
     p_homo_hist_loci<-p_homo_hist_loci+coord_cartesian(xlim = c(0, 100))
-    p_homo_hist_loci<-p_homo_hist_loci+stat_bin(aes(y=..count.., label=..count..), geom="text", vjust=-.5,bins=1000)
+    #katiap_homo_hist_loci<-p_homo_hist_loci+stat_bin(aes(y=..count.., label=..count..), geom="text", vjust=-.5,bins=1000)
     plot(p_homo_hist_loci)
   }
 

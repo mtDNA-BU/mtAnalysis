@@ -21,7 +21,7 @@ mtSummary(
   annot.select = c("Pos", "ref", "Gene", "TypeMutation", "MissensMutation",
     "CodonPosition", "ProteinDomain", "dbSNP_150_id", "PolyPhen2", "PolyPhen2_score",
     "SIFT", "SIFT_score", "CADD", "CADD_score", "CADD_phred_score"),
-  path = "",
+  path = "./",
   study = "Study"
 )
 }
