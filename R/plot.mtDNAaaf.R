@@ -1,6 +1,6 @@
 #' plot.mtDNAaaf function
 #'
-#' Plot mtDNAaaf object
+#' Produce a scatter plot of a mtDNAaaf object
 #'
 #' @param x numeric matrix (N x 16569). It contains subject ID as the row names,
 #' and the AAF of all 16569 mtDNA loci for each subject.
@@ -33,9 +33,10 @@ plot.mtDNAaaf <- function(x,  col = "blue", pch='.', cex=0.2, xlab="", ylab="", 
        col = col,
        pch = pch, cex = cex,
        xlab = xlab, ylab = ylab, ...)
+
   # add zeros
-  plot(x = 1:16569, y = 0,
-       add = TRUE,
+  points(x = 1:16569,
+       y = rep(0, 16569),
        col = col,
        pch = pch, cex = cex,
        xlab = xlab, ylab = ylab, ...)

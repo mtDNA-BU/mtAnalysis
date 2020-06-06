@@ -23,7 +23,7 @@ and the AAF of all 16569 mtDNA loci for each subject.}
 \item{...}{arguments to be passed to plot function.}
 }
 \description{
-Plot mtDNAaaf object
+Produce a scatter plot of a mtDNAaaf object
 }
 \examples{
 
