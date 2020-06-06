@@ -2,6 +2,7 @@
 
 S3method(plot,mtDNAaaf)
 export(mtAAF)
+export(mtAnno)
 export(mtSummary)
 export(mtdna_test)
 import(ggplot2)

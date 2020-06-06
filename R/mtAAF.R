@@ -32,28 +32,20 @@
 #' #mtPAA ( allele, freq)
 mtAAF <- function( allele, freq ){
 
-
-  # warning message if the allele and freq do not have the column number of 16569 (loci)
-  if(dim(allele)[2]!=16569 | dim(freq)[2]!=16569){
-    stop("the allele and frequency should have column number of 16569")
+  if(dim(allele)[1]!=16569 | dim(freq)[1]!=16569){
+    stop("the allele and frequency should have 16569 rows")
   }
 
-  # warning message if the allele and freq do not have the same dimension
   if((sum(dim(allele) != dim(freq) ) > 0)){
     stop("the allele and frequency should have the same dimension")
   }
 
   # order the allele, freq datasets by ID
-  allele <- allele[order(rownames(allele)), ]
-  freq <- freq[order(rownames(freq)), ]
+  allele <- allele[ ,order(colnames(allele)) ]
+  freq <- freq[ ,order(colnames(freq))]
 
   # record the IDs in the vector of subjectID
-  subjectID <- rownames(allele)
-
-  # transpose the allele, freq dataset, so each column vector represents the sequence of a subject
-  allele <- t(allele)
-  freq <- t(freq)
-
+  subjectID <- colnames(allele)
 
   AAF3.m <- array(0, dim(allele) )
   complex.allele <- which(allele != .mtRef)
@@ -66,18 +58,21 @@ mtAAF <- function( allele, freq ){
   complex.freqsplit <- lapply( complex.freqsplit, as.numeric)
 
   complex.ref <- .mtRef[ (complex.allele -1) %% length(.mtRef) + 1]
-  # here Chunyu and me discussed the case of more than 1 alternative allele
-  # we decided to calculate the AAF as 1-frequency of reference allele
-  # instead of maximun of frequencies of alternative alleles
-  AAF3.m[complex.allele] <- mapply(function(x, y, z){ pos <- which(x == z); if(length(pos) > 0) 1-y[pos] else 1 } ,
-                                   x= complex.all2, y = complex.freqsplit, z = complex.ref)
+
+  AAF3.m[complex.allele] <- mapply(function(x, y, z){
+    pos <- which(x == z);
+    if(length(pos) > 0) 1-y[pos] else 1
+  } ,
+  x= complex.all2,
+  y = complex.freqsplit,
+  z = complex.ref)
+
   AAF3.m[is.na(AAF3.m)]<-0
 
-  AAF3.m <- t(AAF3.m)
-  rownames(AAF3.m) <- subjectID
-  colnames(AAF3.m) <- c(1:16569)
+
+  colnames(AAF3.m) <- subjectID
+  rownames(AAF3.m) <- c(1:16569)
   class(AAF3.m) <- c('matrix', 'mtDNAaaf')
   AAF3.m
-
 
 }
