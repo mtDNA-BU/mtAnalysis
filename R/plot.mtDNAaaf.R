@@ -2,7 +2,7 @@
 #'
 #' Produce a scatter plot of a mtDNAaaf object
 #'
-#' @param x numeric matrix (N x 16569). It contains subject ID as the row names,
+#' @param x numeric matrix (16569 x N ). It contains subject ID as the column names,
 #' and the AAF of all 16569 mtDNA loci for each subject.
 #' @param col color to be used in the plot.
 #' @param pch plotting ‘character’, i.e., symbol to use.
@@ -19,15 +19,8 @@
 #'
 plot.mtDNAaaf <- function(x,  col = "blue", pch='.', cex=0.2, xlab="", ylab="", ...) {
 
-  #AAF_scatter_x <- rep(c(1:16569),dim(x)[2])
-  #AAF_scatter_y<- as.vector( x )
-  #plot(x=AAF_scatter_x, y=AAF_scatter_y,
-  #     col = col,
-  #     pch = pch, cex = cex,
-  #     xlab = xlab, ylab = ylab, ...)
-
-  # faster approach - do not display zeros:
-  non.zeros <- which( x!=0 )
+  # faster approach - do not display zeros first:
+  non.zeros <- which( x != 0 )
   plot(x = rep(c(1:16569),dim(x)[2])[non.zeros],
        y = as.vector(x[non.zeros]),
        col = col,
