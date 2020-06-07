@@ -11,11 +11,13 @@
 #' @return Annotation of alleles stored as a .csv file to the path provided by users
 #' @export
 #' @examples
+#'
+#'  # mtAnno(anno)
 
 mtAnno <- function(anno , annot.select=c("Pos","ref","Gene","TypeMutation","MissensMutation",
                                         "CodonPosition","ProteinDomain","dbSNP_150_id","PolyPhen2",
                                         "PolyPhen2_score","SIFT","SIFT_score", "CADD","CADD_score",
-                                        "CADD_phred_score"), 
+                                        "CADD_phred_score"),
                    path="./",study="Study"){
   anno$alleles<-as.character(anno$alleles)
   anno_score<-NULL
@@ -35,13 +37,13 @@ mtAnno <- function(anno , annot.select=c("Pos","ref","Gene","TypeMutation","Miss
     }
     anno_score<-rbind(anno_score , score)
   }
-  
+
   # combine the input file with the annotation results
   output<-cbind(anno , anno_score)
-  
+
   # output the annotated data
   write.csv(output , file=paste0(path , study ,"_mtAnno.csv"))
-  
+
 }
 
 

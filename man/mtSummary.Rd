@@ -90,5 +90,5 @@ annotation of heteroplasmic and/or homoplasmic variations.
 }
 \examples{
 
-#mtSummary(allele, freq, coverage, thre.lower, thre.upper, loci, type, coverSummary, varHist)
+#mtSummary(aaf, allele, freq, coverage, thre.lower, thre.upper, loci, type, coverSummary, varHist)
 }

@@ -30,3 +30,7 @@ Annotation of alleles stored as a .csv file to the path provided by users
 \description{
 Annotate mtDNA alternative alleles
 }
+\examples{
+
+ # mtAnno(anno)
+}

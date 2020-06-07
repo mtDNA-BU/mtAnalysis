@@ -47,21 +47,23 @@
 #' @export
 #' @examples
 #'
-#' #mtSummary(allele, freq, coverage, thre.lower, thre.upper, loci, type, coverSummary, varHist)
-mtSummary<-function(aaf, allele, freq, coverage, coverage.qc=100, thre.lower=0.03,thre.upper=0.97,
+#' #mtSummary(aaf, allele, freq, coverage, thre.lower, thre.upper, loci, type, coverSummary, varHist)
+mtSummary<-function(aaf, allele, freq, coverage,
+                    coverage.qc=100, thre.lower=0.03,thre.upper=0.97,
                     loci=c(1:16569), type="both", coverSummary=T, varHist=T,
                     annot.select=c("Pos","ref","Gene","TypeMutation","MissensMutation",
                                    "CodonPosition","ProteinDomain","dbSNP_150_id","PolyPhen2",
                                    "PolyPhen2_score","SIFT","SIFT_score", "CADD","CADD_score",
                                    "CADD_phred_score"),
-                    path="./",study="Study"){
+                    path="./", study="Study"){
+
   # give warning message and stop if the aaf, allele, freq and coverage do not have the same dimension
   if(!all(sapply(list(dim(aaf), dim(allele), dim(freq)), function(x) x == dim(coverage)))){
     stop("the coverage, allele, frequency and AAF should have same dimension")
   }
 
   # give warning message and stop if the ncol of aaf, allele, freq and coverage are not 16569
-  if(dim(aaf)[2]!=16569){
+  if(dim(aaf)[1]!=16569){
     stop("the coverage, allele, frequency and AAF should have 16569 loci (columns)")
   }
 
@@ -92,42 +94,34 @@ mtSummary<-function(aaf, allele, freq, coverage, coverage.qc=100, thre.lower=0.0
   }
 
 
-  # transpose the aaf, allele, freq and coverage dataset
-  aaf<-t(aaf)
-  allele<-t(allele)
-  freq<-t(freq)
-  coverage<-t(coverage)
-
   # get the submatrices of aaf, allele, freq and coverage based on loci input
-  aaf<-aaf[loci,]
-  allele<-allele[loci,]
-  rownames(allele)<-as.character(loci)
-  freq<-freq[loci,]
-  rownames(freq)<-as.character(loci)
-  coverage<-coverage[loci,]
-  rownames(coverage)<-as.character(loci)
+  aaf <- aaf[loci,]
+  allele <- allele[loci,]
+  rownames(allele) <- as.character(loci)
 
-  # create a object of output of summary
+  freq <- freq[loci,]
+  rownames(freq) <- as.character(loci)
+
+  coverage <- coverage[loci,]
+  rownames(coverage) <- as.character(loci)
+
+  # create an object of output of summary
   mt_summary_obj<-NULL
 
 
 
   if(coverSummary){
-    # calculate the mean coverage of each locus
-    #katia coverage_mean_loci<-apply(coverage, 1, mean, na.rm=T)
+
     coverage_mean_loci <- rowMeans(coverage, na.rm=T)
-    # output the summary of mean coverage of each locus
-    mt_summary_obj$coverLoci<-summary(coverage_mean_loci)
-    #length(coverage_mean_loci)
-    # calculate the mean coverage of each individual
-    #katia coverage_mean_subjects<-apply(coverage, 2, mean)
-    coverage_mean_subjects<-colMeans(coverage, na.rm=T)
-    # output the summary of mean coverage of each subject
-    mt_summary_obj$coverSubjects<-summary(coverage_mean_subjects)
-    #length(coverage_mean_subjects)
+
+    mt_summary_obj$coverLoci <- summary(coverage_mean_loci)
+    coverage_mean_subjects <- colMeans(coverage, na.rm=T)
+    mt_summary_obj$coverSubjects <- summary(coverage_mean_subjects)
+
     # scatter plot of the mean coverage across loci
-    y_coverage_scatter<-coverage_mean_loci
+    y_coverage_scatter <- coverage_mean_loci
     x_coverage_scatter<-loci
+
     #plot(x=x_coverage_scatter, y=y_coverage_scatter,col = "blue",pch = ".",cex=0.2,xlab="mtloci",ylab="",main="mean coverage across all mtDNA loci")
     # scatter plot of the mean coverage across subjects
     # y_coverage_scatter<-colMeans(coverage,na.rm=T)
@@ -145,7 +139,7 @@ mtSummary<-function(aaf, allele, freq, coverage, coverage.qc=100, thre.lower=0.0
   aaf_cat <- matrix(0, nrow=nrow(aaf), ncol=ncol(aaf))
   aaf_cat[ aaf>=thre.lower & aaf<=thre.upper ] <- 1
   aaf_cat[ aaf> thre.upper ]    <- 2
-  rownames(aaf_cat) <- rownames(aaf)
+  colnames(aaf_cat) <- colnames(aaf)
 
   # if coverage<coverage.qc, means unreliable read, so assign aaf_cat to NA
   aaf_cat[ coverage < coverage.qc ]       <- NA
@@ -155,10 +149,10 @@ mtSummary<-function(aaf, allele, freq, coverage, coverage.qc=100, thre.lower=0.0
   loci_removed<-c(301,302,310,316,3107,16182)
   loci_removed<-as.character(loci_removed)
   loci_left<-setdiff(rownames(aaf),loci_removed)
-  aaf_cat      <- aaf_cat[loci_left,]
+  aaf_cat      <- aaf_cat[as.numeric(loci_left),]  #katia: as.numeric
 
   # Only include mutations loci: at least one subject has mutation at that locus
-  mutation_collect<-aaf_cat
+  mutation_collect <- aaf_cat
   # n_mutation_loci is the number of variations of each locus
   # find the loci which have at least 1 mutation (homo/heter) by n_mutation>0
   n_mutation<-rowSums(aaf_cat>0, na.rm=T)
@@ -309,30 +303,9 @@ mtSummary<-function(aaf, allele, freq, coverage, coverage.qc=100, thre.lower=0.0
 
         # find the positions that the alleles which are not ref allele
         pos.not  <- which(!(x2==ref_allele))
-        # this loop is used to annotate all the alternative alleles(with freq>=thre.lower) at that locus
-        # according to the AA, CC, GG, TT annotation files
-        for (k in 1:length(pos.not)){
+
+                for (k in 1:length(pos.not)){
           point    <- x2[pos.not[k]]
-          # if (which (point == c("A","C","G","T"))==1) {
-          #   score   <- .AA[.AA$Pos==pos,annot.select]
-          #   all   <- cbind(pos,ref_allele,x,n_mutation[i],heter_loci[loci==pos],homo_loci[loci==pos],point ,score)
-          #   write.table(all, file= file.conn,sep=",", row.names=F,col.names=F, quote=F, append=T)
-          # } else if (which (point == c("A","C","G","T"))==2) {
-          #   score <- .CC[.CC$Pos==pos,annot.select]
-          #   all   <- cbind(pos,ref_allele,x,n_mutation[i],heter_loci[loci==pos],homo_loci[loci==pos],point ,score)
-          #   write.table(all, file= file.conn,sep=",", row.names=F,col.names=F, quote=F, append=T)
-          #
-          # } else if (which (point == c("A","C","G","T"))==3) {
-          #   score <- .GG[.GG$Pos==pos,annot.select]
-          #   all   <- cbind(pos,ref_allele,x,n_mutation[i],heter_loci[loci==pos],homo_loci[loci==pos],point ,score)
-          #   write.table(all, file= file.conn,sep=",", row.names=F,col.names=F, quote=F, append=T)
-          # } else if (which (point == c("A","C","G","T"))==4) {
-          #   score   <- .TT[.TT$Pos==pos,annot.select]
-          #   all   <- cbind(pos,ref_allele,x,n_mutation[i],heter_loci[loci==pos],homo_loci[loci==pos],point ,score)
-          #   write.table(all, file= file.conn, sep=",", row.names=F,col.names=F, quote=F, append=T)
-          # } else {
-          #   print("none")
-          # }
           score = switch(point,
                          A = .AA[.AA$Pos==pos,annot.select],
                          C = .CC[.CC$Pos==pos,annot.select],

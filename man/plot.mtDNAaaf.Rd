@@ -7,7 +7,7 @@
 \method{plot}{mtDNAaaf}(x, col = "blue", pch = ".", cex = 0.2, xlab = "", ylab = "", ...)
 }
 \arguments{
-\item{x}{numeric matrix (N x 16569). It contains subject ID as the row names,
+\item{x}{numeric matrix (16569 x N ). It contains subject ID as the column names,
 and the AAF of all 16569 mtDNA loci for each subject.}
 
 \item{col}{color to be used in the plot.}
