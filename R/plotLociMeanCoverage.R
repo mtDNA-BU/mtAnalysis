@@ -51,7 +51,7 @@ plotLociMeanCoverage <- function(x, loci=c(1:16569),
     }
   }
 
-  if (is.character(x) )stop("coverage should be a numeric mastrix")
+  if (is.character(x) )stop("coverage should be a numeric matrix")
 
 
   # scatter plot of the mean coverage across loci
