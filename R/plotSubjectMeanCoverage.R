@@ -57,8 +57,8 @@ plotSubjectMeanCoverage <- function(x, loci=c(1:16569),
 
 
   # scatter plot of the mean coverage across loci
-  plot(x = colMeans(x[loci,], na.rm=T),
-       y = seq(1 : (dim(x)[2]) ),
+  plot(x = seq(1 : (dim(x)[2]) ),
+       y = colMeans(x[loci,], na.rm=T),
        col = col,
        pch = pch,
        cex = cex,
