@@ -121,7 +121,9 @@ mtSummary<-function(aaf, allele, freq, coverage,
   aaf_cat <- matrix(0, nrow=nrow(aaf), ncol=ncol(aaf))
   aaf_cat[ aaf>=thre.lower & aaf<=thre.upper ] <- 1
   aaf_cat[ aaf> thre.upper ]    <- 2
+  rownames(aaf_cat) <- rownames(aaf)
   colnames(aaf_cat) <- colnames(aaf)
+
 
   aaf_cat[ coverage < coverage.qc ]   <- NA
 
@@ -130,7 +132,10 @@ mtSummary<-function(aaf, allele, freq, coverage,
   loci_removed<-c(301,302,310,316,3107,16182)
   loci_removed<-as.character(loci_removed)
   loci_left<-setdiff(rownames(aaf),loci_removed)
-  aaf_cat      <- aaf_cat[as.numeric(loci_left),]  #katia: as.numeric
+  aaf_cat      <- aaf_cat[loci_left,]
+  #katia: as.numeric
+  #xianbang: loci_left should be character, because it is names of loci, not numbers of rows
+  #otherwise it would cause problem
 
   # Only include mutations loci: at least one subject has mutation at that locus
   mutation_collect <- aaf_cat
@@ -258,7 +263,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
       allele_all_var<-allele_all_var[freq_all_var>=thre.lower]
       # combine with the reference allele
       if(sum(mutation_collect[i,]<=1,na.rm = T)>0){
-        allele_all_var<-c(.mtRef[as.numeric(rownames(mutation_collect)[i])],allele_all_var)
+        allele_all_var<-c(.mtRef[loci_var[i]],allele_all_var)
       }
       allele_all_var<-allele_all_var[!duplicated(allele_all_var)]
       allele_all_var<-paste(allele_all_var,collapse = '/')
@@ -276,7 +281,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
     write (head, file= file.conn ,sep=",",ncolumns=length(head), append=T)
 
     # this loop used to annote all the mutations at each heter loci with the scores chosen(annot.select)
-    for (i in 1:dim(mutation_collect)[1]) {
+    for (i in 1:length(loci_var)) {
       # identify heter locus
       pos       <- loci_var[i]
 
@@ -296,36 +301,36 @@ mtSummary<-function(aaf, allele, freq, coverage,
                 for (k in 1:length(pos.not)){
           point    <- x2[pos.not[k]]
           score = switch(point,
-                         A = .AA[.AA$Pos==pos,annot.select],
-                         C = .CC[.CC$Pos==pos,annot.select],
-                         G = .GG[.GG$Pos==pos,annot.select],
-                         T = .TT[.TT$Pos==pos,annot.select] )
+                         "A" = .AA[.AA$Pos==pos,annot.select],
+                         "C" = .CC[.CC$Pos==pos,annot.select],
+                         "G" = .GG[.GG$Pos==pos,annot.select],
+                         "T" = .TT[.TT$Pos==pos,annot.select] )
           cat(paste(pos,ref_allele,x,n_mutation[i],heter_loci[loci==pos],homo_loci[loci==pos],point ,paste(score, collapse=","), sep=","),
               file=file.conn, fill=TRUE, append=TRUE)
 
         }
       } else if(length(x2)==1 & x2!=ref_allele){
         score = switch(x2,
-                       A = .AA[.AA$Pos==pos,annot.select],
-                       C = .CC[.CC$Pos==pos,annot.select],
-                       G = .GG[.GG$Pos==pos,annot.select],
-                       T = .TT[.TT$Pos==pos,annot.select] )
-        all   <- cbind(pos,ref_allele,x,n_mutation[i],heter_loci[loci==pos],homo_loci[loci==pos],x2 ,score)
-        write.table(all, file= file.conn, sep=",",row.names=F,col.names=F, quote=F, append=T)
+                       "A" = .AA[.AA$Pos==pos,annot.select],
+                       "C" = .CC[.CC$Pos==pos,annot.select],
+                       "G" = .GG[.GG$Pos==pos,annot.select],
+                       "T" = .TT[.TT$Pos==pos,annot.select] )
+        cat(paste(pos,ref_allele,x,n_mutation[i],heter_loci[loci==pos],homo_loci[loci==pos],x2 ,paste(score, collapse=","), sep=","),
+            file=file.conn, fill=TRUE, append=TRUE)
       }
 
 
-    } # if type=="heter", annotate heter variations
+    }
 
     close(file.conn)
-
+    # if type=="heter", annotate heter variations
   } else if(type=="heter"){
     # allele2 is a submatrix of allele which only includes heteroplasmic loci
     allele2<-allele[as.character(loci_heter), ]
     # freq2 is a submatrix of freq which only includes heteroplasmic loci
     freq2<-freq[as.character(loci_heter),]
     # heter_collect is a submatrix of mutation_collect which only includes heteroplasmic loci
-    heter_collect<-mutation_collect[as.numeric(rownames(mutation_collect))%in%loci_heter,]
+    heter_collect<-mutation_collect[loci_var%in%loci_heter,]
 
     allele_heter<-rep(NA,length(loci_heter))
     # identify all the alleles(including ref allele and alternative alleles)
@@ -348,7 +353,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
       allele_all_var<-allele_all_var[freq_all_var>=thre.lower & freq_all_var<=thre.upper]
       # combine with the reference allele
       if(sum(heter_collect[i,]<=1, na.rm = T)>0){
-        allele_all_var<-c(.mtRef[as.numeric(rownames(heter_collect)[i])],allele_all_var)
+        allele_all_var<-c(.mtRef[loci_heter[i]],allele_all_var)
       }
       allele_all_var<-allele_all_var[!duplicated(allele_all_var)]
       allele_all_var<-paste(allele_all_var,collapse = '/')
@@ -367,7 +372,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
     write (head, file= file.conn ,sep=",",ncolumns=length(head), append=T)
 
     # this loop used to annote all the heter mutations at each heter loci with the scores chosen(annot.select)
-    for (i in 1:dim(heter_collect)[1]) {
+    for (i in 1:length(loci_heter)) {
       # identify heter locus
       pos       <- loci_heter[i]
 
@@ -388,13 +393,21 @@ mtSummary<-function(aaf, allele, freq, coverage,
         for (k in 1:length(pos.not)){
           point    <- x2[pos.not[k]]
           score = switch(point,
-                         A = .AA[.AA$Pos==pos,annot.select],
-                         C = .CC[.CC$Pos==pos,annot.select],
-                         G = .GG[.GG$Pos==pos,annot.select],
-                         T = .TT[.TT$Pos==pos,annot.select] )
+                         "A" = .AA[.AA$Pos==pos,annot.select],
+                         "C" = .CC[.CC$Pos==pos,annot.select],
+                         "G" = .GG[.GG$Pos==pos,annot.select],
+                         "T" = .TT[.TT$Pos==pos,annot.select] )
           all   <- cbind(pos,ref_allele,x,heter_loci[loci==pos],point ,score)
           write.table(all, file= file.conn, sep=",",row.names=F,col.names=F, quote=F, append=T)
         }
+      }else if(length(x2)==1 & x2!=ref_allele){
+        score = switch(x2,
+                       "A" = .AA[.AA$Pos==pos,annot.select],
+                       "C" = .CC[.CC$Pos==pos,annot.select],
+                       "G" = .GG[.GG$Pos==pos,annot.select],
+                       "T" = .TT[.TT$Pos==pos,annot.select] )
+        all   <- cbind(pos,ref_allele,x,heter_loci[loci==pos],x2 ,score)
+        write.table(all, file= file.conn, sep=",",row.names=F,col.names=F, quote=F, append=T)
       }
     }
     close(file.conn)
@@ -405,7 +418,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
     # freq2 is a submatrix of freq which only includes homoplasmic loci
     freq2<-freq[as.character(loci_homo),]
     # homo_collect is a submatrix of mutation_collect which only includes homoplasmic loci
-    homo_collect<-mutation_collect[as.numeric(rownames(mutation_collect))%in%loci_homo,]
+    homo_collect<-mutation_collect[loci_var%in%loci_homo,]
 
     allele_homo<-rep(NA,length(loci_homo))
     # identify all the alleles(including ref allele and alternative alleles)
@@ -428,7 +441,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
       allele_all_var<-allele_all_var[freq_all_var>thre.upper]
       # combine with the reference allele
       if(sum(homo_collect[i,]<=1, na.rm = T)>0){
-        allele_all_var<-c(.mtRef[as.numeric(rownames(homo_collect)[i])],allele_all_var)
+        allele_all_var<-c(.mtRef[loci_homo[i]],allele_all_var)
       }
       allele_all_var<-allele_all_var[!duplicated(allele_all_var)]
       allele_all_var<-paste(allele_all_var,collapse = '/')
@@ -438,7 +451,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
     # choose the type of scores to be annotated
     # annot.select: they are provided by users with default
     # annot.select <- c("Pos","ref","Gene","TypeMutation","MissensMutation","CodonPosition","ProteinDomain","dbSNP_150_id","PolyPhen2","PolyPhen2_score","SIFT","SIFT_score", "CADD","CADD_score","CADD_phred_score")
-    head         <- c("mtID","ref","allele_homo","n_homo","mut_allele",annot.select)
+    head         <- c("mtID","ref_allele","allele_homo","n_homo","mut_allele",annot.select)
 
     #Open file for writing
     file.conn <- file( paste0(path,study,"_annotation_homoplasmy.csv"), "w")
@@ -447,7 +460,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
     write (head, file= file.conn,sep=",",ncolumns=length(head), append=T)
 
     # this loop used to annote all the heter mutations at each heter loci with the scores chosen(annot.select)
-    for (i in 1:dim(homo_collect)[1]) {
+    for (i in 1:length(loci_homo)) {
       # identify heter locus
       pos       <- loci_homo[i]
 
@@ -468,19 +481,19 @@ mtSummary<-function(aaf, allele, freq, coverage,
         for (k in 1:length(pos.not)){
           point    <- x2[pos.not[k]]
           score = switch(point,
-                         A = .AA[.AA$Pos==pos,annot.select],
-                         C = .CC[.CC$Pos==pos,annot.select],
-                         G = .GG[.GG$Pos==pos,annot.select],
-                         T = .TT[.TT$Pos==pos,annot.select] )
+                         "A" = .AA[.AA$Pos==pos,annot.select],
+                         "C" = .CC[.CC$Pos==pos,annot.select],
+                         "G" = .GG[.GG$Pos==pos,annot.select],
+                         "T" = .TT[.TT$Pos==pos,annot.select] )
           all   <- cbind(pos,ref_allele,x,homo_loci[loci==pos],point ,score)
           write.table(all, file= file.conn,sep=",",row.names=F,col.names=F, quote=F, append=T)
         }
       } else if(length(x2)==1 & x2!=ref_allele){
         score = switch(x2,
-                       A = .AA[.AA$Pos==pos,annot.select],
-                       C = .CC[.CC$Pos==pos,annot.select],
-                       G = .GG[.GG$Pos==pos,annot.select],
-                       T = .TT[.TT$Pos==pos,annot.select] )
+                       "A" = .AA[.AA$Pos==pos,annot.select],
+                       "C" = .CC[.CC$Pos==pos,annot.select],
+                       "G" = .GG[.GG$Pos==pos,annot.select],
+                       "T" = .TT[.TT$Pos==pos,annot.select] )
         all   <- cbind(pos,ref_allele,x,homo_loci[loci==pos],x2 ,score)
         write.table(all, file= file.conn,sep=",",row.names=F,col.names=F, quote=F, append=T)
       }
