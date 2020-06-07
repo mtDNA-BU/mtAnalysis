@@ -48,6 +48,8 @@ plotSubjectMeanCoverage <- function(x, loci=c(1:16569),
       loci<-sort(unique(c(648:1601)))
     }else if( loci=="RNR2"){
       loci<-sort(unique(c(1671:3229)))
+    } else {
+      stop("loci name must be one of: coding, tRNA, RNR1, RNR2")
     }
   }
 
