@@ -1,17 +1,17 @@
 #' mtSummary function
 #' Identification of mtDNA variations, output summary statistics,
 #' annotation of heteroplasmic and/or homoplasmic variations.
-#' @param aaf a numeric matrix (N x 16569). It contains subject ID as the row names, and the AAF of
+#' @param aaf a numeric matrix (16569 x N). It contains subject ID as the row names, and the AAF of
 #' all 16569 mtDNA loci for each subject.
-#' @param allele a data frame (N x 16569) provided by the user. This data frame contains
+#' @param allele a data frame (16569 x N) provided by the user. This data frame contains
 #' N subjects with mtDNA sequencing data of 16569 loci. The data frame contains subject ID as
 #' the row names, and the allele calls of all mtDNA loci for each subject as the columns.
 #' “/” is used to delimited different allele calls in a locus.
-#' @param freq a data frame (N x 16569) provided by the user. This data frame contains the N subjects
+#' @param freq a data frame (16569 x N) provided by the user. This data frame contains the N subjects
 #' with mtDNA sequencing data of 16569 loci. The data frame contains subject ID as the row names, and
 #' the allele fractions of the called alleles for each subject as the columns. “/” is used to delimited
 #' the allele fractions.
-#' @param coverage a numeric matrix (N x 16569) containing the subject ID as the row names, and the reads
+#' @param coverage a numeric matrix (16569 x N) containing the subject ID as the row names, and the reads
 #' coverage of the 16569 mitochondrial DNA loci for each subject.
 #' @param coverage.qc a number(default is 100) of threshold for the coverage.
 #' If the coverage<coverage.qc, the allele call at that locus of the subject will not be used.
@@ -106,43 +106,24 @@ mtSummary<-function(aaf, allele, freq, coverage,
   rownames(coverage) <- as.character(loci)
 
   # create an object of output of summary
-  mt_summary_obj<-NULL
-
+  mt_summary_obj <- NULL
 
 
   if(coverSummary){
-
-    coverage_mean_loci <- rowMeans(coverage, na.rm=T)
-
-    mt_summary_obj$coverLoci <- summary(coverage_mean_loci)
-    coverage_mean_subjects <- colMeans(coverage, na.rm=T)
-    mt_summary_obj$coverSubjects <- summary(coverage_mean_subjects)
-
-    # scatter plot of the mean coverage across loci
-    y_coverage_scatter <- coverage_mean_loci
-    x_coverage_scatter<-loci
-
-    #plot(x=x_coverage_scatter, y=y_coverage_scatter,col = "blue",pch = ".",cex=0.2,xlab="mtloci",ylab="",main="mean coverage across all mtDNA loci")
-    # scatter plot of the mean coverage across subjects
-    # y_coverage_scatter<-colMeans(coverage,na.rm=T)
-    # x_coverage_scatter<-seq(1:dim(coverage)[2])
-    # plot(x=x_coverage_scatter, y=y_coverage_scatter,col = "blue",pch = ".",cex=0.2,xlab="mtloci",ylab="",main="mean coverage across all subjects")
+    mt_summary_obj$coverLoci <-     summary( rowMeans(coverage, na.rm=T) )
+    mt_summary_obj$coverSubjects <- summary( colMeans(coverage, na.rm=T) )
   }
 
-  # categorize by AAF: AAF<thre.lower means no variation(coded as 0)
-  # thre.lower<=AAF<=thre.upper means heteroplasmic variation(coded as 1)
+  # categorize by AAF: AAF < thre.lower means no variation(coded as 0)
+  # thre.lower <= AAF <= thre.upper means heteroplasmic variation(coded as 1)
   # thre.upper<AAF means homoplastic variation(coded as 2)
 
-  #katia: this is faster
-  #aaf_cat <- aaf
-  #aaf_cat[ aaf< thre.lower ]    <- 0
   aaf_cat <- matrix(0, nrow=nrow(aaf), ncol=ncol(aaf))
   aaf_cat[ aaf>=thre.lower & aaf<=thre.upper ] <- 1
   aaf_cat[ aaf> thre.upper ]    <- 2
   colnames(aaf_cat) <- colnames(aaf)
 
-  # if coverage<coverage.qc, means unreliable read, so assign aaf_cat to NA
-  aaf_cat[ coverage < coverage.qc ]       <- NA
+  aaf_cat[ coverage < coverage.qc ]   <- NA
 
   # These are constants included in the package.
   # The reads of these loci are not reliable, so these loci should be removed
@@ -156,43 +137,51 @@ mtSummary<-function(aaf, allele, freq, coverage,
   # n_mutation_loci is the number of variations of each locus
   # find the loci which have at least 1 mutation (homo/heter) by n_mutation>0
   n_mutation<-rowSums(aaf_cat>0, na.rm=T)
-  # length(n_mutation)
+
   # only include the mutation(heter/homo) loci
   mutation_collect<-mutation_collect[n_mutation>0,]
-  # dim(mutation_collect)
+
   # loci of variations(heter/homo)
   loci_var<-as.numeric(rownames(mutation_collect))
   mt_summary_obj$loci_var<-loci_var
-  n_mutation<-n_mutation[n_mutation>0]
-  # length(n_mutation)
+  n_mutation <- n_mutation[n_mutation>0]
 
   # output summary statistics of hereoplasmic variations
   # calculate the number of heteroplasmic variations for each subject
   heter_burden  <- colSums(mutation_collect==1, na.rm=T)
+
   # output the summary of heteroplasmic burden
   mt_summary_obj$heter_burden_sum<-summary(heter_burden)
+
   # calculate the number of heteroplasmic mutations for each locus
   heter_loci  <- rowSums(aaf_cat==1, na.rm=T)
+
   # output the summary of heteroplasmic variations across loci
   mt_summary_obj$heter_loci_sum<-summary(heter_loci)
+
   # loci with heteroplasmic variations
   loci_heter<-as.numeric(names(heter_loci))[heter_loci>0]
   mt_summary_obj$loci_heter<-loci_heter
+
   # calculate the total number of heteroplasmic variations
   mt_summary_obj$heter_total<-sum(heter_burden)
 
   # output summary statistics of homoplasmic variations
   # calculate the number of homoplasmic variations for each subject
   homo_burden  <- colSums(mutation_collect==2, na.rm=T)
+
   # output the summary homoplasmic burden
   mt_summary_obj$homo_burden_sum<-summary(homo_burden)
+
   # calculate the number of homoplasmic mutations for each locus
   homo_loci  <- rowSums(aaf_cat==2, na.rm=T)
   # output the summay of homoplasmic variations across loci
   mt_summary_obj$homo_loci_sum<-summary(homo_loci)
+
   # loci with homoplasmic variations
   loci_homo<-as.numeric(names(homo_loci))[homo_loci>0]
   mt_summary_obj$loci_homo<-loci_homo
+
   # calculate the total number of homoplasmic variations
   mt_summary_obj$homo_total<-sum(homo_burden)
 
