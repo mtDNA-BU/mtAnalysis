@@ -5,41 +5,36 @@
 \title{plotSubjectMeanCoverage function}
 \usage{
 plotSubjectMeanCoverage(
-  x,
-  loci = c(1:16569),
-  col = "blue",
-  pch = ".",
-  cex = 0.2,
-  xlab = "mtloci",
-  ylab = "",
-  main = "Mean Coverage across Subjects",
-  ...
+  aaf,
+  coverage,
+  coverage.qc = 100,
+  thre.lower = 0.03,
+  thre.upper = 0.97,
+  loci = c(1:16569)
 )
 }
 \arguments{
-\item{x}{a numeric matrix (16569 x N) containing the subject ID as the column names,
-and the reads coverage of the 16569 mitochondrial DNA loci for each subject.}
+\item{aaf}{a numeric matrix (16569 x N). It contains subject ID as the row names, and the AAF of
+all 16569 mtDNA loci for each subject.}
+
+\item{coverage}{a numeric matrix (16569 x N) containing the subject ID as the row names, and the reads
+coverage of the 16569 mitochondrial DNA loci for each subject.}
+
+\item{coverage.qc}{a number(default is 100) of threshold for the coverage.
+If the coverage<coverage.qc, the allele call at that locus of the subject will not be used.}
+
+\item{thre.lower}{a number(default is 0.03) of lower bound of the threshold defining heteroplasmic
+and homoplasmic variations}
+
+\item{thre.upper}{a number(default is 0.97) of upper bound of the threshold defining heteroplasmic
+and homoplasmic variations}
 
 \item{loci}{one of: 1. a vector(default is c(1:16569)) of mitochondrial DNA loci to specify which loci
 should be used to identify the variations and annotate, 2. a character string for the regions
 (e.g. “coding”, “tRNA”, “RNR1”, "RNR2", …).}
-
-\item{col}{color to be used in the plot.}
-
-\item{pch}{plotting ‘character’, i.e., symbol to use.}
-
-\item{cex}{expansion factor for symbols used in the plot.}
-
-\item{xlab}{a label for the x axis.}
-
-\item{ylab}{a label for the y axis.}
-
-\item{main}{a title for the plot.}
-
-\item{...}{arguments to be passed to plot function.}
 }
 \description{
-Produce a scatter plot of Mean Coverage Across Subjects
+Produce a histogram of Mean Coverage Across Subjects
 }
 \examples{
 
