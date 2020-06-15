@@ -246,10 +246,10 @@ mtSummary<-function(aaf, allele, freq, coverage,
     # which the frequency falls in interval [thre.lower, 1] for each variaation locus
 
     for(i in 1:length(loci_var)){
-      var_index<-(mutation_collect[i,]>0)
+      var_index <- (mutation_collect[i,]>0)
       # identify the alleles at the variation locus
-      allele_all<-allele2[i,]
-      allele_var<-allele_all[var_index]
+      allele_all <- allele2[i,]
+      allele_var <- allele_all[var_index]
       allele_var <- allele_var[!is.na(allele_var)]
 
       # identify the corresponding freqencies of the alleles at the variation loci
@@ -257,17 +257,19 @@ mtSummary<-function(aaf, allele, freq, coverage,
       freq_var<-freq_all[var_index]
       freq_var <- freq_var[!is.na(freq_var)]
 
-      allele_all_var<-unlist(strsplit(allele_var,split="/"))
-      freq_all_var<-as.numeric(unlist(strsplit(freq_var ,split="/")))
+      allele_all_var <- unlist(strsplit(allele_var,split="/"), use.names = F)
+      freq_all_var <- as.numeric(unlist(strsplit(freq_var ,split="/"), use.names = F))
+
       # only includes alleles which have frequency within the [thre.lower, 1] interval
-      allele_all_var<-allele_all_var[freq_all_var>=thre.lower]
+      allele_all_var <- allele_all_var[ freq_all_var >= thre.lower ]
+
       # combine with the reference allele
-      if(sum(mutation_collect[i,]<=1,na.rm = T)>0){
-        allele_all_var<-c(.mtRef[loci_var[i]],allele_all_var)
+      if( sum(mutation_collect[i,] <= 1, na.rm = T) > 0 ){
+        allele_all_var <- c( .mtRef[loci_var[i] ], allele_all_var)
       }
-      allele_all_var<-allele_all_var[!duplicated(allele_all_var)]
-      allele_all_var<-paste(allele_all_var,collapse = '/')
-      allele_both[i]<-allele_all_var
+      allele_all_var <- allele_all_var[ !duplicated(allele_all_var) ]
+      allele_all_var <- paste(allele_all_var,collapse = '/')
+      allele_both[i] <- allele_all_var
     }
 
     # choose the type of scores to be annotated
@@ -277,7 +279,9 @@ mtSummary<-function(aaf, allele, freq, coverage,
     # output the annotation as a .csv file to the path users provided
 
     #Open file for writing
-    file.conn <- file( paste0(path,study,"_annotation_variation.csv"), "w")
+    temp.file.name <- tempfile("var",fileext=c(".csv"))
+    file.conn <- file( temp.file.name, "w")
+    #file.conn <- file( paste0(path,study,"_annotation_variation.csv"), "w")
     write (head, file= file.conn ,sep=",",ncolumns=length(head), append=T)
 
     # this loop used to annote all the mutations at each heter loci with the scores chosen(annot.select)
@@ -290,22 +294,22 @@ mtSummary<-function(aaf, allele, freq, coverage,
 
       # assign all the heter alleles at that locus
       x    <- allele_both[i]
-      x2   <- unlist(strsplit(x,split="/"))
+      x2   <- unlist(strsplit(x,split="/"), use.names = F)
 
       # if statement to check if length(x2)>1
       if(length(x2)>1){
 
         # find the positions that the alleles which are not ref allele
-        pos.not  <- which(!(x2==ref_allele))
+        pos.not  <- which( !(x2 == ref_allele ))
 
-                for (k in 1:length(pos.not)){
+        for (k in 1:length(pos.not)){
           point    <- x2[pos.not[k]]
           score = switch(point,
                          "A" = .AA[.AA$Pos==pos,annot.select],
                          "C" = .CC[.CC$Pos==pos,annot.select],
                          "G" = .GG[.GG$Pos==pos,annot.select],
                          "T" = .TT[.TT$Pos==pos,annot.select] )
-          cat(paste(pos,ref_allele,x,n_mutation[i],heter_loci[loci==pos],homo_loci[loci==pos],point ,paste(score, collapse=","), sep=","),
+        cat(paste(pos,ref_allele,x,n_mutation[i],heter_loci[loci==pos],homo_loci[loci==pos],point ,paste(score, collapse=","), sep=","),
               file=file.conn, fill=TRUE, append=TRUE)
 
         }
@@ -323,18 +327,27 @@ mtSummary<-function(aaf, allele, freq, coverage,
     }
 
     close(file.conn)
+    # Copy file to the permanent location:
+    out.file.name <- paste0(path,study,"_annotation_variation.csv")
+    file.copy(temp.file.name, out.file.name , overwrite = T)
+
+
     # if type=="heter", annotate heter variations
   } else if(type=="heter"){
+
     # allele2 is a submatrix of allele which only includes heteroplasmic loci
     allele2<-allele[as.character(loci_heter), ]
+
     # freq2 is a submatrix of freq which only includes heteroplasmic loci
     freq2<-freq[as.character(loci_heter),]
+
     # heter_collect is a submatrix of mutation_collect which only includes heteroplasmic loci
     heter_collect<-mutation_collect[loci_var%in%loci_heter,]
 
     allele_heter<-rep(NA,length(loci_heter))
     # identify all the alleles(including ref allele and alternative alleles)
     # which the frequency falls in interval [thre.lower, thre.upper] for each variation locus
+
     for(i in 1:length(loci_heter)){
       heter_index<-(heter_collect[i,]==1)
       # identify the alleles at the variation locus
@@ -347,8 +360,8 @@ mtSummary<-function(aaf, allele, freq, coverage,
       freq_var<-freq_all[heter_index]
       freq_var <- freq_var[!is.na(freq_var)]
 
-      allele_all_var<-unlist(strsplit(allele_var,split="/"))
-      freq_all_var<-as.numeric(unlist(strsplit(freq_var ,split="/")))
+      allele_all_var<-unlist(strsplit(allele_var,split="/"), use.names = F)
+      freq_all_var<-as.numeric(unlist(strsplit(freq_var ,split="/"), use.names = F))
       # only includes alleles which have frequency within the [thre.lower, thre.upper] interval
       allele_all_var<-allele_all_var[freq_all_var>=thre.lower & freq_all_var<=thre.upper]
       # combine with the reference allele
@@ -366,7 +379,9 @@ mtSummary<-function(aaf, allele, freq, coverage,
     head         <- c("mtID","ref_allele","allele_heter","n_heter","mut_allele",annot.select)
 
     #Open file for writing
-    file.conn <- file( paste0(path,study,"_annotation_heteroplasmy.csv"), "w")
+    temp.file.name <- tempfile("heter",fileext=c(".csv"))
+    file.conn <- file( temp.file.name, "w")
+    #file.conn <- file( paste0(path,study,"_annotation_heteroplasmy.csv"), "w")
 
     # output the annotation as a .csv file to the path users provided
     write (head, file= file.conn ,sep=",",ncolumns=length(head), append=T)
@@ -381,7 +396,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
 
       # assign all the heter alleles at that locus
       x    <- allele_heter[i]
-      x2   <- unlist(strsplit(x,split="/"))
+      x2   <- unlist(strsplit(x,split="/"), use.names = F)
 
       # if statement to check if length(x2)>1
       if(length(x2)>1){
@@ -411,6 +426,9 @@ mtSummary<-function(aaf, allele, freq, coverage,
       }
     }
     close(file.conn)
+    # Copy file to the permanent location:
+    out.file.name <- paste0(path,study,"_annotation_heteroplasmy.csv")
+    file.copy(temp.file.name, out.file.name , overwrite = T)
 
   } else if(type=="homo"){ # if type=="homo", annotate homo variations
     # allele2 is a submatrix of allele which only includes homoplasmic loci
@@ -454,7 +472,9 @@ mtSummary<-function(aaf, allele, freq, coverage,
     head         <- c("mtID","ref_allele","allele_homo","n_homo","mut_allele",annot.select)
 
     #Open file for writing
-    file.conn <- file( paste0(path,study,"_annotation_homoplasmy.csv"), "w")
+    temp.file.name <- tempfile("homo",fileext=c(".csv"))
+    file.conn <- file( temp.file.name, "w")
+    #file.conn <- file( paste0(path,study,"_annotation_homoplasmy.csv"), "w")
 
     # output the annotation as a .csv file to the path users provided
     write (head, file= file.conn,sep=",",ncolumns=length(head), append=T)
@@ -499,7 +519,9 @@ mtSummary<-function(aaf, allele, freq, coverage,
       }
     }
     close(file.conn)
-
+    # Copy file to the permanent location:
+    out.file.name <- paste0(path,study,"_annotation_homoplasmy.csv")
+    file.copy(temp.file.name, out.file.name , overwrite = T)
   }
   return(mt_summary_obj)
 }
