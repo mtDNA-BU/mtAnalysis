@@ -21,7 +21,7 @@
 #' and homoplasmic variations
 #' @param loci one of: 1. a vector(default is c(1:16569)) of mitochondrial DNA loci to specify which loci
 #' should be used to identify the variations and annotate, 2. a character string for the regions
-#' (e.g. “coding”, “tRNA”, “RNR1”, "RNR2", …).
+#' (e.g. "coding" , "tRNA", "RNR1" , "RNR2",...)
 #' @param type a character of indicator choosing to output annotation to all variations,
 #' heteroplasmic variations, or homoplasmic variations. “both” returns annotation to all
 #' variations (default), “heter” returns annotation to heteroplasmic variations and “homo”
@@ -57,6 +57,11 @@ mtSummary<-function(aaf, allele, freq, coverage,
                                    "CADD_phred_score"),
                     path="./", study="Study"){
 
+  # Check if allele and freq are character, aaf and coverage are numeric
+  if(!all(is.character(allele) , is.character(freq) , is.numeric(aaf) , is.numeric(coverage))){
+    stop("the allele and freq shoud be character, aaf and coverage should be numeric")
+  }
+
   # give warning message and stop if the aaf, allele, freq and coverage do not have the same dimension
   if(!all(sapply(list(dim(aaf), dim(allele), dim(freq)), function(x) x == dim(coverage)))){
     stop("the coverage, allele, frequency and AAF should have same dimension")
@@ -64,7 +69,23 @@ mtSummary<-function(aaf, allele, freq, coverage,
 
   # give warning message and stop if the ncol of aaf, allele, freq and coverage are not 16569
   if(dim(aaf)[1]!=16569){
-    stop("the coverage, allele, frequency and AAF should have 16569 loci (columns)")
+    stop("the coverage, allele, frequency and aaf should have 16569 loci (columns)")
+  }
+
+  # give warning message and stop if the colnames of aaf, allele, freq and coverage are not the same
+  if(!all(setequal(colnames(allele),colnames(freq)) , setequal(colnames(allele),colnames(aaf)), setequal(colnames(allele),colnames(coverage)))){
+    stop("the coverage, allele, frequency and aaf should have same subject IDs (columns)")
+  }
+
+
+  # Check if loci is numeric vector or character
+  if(!all(mode(loci)%in%c("numeric","character") , is.vector(loci))){
+    stop("loci must be numeric vector or character")
+  }
+
+  # Check if loci is one of "coding", "tRNA", "RNR1", "RNR2" if it is character
+  if(is.character(loci) & !(loci%in%c("coding", "tRNA", "RNR1", "RNR2") & length(loci)==1)){
+    stop("loci must be one of coding, tRNA, RNR1, RNR2 if it is character")
   }
 
   # give warning message and stop if the specified loci is not contained in 1:16569
@@ -74,6 +95,42 @@ mtSummary<-function(aaf, allele, freq, coverage,
 
   # Check if the given Path exists:
   if( ! dir.exists(path) ) stop( paste(" Output path", path,"does not exist.") )
+
+  # check if coverage.qc is numeric with length 1
+  if(!all(is.numeric(coverage.qc) , length(coverage.qc)==1)){
+    stop("coverage.qc must be numeric of length 1")
+  }
+
+  # Check if thre.lower and thre.upper are numeric with length 1
+  if(!all(is.numeric(c(thre.lower,thre.upper)) , length(thre.lower)==1 , length(thre.upper)==1)){
+    stop("thre.lower and thre.upper must be numeric of length 1")
+  }
+
+  # Check if thre.lower<thre.upper
+  if(thre.lower>=thre.upper){
+    stop("thre.lower must be smaller than thre.upper")
+  }
+
+  # Check if type is one of "both", "heter" and "homo"
+  if(!all(length(type)==1 , type %in% c("both","heter","homo"))){
+    stop("type must be one of both, heter and homo")
+  }
+
+
+  # Check if annot.select belongs to the colnames of annotation files
+  if(!all(annot.select %in% names(.AA) , is.vector(annot.select))){
+    stop("annot.select must be a subset of variables of annotation files")
+  }
+
+  # record the IDs in the vector of subjectID
+  subjectID <- colnames(allele)
+
+  # order the allele, freq datasets by ID
+  subjectID<-sort(subjectID)
+  allele <- allele[ , subjectID ]
+  freq <- freq[ , subjectID]
+  coverage <-coverage[ , subjectID]
+  aaf <-aaf[ , subjectID]
 
   #assign loci value when the specified loci are strings (e.g. coding)
   if (is.character(loci) ){
