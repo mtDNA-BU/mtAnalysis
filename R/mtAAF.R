@@ -32,6 +32,10 @@
 #' #mtPAA ( allele, freq)
 mtAAF <- function( allele, freq ){
 
+  if(!is.character(allele) | !is.character(freq)){
+    stop("the mode of allele and freq must be character")
+  }
+
   if(dim(allele)[1]!=16569 | dim(freq)[1]!=16569){
     stop("the allele and frequency should have 16569 rows")
   }
@@ -40,12 +44,13 @@ mtAAF <- function( allele, freq ){
     stop("the allele and frequency should have the same dimension")
   }
 
-  # order the allele, freq datasets by ID
-  allele <- allele[ ,order(colnames(allele)) ]
-  freq <- freq[ ,order(colnames(freq))]
-
   # record the IDs in the vector of subjectID
   subjectID <- colnames(allele)
+
+  # order the allele, freq datasets by ID
+  subjectID<-sort(subjectID)
+  allele <- allele[ , subjectID ]
+  freq <- freq[ , subjectID]
 
   AAF3.m <- array(0, dim(allele) )
   complex.allele <- which(allele != .mtRef)
