@@ -12,8 +12,12 @@
 #' coverage_file <- "/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/coverage/coverage.csv"
 #' allele_file <- "/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/allele/allele.csv"
 #' freq_file <- "/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/freq/freq.csv"
+#' path<-"/rprojectnb2/mtdna-alcohol/Sun_Xianbang/Annotation/Output/"
 #' #mtdna_test (coverage_file, allele_file, freq_file)
-mtdna_test <- function( coverage_file, allele_file, freq_file){
+mtdna_test <- function( coverage_file="/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/coverage/coverage.csv"
+                        , allele_file="/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/allele/allele.csv"
+                        , freq_file="/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/freq/freq.csv"
+                        , path){
 
   head  <- scan( file = allele_file, sep = ",", character(), nlines = 1, quiet = TRUE)
   coverage <- matrix( scan( file = coverage_file, sep = ",", character() ),
@@ -23,66 +27,66 @@ mtdna_test <- function( coverage_file, allele_file, freq_file){
   freq <- matrix( scan( file = freq_file, sep = ",", character() ),
                   ncol = length( head ), byrow = TRUE)
 
-
-  if((sum(dim(coverage) != dim(allele) ) > 0) | (sum(dim(coverage) != dim(freq))>0)){
-    stop("the coverage, allele and frequency should have same dimension")
-  }
-
-  # order the allele, freq and coverage datasets by ID
-  allele <- allele[order(allele[,1]), ]
-  freq <- freq[order(freq[,1]), ]
-  coverage <- coverage[order(coverage[,1]), ]
+  rownames(allele) <- allele[,1]
+  rownames(freq)<-freq[,1]
+  rownames(coverage)<-coverage[,1]
 
   # record the IDs in the vector of subjectID, and remove the ID column from the original dataset
-  subjectID <- allele[,1]
+  subjectID <- rownames(allele)
   allele <- allele[,-1]
   freq   <- freq[,-1]
   coverage<- coverage[,-1]
 
-  # transpose the allele, freq and coverage datasets, so each column vector represents the sequence of a subject
+  #Transpose allele,  freq, and coverage file
   allele <- t(allele)
   freq <- t(freq)
-  coverage <- t(coverage )
+  coverage <- t(coverage)
+  class(coverage) <- "numeric"
 
+  # order the allele, freq and coverage datasets by ID
+  subjectID<-sort(subjectID)
+  allele <- allele[ , subjectID]
+  freq <- freq[ , subjectID]
+  coverage <- coverage[ , subjectID]
 
-  ### to make the function be flexible for any loci, we need an additional parameter of loci position
-  ### it is vector provided by users, with default of c(1:16569)
-  loci <- c(1:16569)
+  #================
+  # mtAAF
+  #================
 
+  system.time(AAF <- mtAAF(allele, freq))
 
-  if (length(loci)!=(dim(allele)[1])){
-    warning("the length of loci should be the same as the dataset")
-  }
+  #================
+  # plot.mtDNAaaf
+  #================
 
-  if(length(loci)>16569){
-    warning("loci should have no more than 16569")
-  }
+  system.time(plot(AAF))
 
-  AAF3.m <- array(0,rev(dim(allele)) )
-  rownames(AAF3.m) <- subjectID
+  #================
+  # plotCover
+  #================
 
-  for (m in 1:dim(allele)[2]) {
+  plotCover(coverage)
+  plotCover(coverage, "tRNA")
 
-    m.allele   <- allele[,m]
-    m.freq     <- freq[,m]
+  #================
+  # histSampCov
+  #================
 
-    complex.allele <- grep("/", m.allele)
-    AAF2 <- array(NA, 16569)
+  histSampCov(coverage)
+  histSampCov(coverage, "tRNA")
 
-    if(length(complex.allele)==0){
-      AAF2 <- ifelse(m.allele == .mtRef, 0, 1)
-    }else{
-      AAF2[-complex.allele] <- ifelse(m.allele[-complex.allele] == .mtRef[-complex.allele], 0, 1)
+  #================
+  # mtSummary
+  #================
 
-      complex.all2 <- strsplit(m.allele[complex.allele],split="/")
-      complex.freqsplit <- strsplit(m.freq[complex.allele],split="/")
-      complex.freqsplit <- lapply(complex.freqsplit, as.numeric)
-      complex.ref <- .mtRef[complex.allele]
-      AAF2[complex.allele] <- mapply(function(x, y, z){ pos <- which(x %in% z); if(length(pos) > 0) max(y[-pos]) else max(y)  } , x= complex.all2, y = complex.freqsplit, z = complex.ref)
-    }
+  system.time(mtSummary(aaf=AAF, allele=allele, freq=freq, coverage=coverage,loci="coding"
+                        ,path=path, type="both", study="ARIC"))
 
-    AAF3.m[ m, ] <- AAF2
-  }
-  AAF3.m
+  system.time(mtSummary(aaf=AAF, allele=allele, freq=freq, coverage=coverage,loci="coding"
+                        ,path=path, type="heter", study="ARIC"))
+
+  system.time(mtSummary(aaf=AAF, allele=allele, freq=freq, coverage=coverage,loci="coding"
+                        ,path=path, type="homo", study="ARIC"))
+
 
 }
