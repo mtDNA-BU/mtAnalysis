@@ -5,6 +5,7 @@
 #' @param coverage_file Coverage File
 #' @param allele_file Allele File
 #' @param freq_file Frequency File
+#' @param path Path
 #'
 #' @return character
 #' @export
@@ -14,10 +15,7 @@
 #' freq_file <- "/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/freq/freq.csv"
 #' path<-"/rprojectnb2/mtdna-alcohol/Sun_Xianbang/Annotation/Output/"
 #' #mtdna_test (coverage_file, allele_file, freq_file)
-mtdna_test <- function( coverage_file="/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/coverage/coverage.csv"
-                        , allele_file="/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/allele/allele.csv"
-                        , freq_file="/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/freq/freq.csv"
-                        , path){
+mtdna_test <- function( coverage_file, allele_file, freq_file, path){
 
   head  <- scan( file = allele_file, sep = ",", character(), nlines = 1, quiet = TRUE)
   coverage <- matrix( scan( file = coverage_file, sep = ",", character() ),

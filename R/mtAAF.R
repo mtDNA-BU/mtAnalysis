@@ -76,7 +76,7 @@ mtAAF <- function( allele, freq ){
 
 
   colnames(AAF3.m) <- subjectID
-  rownames(AAF3.m) <- c(1:16569)
+  rownames(AAF3.m) <- c(1:16569)  # seq_along( mtLength )
   class(AAF3.m) <- c('matrix', 'mtDNAaaf')
   AAF3.m
 

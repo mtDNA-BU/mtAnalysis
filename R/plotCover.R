@@ -36,18 +36,13 @@ plotCover <- function(x, loci=c(1:16569),
   #assign loci value when the specified loci are strings (e.g. coding)
   if (is.character(loci) ){
     if( loci=="coding"){
-      loci<-sort(unique(c(3307:4262, 4470:5511,5904:7445,7586:8269,8366:8572,8527:9207
-                          ,9207:9990 ,10059:10404, 10470:12137, 12337:14148, 14149:14673
-                          , 14747:15887)))
+      loci <- .loci.coding
     }else if(loci=="tRNA"){
-      loci<-sort(unique(c(577:647, 1602:1670, 3230:3304, 4263:4331, 4329:4400, 4402:4469, 5512:5579
-                          , 5587:5655, 5657:5729, 5761:5826, 5826:5891, 7446:7514, 7518:7585
-                          , 8295:8364, 9991:10058, 10405:10469, 12138:12206, 12207:12265
-                          , 12266:12336, 14674:14742, 15888:15953, 15956:16023)))
+      loci <- .loci.tRNA
     }else if( loci=="RNR1"){
-      loci<-sort(unique(c(648:1601)))
+      loci <- .loci.RNR1
     }else if( loci=="RNR2"){
-      loci<-sort(unique(c(1671:3229)))
+      loci <- .loci.RNR2
     }else {
       stop("loci name must be one of: coding, tRNA, RNR1, RNR2")
     }

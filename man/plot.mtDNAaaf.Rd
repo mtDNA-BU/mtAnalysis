@@ -28,6 +28,7 @@ Produce a scatter plot of a mtDNAaaf object
 \examples{
 
 
+#aaf = mtAAF()
 #plot (aaf)
 
 }

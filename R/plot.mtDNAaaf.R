@@ -15,6 +15,7 @@
 #' @examples
 #'
 #'
+#' #aaf = mtAAF()
 #' #plot (aaf)
 #'
 plot.mtDNAaaf <- function(x,  col = "blue", pch='.', cex=0.2, xlab="", ylab="", ...) {

@@ -135,18 +135,15 @@ mtSummary<-function(aaf, allele, freq, coverage,
   #assign loci value when the specified loci are strings (e.g. coding)
   if (is.character(loci) ){
     if( loci=="coding"){
-      loci<-sort(unique(c(3307:4262, 4470:5511,5904:7445,7586:8269,8366:8572,8527:9207
-                          ,9207:9990 ,10059:10404, 10470:12137, 12337:14148, 14149:14673
-                          , 14747:15887)))
+      loci <- .loci.coding
     }else if(loci=="tRNA"){
-      loci<-sort(unique(c(577:647, 1602:1670, 3230:3304, 4263:4331, 4329:4400, 4402:4469, 5512:5579
-                          , 5587:5655, 5657:5729, 5761:5826, 5826:5891, 7446:7514, 7518:7585
-                          , 8295:8364, 9991:10058, 10405:10469, 12138:12206, 12207:12265
-                          , 12266:12336, 14674:14742, 15888:15953, 15956:16023)))
+      loci <- .loci.tRNA
     }else if( loci=="RNR1"){
-      loci<-sort(unique(c(648:1601)))
+      loci <- .loci.RNR1
     }else if( loci=="RNR2"){
-      loci<-sort(unique(c(1671:3229)))
+      loci <- .loci.RNR2
+    }else {
+      stop("loci name must be one of: coding, tRNA, RNR1, RNR2")
     }
   }
 
@@ -186,19 +183,16 @@ mtSummary<-function(aaf, allele, freq, coverage,
 
   # These are constants included in the package.
   # The reads of these loci are not reliable, so these loci should be removed
-  loci_removed<-c(301,302,310,316,3107,16182)
-  loci_removed<-as.character(loci_removed)
-  loci_left<-setdiff(rownames(aaf),loci_removed)
+  loci_removed <- c(301,302,310,316,3107,16182)
+  loci_removed <- as.character(loci_removed)
+  loci_left <- setdiff(rownames(aaf),loci_removed)
   aaf_cat      <- aaf_cat[loci_left,]
-  #katia: as.numeric
-  #xianbang: loci_left should be character, because it is names of loci, not numbers of rows
-  #otherwise it would cause problem
 
   # Only include mutations loci: at least one subject has mutation at that locus
   mutation_collect <- aaf_cat
   # n_mutation_loci is the number of variations of each locus
   # find the loci which have at least 1 mutation (homo/heter) by n_mutation>0
-  n_mutation<-rowSums(aaf_cat>0, na.rm=T)
+  n_mutation <- rowSums(aaf_cat>0, na.rm=T)
 
   # only include the mutation(heter/homo) loci
   mutation_collect<-mutation_collect[n_mutation>0,]

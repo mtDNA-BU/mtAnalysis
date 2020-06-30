@@ -4,7 +4,7 @@
 \alias{mtdna_test}
 \title{mtdna test function}
 \usage{
-mtdna_test(coverage_file, allele_file, freq_file)
+mtdna_test(coverage_file, allele_file, freq_file, path)
 }
 \arguments{
 \item{coverage_file}{Coverage File}
@@ -12,6 +12,8 @@ mtdna_test(coverage_file, allele_file, freq_file)
 \item{allele_file}{Allele File}
 
 \item{freq_file}{Frequency File}
+
+\item{path}{Path}
 }
 \value{
 character
@@ -23,5 +25,6 @@ Test function for the package
 coverage_file <- "/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/coverage/coverage.csv"
 allele_file <- "/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/allele/allele.csv"
 freq_file <- "/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/freq/freq.csv"
+path<-"/rprojectnb2/mtdna-alcohol/Sun_Xianbang/Annotation/Output/"
 #mtdna_test (coverage_file, allele_file, freq_file)
 }

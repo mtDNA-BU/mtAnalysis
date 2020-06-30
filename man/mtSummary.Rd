@@ -53,7 +53,7 @@ and homoplasmic variations}
 
 \item{loci}{one of: 1. a vector(default is c(1:16569)) of mitochondrial DNA loci to specify which loci
 should be used to identify the variations and annotate, 2. a character string for the regions
-(e.g. “coding”, “tRNA”, “RNR1”, "RNR2", …).}
+(e.g. "coding" , "tRNA", "RNR1" , "RNR2",...)}
 
 \item{type}{a character of indicator choosing to output annotation to all variations,
 heteroplasmic variations, or homoplasmic variations. “both” returns annotation to all
