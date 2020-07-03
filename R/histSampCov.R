@@ -15,16 +15,16 @@
 #' #histSampCov (coverage)
 #' #histSampCov (coverage, loci="tRNA")
 #'
-histSampCov <- function(coverage, loci=c(1:16569)) {
+histSampCov <- function(coverage, loci=c(1: .mtLength)) {
 
 
   # give warning message and stop if the ncol coverage are not 16569
-  if(dim(coverage)[1]!=16569){
+  if(dim(coverage)[1] != .mtLength){
     stop("the coverage should have 16569 loci (columns)")
   }
 
   # give warning message and stop if the specified loci is not contained in 1:16569
-  if(is.numeric(loci) & !all(loci %in% (1:16569))){
+  if(is.numeric(loci) & !all(loci %in% (1: .mtLength))){
     stop("loci should be a subset of 1:16569")
   }
 

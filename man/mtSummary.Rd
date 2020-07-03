@@ -14,7 +14,7 @@ mtSummary(
   coverage.qc = 100,
   thre.lower = 0.03,
   thre.upper = 0.97,
-  loci = c(1:16569),
+  loci = c(1:.mtLength),
   type = "both",
   coverSummary = T,
   varHist = T,

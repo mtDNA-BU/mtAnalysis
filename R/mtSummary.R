@@ -50,7 +50,9 @@
 #' #mtSummary(aaf, allele, freq, coverage, thre.lower, thre.upper, loci, type, coverSummary, varHist)
 mtSummary<-function(aaf, allele, freq, coverage,
                     coverage.qc=100, thre.lower=0.03,thre.upper=0.97,
-                    loci=c(1:16569), type="both", coverSummary=T, varHist=T,
+                    loci=c(1 : .mtLength),
+                    type="both",
+                    coverSummary=T, varHist=T,
                     annot.select=c("Pos","ref","Gene","TypeMutation","MissensMutation",
                                    "CodonPosition","ProteinDomain","dbSNP_150_id","PolyPhen2",
                                    "PolyPhen2_score","SIFT","SIFT_score", "CADD","CADD_score",
@@ -68,7 +70,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
   }
 
   # give warning message and stop if the ncol of aaf, allele, freq and coverage are not 16569
-  if(dim(aaf)[1]!=16569){
+  if(dim(aaf)[1]!=.mtLength){
     stop("the coverage, allele, frequency and aaf should have 16569 loci (columns)")
   }
 
@@ -89,7 +91,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
   }
 
   # give warning message and stop if the specified loci is not contained in 1:16569
-  if(is.numeric(loci) & !all(loci %in% (1:16569))){
+  if(is.numeric(loci) & !all(loci %in% (1:.mtLength))){
     stop("loci should be a subset of 1:16569")
   }
 
@@ -183,7 +185,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
 
   # These are constants included in the package.
   # The reads of these loci are not reliable, so these loci should be removed
-  loci_removed <- c(301,302,310,316,3107,16182)
+  loci_removed <- .mtLociNUMT   # c(301,302,310,316,3107,16182)
   loci_removed <- as.character(loci_removed)
   loci_left <- setdiff(rownames(aaf),loci_removed)
   aaf_cat      <- aaf_cat[loci_left,]

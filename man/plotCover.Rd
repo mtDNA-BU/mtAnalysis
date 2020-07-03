@@ -6,7 +6,7 @@
 \usage{
 plotCover(
   x,
-  loci = c(1:16569),
+  loci = c(1:.mtLength),
   col = "blue",
   pch = ".",
   cex = 0.2,

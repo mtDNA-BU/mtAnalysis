@@ -22,13 +22,13 @@
 #' #plotCover (coverage)
 #' #plotCover (coverage, loci="tRNA")
 #'
-plotCover <- function(x, loci=c(1:16569),
+plotCover <- function(x, loci=c(1 : .mtLength),
                              col = "blue", pch='.', cex=0.2, xlab="mtloci", ylab="",
                              main = "Mean Coverage across all mtDNA loci",
                              ...) {
 
   # give warning message and stop if the specified loci is not contained in 1:16569
-  if(is.numeric(loci) & !all(loci %in% (1:16569))){
+  if(is.numeric(loci) & !all(loci %in% (1 : .mtLength))){
     stop("loci should be a subset of 1:16569")
   }
 

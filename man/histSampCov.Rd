@@ -4,7 +4,7 @@
 \alias{histSampCov}
 \title{histSampCov function}
 \usage{
-histSampCov(coverage, loci = c(1:16569))
+histSampCov(coverage, loci = c(1:.mtLength))
 }
 \arguments{
 \item{coverage}{a numeric matrix (16569 x N) containing the subject ID as the row names, and the reads

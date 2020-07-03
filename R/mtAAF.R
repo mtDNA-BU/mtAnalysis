@@ -36,7 +36,7 @@ mtAAF <- function( allele, freq ){
     stop("the mode of allele and freq must be character")
   }
 
-  if(dim(allele)[1]!=16569 | dim(freq)[1]!=16569){
+  if(dim(allele)[1]!= .mtLength | dim(freq)[1]!= .mtLength){
     stop("the allele and frequency should have 16569 rows")
   }
 
@@ -76,7 +76,7 @@ mtAAF <- function( allele, freq ){
 
 
   colnames(AAF3.m) <- subjectID
-  rownames(AAF3.m) <- c(1:16569)  # seq_along( mtLength )
+  rownames(AAF3.m) <- c(1: .mtLength)  # seq_along( mtLength )
   class(AAF3.m) <- c('matrix', 'mtDNAaaf')
   AAF3.m
 
