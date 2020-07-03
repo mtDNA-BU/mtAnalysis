@@ -254,7 +254,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
               xlab ="Heteroplasmic burden score" ,
               main = "Histogram of heteroplasmic burden score" )
     #rug( cov_sub_hist[,1] )
-    text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5), cex = .8)
+    #text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5), cex = .8)
 
 
     #p_heter_hist<-ggplot(heter_burden_hist, aes(x=heter_burden_hist[,1])) + geom_histogram(bins=100)
@@ -269,7 +269,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
               xlab ="heteroplasmic variations of mtDNA loci" ,
               main = "Histogram of heteroplasmic variations of mtDNA loci" )
     #rug( cov_sub_hist[,1] )
-    text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5), cex = .8)
+    #text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5), cex = .8)
 
     # histogram of counts of heteroplasmic variations across mtDNA loci
     #heter_loci_hist<-as.data.frame(heter_loci)
@@ -285,7 +285,8 @@ mtSummary<-function(aaf, allele, freq, coverage,
               xlab ="Homoplasmic burden score" ,
               main = "Histogram of homoplasmic burden score" )
     #rug( cov_sub_hist[,1] )
-    text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5), cex = .8)
+    #text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5), cex = .8)
+
     # histogram of homoplasmic burden across subjects
     #homo_burden_hist<-as.data.frame(homo_burden)
     #p_homo_hist<-ggplot(homo_burden_hist, aes(x=homo_burden_hist[,1])) + geom_histogram(bins=100)
@@ -300,7 +301,8 @@ mtSummary<-function(aaf, allele, freq, coverage,
               xlab ="Homoplasmic variations of mtDNA loci" ,
               main = "Histogram of homoplasmic variations of mtDNA loci" )
     #rug( cov_sub_hist[,1] )
-    text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5), cex = .8)
+    #text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5), cex = .8)
+
     # histogram of counts of homoplasmic variations across mtDNA loci
     #homo_loci_hist<-as.data.frame(homo_loci)
     #p_homo_hist_loci<-ggplot(homo_loci_hist, aes(x=homo_loci_hist[,1])) + geom_histogram(bins=1000)
