@@ -76,6 +76,9 @@ mtdna_test <- function( coverage_file, allele_file, freq_file, path){
   #================
   # mtSummary
   #================
+path = "/rprojectnb/mtdna-alcohol/Katia/"
+  system.time(mtSummary(aaf=AAF, allele=allele, freq=freq, coverage=coverage,loci="coding"
+                        ,path=path, type="both"))
 
   system.time(mtSummary(aaf=AAF, allele=allele, freq=freq, coverage=coverage,loci="coding"
                         ,path=path, type="both", study="ARIC"))

@@ -43,7 +43,7 @@
 #' across mtDNA loci; histograms to visualize the heteroplasmic and homoplasmic burden across
 #' participants and mtDNA loci based on user’s choice. 3.	Summary annotation for all of the
 #' heteroplasmic and/or homoplasmic variations observed in the study data based on user’s choice.
-#' @import graphics ggplot2 utils
+#' @import graphics grDevices utils
 #' @export
 #' @examples
 #'
@@ -243,8 +243,18 @@ mtSummary<-function(aaf, allele, freq, coverage,
 
   # generate histograms of heter and homo burden of across subjects and across mtDNA loci
   if(varHist){
+
+    #Open an output pdf file
+    pdf(file = paste0(path, "/mtHistograms.pdf"))
+
     # histogram of heteroplasmic burden across subjects
-    #heter_burden_hist<-as.data.frame(heter_burden)
+    h <- hist(heter_burden, breaks = 50,
+              xlab ="Heteroplasmic burden score" ,
+              main = "Histogram of heteroplasmic burden score" )
+    #rug( cov_sub_hist[,1] )
+    text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5), cex = .8)
+
+
     #p_heter_hist<-ggplot(heter_burden_hist, aes(x=heter_burden_hist[,1])) + geom_histogram(bins=100)
     #p_heter_hist<-p_heter_hist+ theme_bw()
     #p_heter_hist<-p_heter_hist+xlab("Histogram of heteroplasmic burden score")
@@ -252,6 +262,12 @@ mtSummary<-function(aaf, allele, freq, coverage,
     #p_heter_hist<-p_heter_hist+coord_cartesian(xlim = c(0, 50))
     #katiap_heter_hist<-p_heter_hist+stat_bin(aes(y=..count.., label=..count..), geom="text", vjust=-.5,bins=100)
     #plot(p_heter_hist)
+
+    h <- hist(heter_loci, breaks = 50,
+              xlab ="heteroplasmic variations of mtDNA loci" ,
+              main = "Histogram of heteroplasmic variations of mtDNA loci" )
+    #rug( cov_sub_hist[,1] )
+    text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5), cex = .8)
 
     # histogram of counts of heteroplasmic variations across mtDNA loci
     #heter_loci_hist<-as.data.frame(heter_loci)
@@ -263,6 +279,11 @@ mtSummary<-function(aaf, allele, freq, coverage,
     #katiap_heter_hist_loci<-p_heter_hist_loci+stat_bin(aes(y=..count.., label=..count..), geom="text", vjust=-.5,bins=50)
     #plot(p_heter_hist_loci)
 
+    h <- hist(homo_burden, breaks = 50,
+              xlab ="Homoplasmic burden score" ,
+              main = "Histogram of homoplasmic burden score" )
+    #rug( cov_sub_hist[,1] )
+    text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5), cex = .8)
     # histogram of homoplasmic burden across subjects
     #homo_burden_hist<-as.data.frame(homo_burden)
     #p_homo_hist<-ggplot(homo_burden_hist, aes(x=homo_burden_hist[,1])) + geom_histogram(bins=100)
@@ -273,6 +294,11 @@ mtSummary<-function(aaf, allele, freq, coverage,
     #katiap_homo_hist<-p_homo_hist+stat_bin(aes(y=..count.., label=..count..), geom="text", size=2.5,vjust=-1,bins=100)
     #plot(p_homo_hist)
 
+    h <- hist(homo_loci, breaks = 50,
+              xlab ="Homoplasmic variations of mtDNA loci" ,
+              main = "Histogram of homoplasmic variations of mtDNA loci" )
+    #rug( cov_sub_hist[,1] )
+    text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5), cex = .8)
     # histogram of counts of homoplasmic variations across mtDNA loci
     #homo_loci_hist<-as.data.frame(homo_loci)
     #p_homo_hist_loci<-ggplot(homo_loci_hist, aes(x=homo_loci_hist[,1])) + geom_histogram(bins=1000)
@@ -282,6 +308,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
     #p_homo_hist_loci<-p_homo_hist_loci+coord_cartesian(xlim = c(0, 100))
     #katiap_homo_hist_loci<-p_homo_hist_loci+stat_bin(aes(y=..count.., label=..count..), geom="text", vjust=-.5,bins=1000)
     #plot(p_homo_hist_loci)
+    dev.off()
   }
 
   # annotation for all heter and/or homo variations at each mutation loci based on user's choice
