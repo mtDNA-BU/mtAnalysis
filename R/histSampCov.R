@@ -53,11 +53,19 @@ histSampCov <- function(coverage, loci=c(1:16569)) {
   cov_sub<-colMeans(coverage , na.rm=T)
   cov_sub_hist <- as.data.frame(cov_sub)
 
-  p_cov_hist <- ggplot(cov_sub_hist, aes(x=cov_sub_hist[,1])) +
-    geom_histogram(bins=100) +
-    theme_bw() +
-    xlab("Mean coverage of subjects") #+
-    #stat_bin(aes(y=..count.., label=..count..), geom="text", vjust=-.5,bins=50)
-  p_cov_hist
+  h <- hist(cov_sub_hist[,1], breaks = 50,
+            xlab ="Mean coverage of subjects" ,
+            main = "Histogram of Mean Coverage Across Subjects" )
+  #rug( cov_sub_hist[,1] )
+  text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5), cex = .8)
+
+  # p_cov_hist <- ggplot(cov_sub_hist, aes(x=cov_sub_hist[,1])) +
+  #   #geom_histogram(bins=100) +
+  #   geom_bar(stat="bin") +
+  #   geom_text(aes(label=len), vjust=-0.3, size=3.5)
+  #   theme_bw() +
+  #   xlab("Mean coverage of subjects") #+
+  #   #stat_bin(aes(y=stat(count), label=stat(count)), geom="text", vjust=-.5,bins=50)
+  # p_cov_hist
 
 }
