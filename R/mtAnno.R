@@ -38,10 +38,7 @@ mtAnno <- function(anno , annot.select=c("Pos","ref","Gene","TypeMutation","Miss
     anno_score<-rbind(anno_score , score)
   }
 
-  # combine the input file with the annotation results
   output<-cbind(anno , anno_score)
-
-  # output the annotated data
   write.csv(output , file=paste0(path , study ,"_mtAnno.csv"))
 
 }
