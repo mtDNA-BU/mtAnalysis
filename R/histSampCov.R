@@ -18,12 +18,10 @@
 histSampCov <- function(coverage, loci=c(1: .mtLength)) {
 
 
-  # give warning message and stop if the ncol coverage are not 16569
   if(dim(coverage)[1] != .mtLength){
     stop("the coverage should have 16569 loci (columns)")
   }
 
-  # give warning message and stop if the specified loci is not contained in 1:16569
   if(is.numeric(loci) & !all(loci %in% (1: .mtLength))){
     stop("loci should be a subset of 1:16569")
   }
@@ -43,8 +41,6 @@ histSampCov <- function(coverage, loci=c(1: .mtLength)) {
     }
   }
 
-
-  # get the submatrices, allele, freq and coverage based on loci input
   coverage <- coverage[loci,]
   rownames(coverage) <- as.character(loci)
 
@@ -56,16 +52,7 @@ histSampCov <- function(coverage, loci=c(1: .mtLength)) {
   h <- hist(cov_sub_hist[,1], breaks = 50,
             xlab ="Mean coverage of subjects" ,
             main = "Histogram of Mean Coverage Across Subjects" )
-  #rug( cov_sub_hist[,1] )
-  text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5), cex = .8)
 
-  # p_cov_hist <- ggplot(cov_sub_hist, aes(x=cov_sub_hist[,1])) +
-  #   #geom_histogram(bins=100) +
-  #   geom_bar(stat="bin") +
-  #   geom_text(aes(label=len), vjust=-0.3, size=3.5)
-  #   theme_bw() +
-  #   xlab("Mean coverage of subjects") #+
-  #   #stat_bin(aes(y=stat(count), label=stat(count)), geom="text", vjust=-.5,bins=50)
-  # p_cov_hist
+  text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5), cex = .8)
 
 }
