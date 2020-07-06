@@ -27,13 +27,11 @@ plotCover <- function(x, loci=c(1 : .mtLength),
                              main = "Mean Coverage across all mtDNA loci",
                              ...) {
 
-  # give warning message and stop if the specified loci is not contained in 1:16569
   if(is.numeric(loci) & !all(loci %in% (1 : .mtLength))){
     stop("loci should be a subset of 1:16569")
   }
 
 
-  #assign loci value when the specified loci are strings (e.g. coding)
   if (is.character(loci) ){
     if( loci=="coding"){
       loci <- .loci.coding
@@ -49,7 +47,6 @@ plotCover <- function(x, loci=c(1 : .mtLength),
   }
 
   if (is.character(x) )stop("coverage should be a numeric matrix")
-
 
   # scatter plot of the mean coverage across loci
   plot(x = loci,
