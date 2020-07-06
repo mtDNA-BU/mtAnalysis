@@ -44,10 +44,7 @@ mtAAF <- function( allele, freq ){
     stop("the allele and frequency should have the same dimension")
   }
 
-  # record the IDs in the vector of subjectID
   subjectID <- colnames(allele)
-
-  # order the allele, freq datasets by ID
   subjectID<-sort(subjectID)
   allele <- allele[ , subjectID ]
   freq <- freq[ , subjectID]
