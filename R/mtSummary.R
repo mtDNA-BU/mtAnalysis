@@ -59,82 +59,65 @@ mtSummary<-function(aaf, allele, freq, coverage,
                                    "CADD_phred_score"),
                     path="./", study="Study"){
 
-  # Check if allele and freq are character, aaf and coverage are numeric
   if(!all(is.character(allele) , is.character(freq) , is.numeric(aaf) , is.numeric(coverage))){
     stop("the allele and freq shoud be character, aaf and coverage should be numeric")
   }
 
-  # give warning message and stop if the aaf, allele, freq and coverage do not have the same dimension
   if(!all(sapply(list(dim(aaf), dim(allele), dim(freq)), function(x) x == dim(coverage)))){
     stop("the coverage, allele, frequency and AAF should have same dimension")
   }
 
-  # give warning message and stop if the ncol of aaf, allele, freq and coverage are not 16569
   if(dim(aaf)[1]!=.mtLength){
     stop("the coverage, allele, frequency and aaf should have 16569 loci (columns)")
   }
 
-  # give warning message and stop if the colnames of aaf, allele, freq and coverage are not the same
   if(!all(setequal(colnames(allele),colnames(freq)) , setequal(colnames(allele),colnames(aaf)), setequal(colnames(allele),colnames(coverage)))){
     stop("the coverage, allele, frequency and aaf should have same subject IDs (columns)")
   }
 
 
-  # Check if loci is numeric vector or character
   if(!all(mode(loci)%in%c("numeric","character") , is.vector(loci))){
     stop("loci must be numeric vector or character")
   }
 
-  # Check if loci is one of "coding", "tRNA", "RNR1", "RNR2" if it is character
   if(is.character(loci) & !(loci%in%c("coding", "tRNA", "RNR1", "RNR2") & length(loci)==1)){
     stop("loci must be one of coding, tRNA, RNR1, RNR2 if it is character")
   }
 
-  # give warning message and stop if the specified loci is not contained in 1:16569
   if(is.numeric(loci) & !all(loci %in% (1:.mtLength))){
     stop("loci should be a subset of 1:16569")
   }
 
-  # Check if the given Path exists:
   if( ! dir.exists(path) ) stop( paste(" Output path", path,"does not exist.") )
 
-  # check if coverage.qc is numeric with length 1
   if(!all(is.numeric(coverage.qc) , length(coverage.qc)==1)){
     stop("coverage.qc must be numeric of length 1")
   }
 
-  # Check if thre.lower and thre.upper are numeric with length 1
   if(!all(is.numeric(c(thre.lower,thre.upper)) , length(thre.lower)==1 , length(thre.upper)==1)){
     stop("thre.lower and thre.upper must be numeric of length 1")
   }
 
-  # Check if thre.lower<thre.upper
   if(thre.lower>=thre.upper){
     stop("thre.lower must be smaller than thre.upper")
   }
 
-  # Check if type is one of "both", "heter" and "homo"
   if(!all(length(type)==1 , type %in% c("both","heter","homo"))){
     stop("type must be one of both, heter and homo")
   }
-
 
   # Check if annot.select belongs to the colnames of annotation files
   if(!all(annot.select %in% names(.AA) , is.vector(annot.select))){
     stop("annot.select must be a subset of variables of annotation files")
   }
 
-  # record the IDs in the vector of subjectID
   subjectID <- colnames(allele)
-
-  # order the allele, freq datasets by ID
   subjectID<-sort(subjectID)
   allele <- allele[ , subjectID ]
   freq <- freq[ , subjectID]
   coverage <-coverage[ , subjectID]
   aaf <-aaf[ , subjectID]
 
-  #assign loci value when the specified loci are strings (e.g. coding)
   if (is.character(loci) ){
     if( loci=="coding"){
       loci <- .loci.coding
@@ -149,8 +132,6 @@ mtSummary<-function(aaf, allele, freq, coverage,
     }
   }
 
-
-  # get the submatrices of aaf, allele, freq and coverage based on loci input
   aaf <- aaf[loci,]
   allele <- allele[loci,]
   rownames(allele) <- as.character(loci)
@@ -183,17 +164,15 @@ mtSummary<-function(aaf, allele, freq, coverage,
 
   aaf_cat[ coverage < coverage.qc ]   <- NA
 
-  # These are constants included in the package.
   # The reads of these loci are not reliable, so these loci should be removed
   loci_removed <- .mtLociNUMT   # c(301,302,310,316,3107,16182)
   loci_removed <- as.character(loci_removed)
   loci_left <- setdiff(rownames(aaf),loci_removed)
   aaf_cat      <- aaf_cat[loci_left,]
 
-  # Only include mutations loci: at least one subject has mutation at that locus
+  # only include mutations loci: at least one subject has mutation at that locus
   mutation_collect <- aaf_cat
-  # n_mutation_loci is the number of variations of each locus
-  # find the loci which have at least 1 mutation (homo/heter) by n_mutation>0
+
   n_mutation <- rowSums(aaf_cat>0, na.rm=T)
 
   # only include the mutation(heter/homo) loci
@@ -205,16 +184,12 @@ mtSummary<-function(aaf, allele, freq, coverage,
   n_mutation <- n_mutation[n_mutation>0]
 
   # output summary statistics of hereoplasmic variations
-  # calculate the number of heteroplasmic variations for each subject
+  # calculate the number of heteroplasmic mutations for each subject
   heter_burden  <- colSums(mutation_collect==1, na.rm=T)
-
-  # output the summary of heteroplasmic burden
   mt_summary_obj$heter_burden_sum<-summary(heter_burden)
 
   # calculate the number of heteroplasmic mutations for each locus
   heter_loci  <- rowSums(aaf_cat==1, na.rm=T)
-
-  # output the summary of heteroplasmic variations across loci
   mt_summary_obj$heter_loci_sum<-summary(heter_loci)
 
   # loci with heteroplasmic variations
@@ -227,13 +202,10 @@ mtSummary<-function(aaf, allele, freq, coverage,
   # output summary statistics of homoplasmic variations
   # calculate the number of homoplasmic variations for each subject
   homo_burden  <- colSums(mutation_collect==2, na.rm=T)
-
-  # output the summary homoplasmic burden
   mt_summary_obj$homo_burden_sum<-summary(homo_burden)
 
   # calculate the number of homoplasmic mutations for each locus
   homo_loci  <- rowSums(aaf_cat==2, na.rm=T)
-  # output the summay of homoplasmic variations across loci
   mt_summary_obj$homo_loci_sum<-summary(homo_loci)
 
   # loci with homoplasmic variations
@@ -253,79 +225,29 @@ mtSummary<-function(aaf, allele, freq, coverage,
     h <- hist(heter_burden, breaks = 50,
               xlab ="Heteroplasmic burden score" ,
               main = "Histogram of heteroplasmic burden score" )
-    #rug( cov_sub_hist[,1] )
-    #text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5), cex = .8)
-
-
-    #p_heter_hist<-ggplot(heter_burden_hist, aes(x=heter_burden_hist[,1])) + geom_histogram(bins=100)
-    #p_heter_hist<-p_heter_hist+ theme_bw()
-    #p_heter_hist<-p_heter_hist+xlab("Histogram of heteroplasmic burden score")
-    #p_heter_hist<-p_heter_hist+theme(plot.title = element_text(hjust = 0.5),axis.text = element_text(size=15),axis.title=element_text(size=15,face="bold"))
-    #p_heter_hist<-p_heter_hist+coord_cartesian(xlim = c(0, 50))
-    #katiap_heter_hist<-p_heter_hist+stat_bin(aes(y=..count.., label=..count..), geom="text", vjust=-.5,bins=100)
-    #plot(p_heter_hist)
 
     h <- hist(heter_loci, breaks = 50,
               xlab ="heteroplasmic variations of mtDNA loci" ,
               main = "Histogram of heteroplasmic variations of mtDNA loci" )
-    #rug( cov_sub_hist[,1] )
-    #text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5), cex = .8)
-
-    # histogram of counts of heteroplasmic variations across mtDNA loci
-    #heter_loci_hist<-as.data.frame(heter_loci)
-    #p_heter_hist_loci<-ggplot(heter_loci_hist, aes(x=heter_loci_hist[,1])) + geom_histogram(bins=50)
-    #p_heter_hist_loci<-p_heter_hist_loci+ theme_bw()
-    #p_heter_hist_loci<-p_heter_hist_loci+xlab("Histogram of heteroplasmic variations of mtDNA loci")
-    #p_heter_hist_loci<-p_heter_hist_loci+theme(plot.title = element_text(hjust = 0.5),axis.text = element_text(size=15),axis.title=element_text(size=15,face="bold"))
-    #p_heter_hist_loci<-p_heter_hist_loci+coord_cartesian(xlim = c(0, 50))
-    #katiap_heter_hist_loci<-p_heter_hist_loci+stat_bin(aes(y=..count.., label=..count..), geom="text", vjust=-.5,bins=50)
-    #plot(p_heter_hist_loci)
 
     h <- hist(homo_burden, breaks = 50,
               xlab ="Homoplasmic burden score" ,
               main = "Histogram of homoplasmic burden score" )
-    #rug( cov_sub_hist[,1] )
-    #text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5), cex = .8)
-
-    # histogram of homoplasmic burden across subjects
-    #homo_burden_hist<-as.data.frame(homo_burden)
-    #p_homo_hist<-ggplot(homo_burden_hist, aes(x=homo_burden_hist[,1])) + geom_histogram(bins=100)
-    #p_homo_hist<-p_homo_hist+ theme_bw()
-    #p_homo_hist<-p_homo_hist+xlab("Histogram of homoplasmic burden score")
-    #p_homo_hist<-p_homo_hist+theme(plot.title = element_text(hjust = 0.5),axis.text = element_text(size=15),axis.title=element_text(size=15,face="bold"))
-    #p_homo_hist<-p_homo_hist+coord_cartesian(xlim = c(0, 100))
-    #katiap_homo_hist<-p_homo_hist+stat_bin(aes(y=..count.., label=..count..), geom="text", size=2.5,vjust=-1,bins=100)
-    #plot(p_homo_hist)
 
     h <- hist(homo_loci, breaks = 50,
               xlab ="Homoplasmic variations of mtDNA loci" ,
               main = "Histogram of homoplasmic variations of mtDNA loci" )
-    #rug( cov_sub_hist[,1] )
-    #text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5), cex = .8)
 
-    # histogram of counts of homoplasmic variations across mtDNA loci
-    #homo_loci_hist<-as.data.frame(homo_loci)
-    #p_homo_hist_loci<-ggplot(homo_loci_hist, aes(x=homo_loci_hist[,1])) + geom_histogram(bins=1000)
-    #p_homo_hist_loci<-p_homo_hist_loci+ theme_bw()
-    #p_homo_hist_loci<-p_homo_hist_loci+xlab("Histogram of homoplasmic variations of mtDNA loci")
-    #p_homo_hist_loci<-p_homo_hist_loci+theme(plot.title = element_text(hjust = 0.5),axis.text = element_text(size=15),axis.title=element_text(size=15,face="bold"))
-    #p_homo_hist_loci<-p_homo_hist_loci+coord_cartesian(xlim = c(0, 100))
-    #katiap_homo_hist_loci<-p_homo_hist_loci+stat_bin(aes(y=..count.., label=..count..), geom="text", vjust=-.5,bins=1000)
-    #plot(p_homo_hist_loci)
     dev.off()
   }
 
   # annotation for all heter and/or homo variations at each mutation loci based on user's choice
   # if type=="both", annotate both heter/homo variations
   if(type=="both"){
-    # allele2 is the submatrix of allele which only includes variation loci
-    allele2<-allele[as.character(loci_var),]
-    # freq2 is the submatrix of freq which only includes variation loci
-    freq2<-freq[as.character(loci_var),]
 
+    allele2<-allele[as.character(loci_var),]
+    freq2<-freq[as.character(loci_var),]
     allele_both<-rep(NA,length(loci_var))
-    # identify all the alleles(including ref allele and alternative alleles)
-    # which the frequency falls in interval [thre.lower, 1] for each variaation locus
 
     for(i in 1:length(loci_var)){
       var_index <- (mutation_collect[i,]>0)
@@ -354,11 +276,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
       allele_both[i] <- allele_all_var
     }
 
-    # choose the type of scores to be annotated
-    # annot.select: they are provided by users with default
-    # annot.select <- c("Pos","ref","Gene","TypeMutation","MissensMutation","CodonPosition","ProteinDomain","dbSNP_150_id","PolyPhen2","PolyPhen2_score","SIFT","SIFT_score", "CADD","CADD_score","CADD_phred_score")
     head         <- c("mtID","ref_allele","allele_var","n_var","n_heter","n_homo","mut_allele",annot.select)
-    # output the annotation as a .csv file to the path users provided
 
     #Open file for writing
     temp.file.name <- tempfile("var",fileext=c(".csv"))
@@ -368,20 +286,15 @@ mtSummary<-function(aaf, allele, freq, coverage,
 
     # this loop used to annote all the mutations at each heter loci with the scores chosen(annot.select)
     for (i in 1:length(loci_var)) {
-      # identify heter locus
-      pos       <- loci_var[i]
 
-      # assign the ref allele at that position
+      pos       <- loci_var[i]
       ref_allele <- .mtRef[pos]
 
-      # assign all the heter alleles at that locus
       x    <- allele_both[i]
       x2   <- unlist(strsplit(x,split="/"), use.names = F)
 
-      # if statement to check if length(x2)>1
       if(length(x2)>1){
 
-        # find the positions that the alleles which are not ref allele
         pos.not  <- which( !(x2 == ref_allele ))
 
         for (k in 1:length(pos.not)){
@@ -413,22 +326,12 @@ mtSummary<-function(aaf, allele, freq, coverage,
     out.file.name <- paste0(path,study,"_annotation_variation.csv")
     file.copy(temp.file.name, out.file.name , overwrite = T)
 
-
-    # if type=="heter", annotate heter variations
   } else if(type=="heter"){
 
-    # allele2 is a submatrix of allele which only includes heteroplasmic loci
     allele2<-allele[as.character(loci_heter), ]
-
-    # freq2 is a submatrix of freq which only includes heteroplasmic loci
     freq2<-freq[as.character(loci_heter),]
-
-    # heter_collect is a submatrix of mutation_collect which only includes heteroplasmic loci
     heter_collect<-mutation_collect[loci_var%in%loci_heter,]
-
     allele_heter<-rep(NA,length(loci_heter))
-    # identify all the alleles(including ref allele and alternative alleles)
-    # which the frequency falls in interval [thre.lower, thre.upper] for each variation locus
 
     for(i in 1:length(loci_heter)){
       heter_index<-(heter_collect[i,]==1)
@@ -455,9 +358,6 @@ mtSummary<-function(aaf, allele, freq, coverage,
       allele_heter[i]<-allele_all_var
     }
 
-    # choose the type of scores to be annotated
-    # annot.select: they are provided by users with default
-    # annot.select <- c("Pos","ref","Gene","TypeMutation","MissensMutation","CodonPosition","ProteinDomain","dbSNP_150_id","PolyPhen2","PolyPhen2_score","SIFT","SIFT_score", "CADD","CADD_score","CADD_phred_score")
     head         <- c("mtID","ref_allele","allele_heter","n_heter","mut_allele",annot.select)
 
     #Open file for writing
@@ -470,23 +370,17 @@ mtSummary<-function(aaf, allele, freq, coverage,
 
     # this loop used to annote all the heter mutations at each heter loci with the scores chosen(annot.select)
     for (i in 1:length(loci_heter)) {
-      # identify heter locus
-      pos       <- loci_heter[i]
 
-      # assign the ref allele at that position
+      pos       <- loci_heter[i]
       ref_allele <- .mtRef[pos]
 
-      # assign all the heter alleles at that locus
       x    <- allele_heter[i]
       x2   <- unlist(strsplit(x,split="/"), use.names = F)
 
-      # if statement to check if length(x2)>1
       if(length(x2)>1){
 
-        # find the positions that the alleles which are not ref allele
         pos.not  <- which(!(x2==ref_allele))
-        # this loop is used to annotate all the heter alleles at that locus(excluding the  ref allele)
-        # according to the AA, CC, GG, TT annotation files
+
         for (k in 1:length(pos.not)){
           point    <- x2[pos.not[k]]
           score = switch(point,
@@ -512,17 +406,13 @@ mtSummary<-function(aaf, allele, freq, coverage,
     out.file.name <- paste0(path,study,"_annotation_heteroplasmy.csv")
     file.copy(temp.file.name, out.file.name , overwrite = T)
 
-  } else if(type=="homo"){ # if type=="homo", annotate homo variations
-    # allele2 is a submatrix of allele which only includes homoplasmic loci
-    allele2<-allele[as.character(loci_homo),]
-    # freq2 is a submatrix of freq which only includes homoplasmic loci
-    freq2<-freq[as.character(loci_homo),]
-    # homo_collect is a submatrix of mutation_collect which only includes homoplasmic loci
-    homo_collect<-mutation_collect[loci_var%in%loci_homo,]
+  } else if(type=="homo"){
 
+    allele2<-allele[as.character(loci_homo),]
+    freq2<-freq[as.character(loci_homo),]
+    homo_collect<-mutation_collect[loci_var%in%loci_homo,]
     allele_homo<-rep(NA,length(loci_homo))
-    # identify all the alleles(including ref allele and alternative alleles)
-    # which the frequency falls in interval (thre.upper, 1] for each variation locus
+
     for(i in 1:length(loci_homo)){
       homo_index<-(homo_collect[i,]==2)
       # identify the alleles at the variation locus
@@ -548,9 +438,6 @@ mtSummary<-function(aaf, allele, freq, coverage,
       allele_homo[i]<-allele_all_var
     }
 
-    # choose the type of scores to be annotated
-    # annot.select: they are provided by users with default
-    # annot.select <- c("Pos","ref","Gene","TypeMutation","MissensMutation","CodonPosition","ProteinDomain","dbSNP_150_id","PolyPhen2","PolyPhen2_score","SIFT","SIFT_score", "CADD","CADD_score","CADD_phred_score")
     head         <- c("mtID","ref_allele","allele_homo","n_homo","mut_allele",annot.select)
 
     #Open file for writing
@@ -563,23 +450,16 @@ mtSummary<-function(aaf, allele, freq, coverage,
 
     # this loop used to annote all the heter mutations at each heter loci with the scores chosen(annot.select)
     for (i in 1:length(loci_homo)) {
-      # identify heter locus
-      pos       <- loci_homo[i]
 
-      # assign the ref allele at that position
+      pos       <- loci_homo[i]
       ref_allele <- .mtRef[pos]
 
-      # assign all the heter alleles at that locus
       x    <- allele_homo[i]
       x2   <- unlist(strsplit(x,split="/"))
 
-      # if statement to check if length(x2)>1
       if(length(x2)>1){
 
-        # find the positions that the alleles which are not ref allele
         pos.not  <- which(!(x2==ref_allele))
-        # this loop is used to annotate all the heter alleles at that locus(excluding the  ref allele)
-        # according to the AA, CC, GG, TT annotation files
         for (k in 1:length(pos.not)){
           point    <- x2[pos.not[k]]
           score = switch(point,
