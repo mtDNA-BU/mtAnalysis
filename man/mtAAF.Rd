@@ -28,16 +28,13 @@ Derivation of alternative allele fraction
 \examples{
 
 #Read input data
-allele_file <- "/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/allele/allele.csv"
-freq_file <- "/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/freq/freq.csv"
+library(ANNOmtDNA)
+#allele_file <- system.file("extdata", "allele.csv", package = "ANNOmtDNA")
+#freq_file   <- system.file("extdata", "freq.csv", package = "ANNOmtDNA")
 
-#head <- scan( file = allele_file, sep = ",", character(), nlines = 1, quiet = TRUE)
-#allele   <- matrix( scan( file = allele_file,
-#                          sep = ",", character() ),
-#                    ncol = length( head ), byrow = TRUE)
-#freq     <- matrix( scan( file = freq_file,
-#                          sep = ",", character() ),
-#                    ncol = length( head ), byrow = TRUE)
+#allele <- as.matrix( read.csv(file = allele_file, sep = ",", header=FALSE) )
+#freq   <- as.matrix( read.csv(file = freq_file, sep = ",", header=FALSE) )
 
-#mtPAA ( allele, freq)
+#aaf =  mtAAF ( allele, freq)
+## plot(aaf)
 }
