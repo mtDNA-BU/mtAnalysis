@@ -1,0 +1,51 @@
+---
+title: "ANNOmtDNA"
+author: "Xianbang Sun, Chunyu Liu, Katia Bulekova"
+date: "`r format(Sys.Date(), '%m/%d/%Y')`"
+abstract: >
+  Abstract of ANNOmtDNA package
+  ANNOmtDNA package version: `#later`
+
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ANNOmtDNA}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+**Note:** if you use ANNOmtDNA in published research, please cite:
+
+> Xianbang Sun, Chunyu Liu (2020)
+> Description of .
+> *Journal name*, **volume**:page.
+> [link_text](http://dx.doi.org/link.address)
+
+
+## Workflow of ANNOmtDNA package
+
+
+
+```{r setup}
+#library(ANNOmtDNA)
+```
+
+
+```{r a_chunk, comment=""}
+a <- rnorm(100)
+summary(a)
+```
+
+And here is a plot of a:
+
+```{r a_plot, echo=FALSE, fig.height = 7, fig.width = 7}
+plot(a)
+```
+
+

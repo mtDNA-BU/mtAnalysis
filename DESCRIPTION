@@ -30,7 +30,10 @@ Language: en-US
 LazyData: true
 RoxygenNote: 7.1.0
 Suggests: 
-    testthat (>= 2.1.0)
+    testthat (>= 2.1.0),
+    knitr,
+    rmarkdown
 Imports: 
     graphics,
     ggplot2
+VignetteBuilder: knitr
