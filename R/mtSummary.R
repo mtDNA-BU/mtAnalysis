@@ -222,7 +222,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
     pdf(file = paste0(path, "/mtHistograms.pdf"))
 
     # histogram of heteroplasmic burden across subjects
-    h <- hist(heter_burden, breaks = 50,
+    h <- hist(heter_burden, breaks = 100,
               xlab ="Heteroplasmic burden score" ,
               main = "Histogram of heteroplasmic burden score" )
 
@@ -230,11 +230,11 @@ mtSummary<-function(aaf, allele, freq, coverage,
               xlab ="heteroplasmic variations of mtDNA loci" ,
               main = "Histogram of heteroplasmic variations of mtDNA loci" )
 
-    h <- hist(homo_burden, breaks = 50,
+    h <- hist(homo_burden, breaks = 100,
               xlab ="Homoplasmic burden score" ,
               main = "Histogram of homoplasmic burden score" )
 
-    h <- hist(homo_loci, breaks = 50,
+    h <- hist(homo_loci, breaks = 600, xlim = c(0, 150),
               xlab ="Homoplasmic variations of mtDNA loci" ,
               main = "Histogram of homoplasmic variations of mtDNA loci" )
 
