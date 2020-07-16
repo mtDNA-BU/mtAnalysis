@@ -80,12 +80,16 @@ mtSummary<-function(aaf, allele, freq, coverage,
     stop("loci must be numeric vector or character")
   }
 
-  if(is.character(loci) & !(loci%in%c("coding", "tRNA", "RNR1", "RNR2") & length(loci)==1)){
+  if(is.character(loci)){
+    if(!(all(loci%in%c("coding", "tRNA", "RNR1", "RNR2")) & length(loci)==1)){
     stop("loci must be one of coding, tRNA, RNR1, RNR2 if it is character")
+    }
   }
 
-  if(is.numeric(loci) & !all(loci %in% (1:.mtLength))){
+  if(is.numeric(loci)){
+    if(!all(loci %in% (1:.mtLength))){
     stop("loci should be a subset of 1:16569")
+    }
   }
 
   if( ! dir.exists(path) ) stop( paste(" Output path", path,"does not exist.") )
