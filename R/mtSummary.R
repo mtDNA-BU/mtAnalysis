@@ -223,7 +223,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
   if(varHist){
 
     #Open an output pdf file
-    pdf(file = paste0(path, "/mtHistograms.pdf"))
+    pdf(file = paste0(path, study,"/mtHistograms.pdf"))
 
     # histogram of heteroplasmic burden across subjects
     h <- hist(heter_burden, breaks = 100,
