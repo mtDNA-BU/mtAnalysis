@@ -1,14 +1,14 @@
 #' mtAnno function
 #'
-#' Annotate mtDNA alternative alleles
+#' Annotate Given Alternative Alleles of mtDNA Loci
 #'
-#' @param anno data frame provided by the user. It contains alleles need to be annotated.
-#' It has two columns: loci positions ("pos") and "alleles" to be annotated.
-#' @param annot.select types of annotation scores based on user's choice
-#' @param path the path of the output annotation file. If not provided, the annotation file will
-#' output to the current working directory
-#' @param study A string of study names. Default is Study.
-#' @return Annotation of alleles stored as a .csv file to the path provided by users
+#' @param anno data frame provided by the user. It has two columns: mtDNA loci positions ("pos") and
+#' alternative alleles ("alleles") to be annotated.
+#' @param annot.select types of annotation scores to be generated.
+#' @param path the path to the directory of the output of annotation file. If not provided, the annotation
+#' file will output to the current working directory.
+#' @param study A string of study names. Default is "Study".
+#' @return A .csv file containing annotated alternative alleles with corresponding mtDNA loci positions.
 #' @export
 #' @examples
 #'
