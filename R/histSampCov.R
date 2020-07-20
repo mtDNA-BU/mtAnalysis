@@ -1,12 +1,12 @@
 #' histSampCov function
 #'
-#' Produce a Histogram of Mean Coverage Across Subjects
+#' Produce a Histogram of Mean Coverage Across mtDNA Loci for Subjects
 #'
-#' @param coverage a numeric matrix (16569 x N) containing the subject ID as the row names, and the reads
-#' coverage of the 16569 mitochondrial DNA loci for each subject.
-#' @param loci one of: 1. a vector(default is c(1:16569)) of mitochondrial DNA loci to specify which loci
-#' should be used to identify the variations and annotate, 2. a character string for the regions
-#' (e.g. “coding”, “tRNA”, “RNR1”, "RNR2", …).
+#' @param coverage a numeric matrix (16569 x N). Rows correspond to loci and columns correspond to subjects.
+#' It contains the subject ID as the column names, and the reads coverage of the 16569 mtDNA loci for each
+#' subject.
+#' @param loci one of the following to specify mtDNA loci: 1. a numeric vector (default is c(1:16569)) of
+#' mitochondrial DNA loci, 2. a character string for the regions(e.g. “coding”, “tRNA”, “Dloop”, …).
 #' @import ggplot2
 #' @export
 #' @examples
