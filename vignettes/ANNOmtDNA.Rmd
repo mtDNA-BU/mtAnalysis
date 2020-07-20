@@ -1,6 +1,6 @@
 ---
 title: "ANNOmtDNA"
-author: "Xianbang Sun, Chunyu Liu, Katia Bulekova"
+author: "Xianbang Sun (maintainer, sxb3000@bu.edu), Katia Bulekova, Chunyu Liu, Jessica L. Fetterman"
 date: "`r format(Sys.Date(), '%m/%d/%Y')`"
 abstract: >
   ANNOmtDNA is an R/BioConductor package for identifying and annotating mtDNA sequence variations. This package allows to identify mtDNA sequence variations with user-specified thresholds, and provide several plots to visualize mtDNA sequence variations. It also annotates all mtDNA variations and predicts functionality for mtDNA variants in the coding and tRNA regions. 
