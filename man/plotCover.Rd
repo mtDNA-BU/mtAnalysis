@@ -17,12 +17,12 @@ plotCover(
 )
 }
 \arguments{
-\item{x}{a numeric matrix (16569 x N) containing the subject ID as the column names,
-and the reads coverage of the 16569 mitochondrial DNA loci for each subject.}
+\item{x}{a numeric matrix (16569 x N). Rows correspond to loci and columns correspond to subjects. It
+contains the subject ID as the column names, and the reads coverage of the 16569 mtDNA loci for each
+subject.}
 
-\item{loci}{one of: 1. a vector(default is c(1:16569)) of mitochondrial DNA loci to specify which loci
-should be used to identify the variations and annotate, 2. a character string for the regions
-(e.g. “coding”, “tRNA”, “RNR1”, "RNR2", …).}
+\item{loci}{one of the following to specify mtDNA loci: 1. a numeric vector (default is c(1:16569)) of
+mitochondrial DNA loci, 2. a character string for the regions(e.g. “coding”, “tRNA”, “Dloop”, …).}
 
 \item{col}{color to be used in the plot.}
 
@@ -39,7 +39,7 @@ should be used to identify the variations and annotate, 2. a character string fo
 \item{...}{arguments to be passed to plot function.}
 }
 \description{
-Produce a scatter plot of Mean Coverage Across Loci
+Produce a Diagnostic Scatter Plot to Visualize Mean Coverage Across Subjects for Each Locus
 }
 \examples{
 

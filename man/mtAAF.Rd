@@ -7,23 +7,21 @@
 mtAAF(allele, freq)
 }
 \arguments{
-\item{allele}{data frame (N x 16569) provided by the user. This data frame contains
-N subjects with mtDNA sequencing data of 16569 loci. The data frame contains subject ID as
-the row names, and the allele calls of all mtDNA loci for each subject as the columns.
-“/” is used to delimited different allele calls in a locus.}
+\item{allele}{a data frame (16569 x N) provided by the user. Rows correspond to loci and columns
+correspond to subjects. This data frame contains N subjects with mtDNA sequencing data of 16569 loci.
+The data frame contains subject ID as the column names. “/” is used to delimited different allele calls
+in a locus.}
 
-\item{freq}{data frame (N x 16569) provided by the user. This data frame contains
-N subjects with mtDNA sequencing data of 16569 loci. The data frame contains subject ID as
-the row names, and the allele fractions of the called alleles for each subject as the columns.
-“/” is used to delimited the allele fractions.}
+\item{freq}{a data frame (16569 x N) provided by the user. Rows correspond to loci and columns correspond
+to subjects. This data frame contains the N subjects with mtDNA sequencing data of 16569 loci. The data
+frame contains subject ID as the column names. “/” is used to delimited the allele fractions.}
 }
 \value{
-AAF, numeric matrix (N x 16569). It contains subject ID as the row names,
-and the AAF of all 16569 mtDNA loci for each subject. It will also generate a scatter plot
-of AAF based on user’s choice.
+AAF, a numeric matrix (16569 x N). Rows correspond to loci and columns correspond to subjects.
+It contains subject ID as the column names, and the AAFs of all 16569 mtDNA loci for each subject.
 }
 \description{
-Derivation of alternative allele fraction
+Derivation of alternative allele fraction (AAF)
 }
 \examples{
 

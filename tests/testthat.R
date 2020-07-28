@@ -1,4 +1,4 @@
-library(testthat)
-library(ANNOmtDNA)
+#library(testthat)
+#library(ANNOmtDNA)
 
-test_check("ANNOmtDNA")
+#test_check("ANNOmtDNA")

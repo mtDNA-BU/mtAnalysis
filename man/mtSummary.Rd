@@ -26,62 +26,62 @@ mtSummary(
 )
 }
 \arguments{
-\item{aaf}{a numeric matrix (16569 x N). It contains subject ID as the row names, and the AAF of
-all 16569 mtDNA loci for each subject.}
+\item{aaf}{a numeric matrix (16569 x N). Rows correspond to loci and columns correspond to subjects.
+It contains subject ID as the column names, and the AAFs of all 16569 mtDNA loci for each subject.
+It is generated from mtAAF function.}
 
-\item{allele}{a data frame (16569 x N) provided by the user. This data frame contains
-N subjects with mtDNA sequencing data of 16569 loci. The data frame contains subject ID as
-the row names, and the allele calls of all mtDNA loci for each subject as the columns.
-“/” is used to delimited different allele calls in a locus.}
+\item{allele}{a data frame (16569 x N) provided by the user. Rows correspond to loci and columns
+correspond to subjects. This data frame contains N subjects with mtDNA sequencing data of 16569 loci.
+The data frame contains subject ID as the column names. “/” is used to delimited different allele calls
+in a locus.}
 
-\item{freq}{a data frame (16569 x N) provided by the user. This data frame contains the N subjects
-with mtDNA sequencing data of 16569 loci. The data frame contains subject ID as the row names, and
-the allele fractions of the called alleles for each subject as the columns. “/” is used to delimited
-the allele fractions.}
+\item{freq}{a data frame (16569 x N) provided by the user. Rows correspond to loci and columns correspond
+to subjects. This data frame contains the N subjects with mtDNA sequencing data of 16569 loci. The data
+frame contains subject ID as the column names. “/” is used to delimited the allele fractions.}
 
-\item{coverage}{a numeric matrix (16569 x N) containing the subject ID as the row names, and the reads
-coverage of the 16569 mitochondrial DNA loci for each subject.}
+\item{coverage}{a numeric matrix (16569 x N). Rows correspond to loci and columns correspond to subjects.
+It contains the subject ID as the column names, and the reads coverage of the 16569 mtDNA loci for each
+subject.}
 
-\item{coverage.qc}{a number(default is 100) of threshold for the coverage.
-If the coverage<coverage.qc, the allele call at that locus of the subject will not be used.}
+\item{coverage.qc}{a number (default is 100) of threshold for the coverage. If the coverage<coverage.qc,
+the allele call at that locus of the participant will not be used.}
 
-\item{thre.lower}{a number(default is 0.03) of lower bound of the threshold defining heteroplasmic
-and homoplasmic variations}
+\item{thre.lower}{a number(default is 0.03) of lower bound of the threshold defining heteroplasmic and
+homoplasmic variations.}
 
-\item{thre.upper}{a number(default is 0.97) of upper bound of the threshold defining heteroplasmic
-and homoplasmic variations}
+\item{thre.upper}{a number(default is 0.97) of upper bound of the threshold defining heteroplasmic and
+homoplasmic variations.}
 
-\item{loci}{one of: 1. a vector(default is c(1:16569)) of mitochondrial DNA loci to specify which loci
-should be used to identify the variations and annotate, 2. a character string for the regions
-(e.g. "coding" , "tRNA", "RNR1" , "RNR2",...)}
+\item{loci}{one of the following to specify which loci should be used to identify the variations and
+annotate: 1. a numeric vector (default is c(1:16569)) of mitochondrial DNA loci, 2. a character string
+for the regions(e.g. “coding”, “tRNA”, “Dloop”, …).}
 
-\item{type}{a character of indicator choosing to output annotation to all variations,
-heteroplasmic variations, or homoplasmic variations. “both” returns annotation to all
-variations (default), “heter” returns annotation to heteroplasmic variations and “homo”
-returns annotation to homoplasmic variations.}
+\item{type}{a character string of indicator choosing to output annotation to all variations,
+heteroplasmic mutations, or homoplasmic variations. “both” returns annotation to all variations (default),
+ “heter” returns annotation to heteroplasmic variations and “homo” returns annotation to homoplasmic
+ variations.}
 
-\item{coverSummary}{logical(default is True). A user can specify to output scatter plot of mean
-coverage across mtDNA loci and summary of coverage at each mtDNA loci (across all participants) and
-for each individual (across all mtDNA loci).}
+\item{coverSummary}{: logical (default is True). A user can specify to output summary of mean coverage
+across mtDNA loci, and summary of mean coverage across all subjects.}
 
-\item{varHist}{logical(default is True). A user can specify to output histograms to visualize the
-heteroplasmic and homoplasmic burden across participants and mtDNA loci.}
+\item{varHist}{logical (default is True). A user can specify to output histograms to visualize the
+heteroplasmic and homoplasmic burden of participants and number of mutations observed at each mtDNA locus.}
 
-\item{annot.select}{types of annotation scores based on user's choice}
+\item{annot.select}{types of annotation scores to be generated.}
 
-\item{path}{the path of the output annotation file. If not provided, the annotation file will
-output to the current working directory}
+\item{path}{the path to the directory of the output of annotation file. If not provided, the annotation
+file will output to the current working directory.}
 
-\item{study}{A string of study names. Default is Study.}
+\item{study}{A string of study names. Default is “Study”.}
 }
 \value{
-1. Summary frequency: descriptive statistics of sequencing coverage across individual
-and across mtDNA loci; the total number of mtDNA loci with variations and the number of
-heteroplasmic/homoplasmic mtDNA loci in the study sample; the min/Q1/mean/median/Q3/largest number
-of homoplasmy/heteroplasmy carried by an individual. 2. Plots: a scatter plot of the median coverage
-across mtDNA loci; histograms to visualize the heteroplasmic and homoplasmic burden across
-participants and mtDNA loci based on user’s choice. 3.	Summary annotation for all of the
-heteroplasmic and/or homoplasmic variations observed in the study data based on user’s choice.
+1. A list containing summary of mean coverage across mtDNA loci, summary of mean coverage across
+all subjects, loci of heteroplasmic and homoplasmic mutations, summary of heteroplasmic and homoplasmic
+burden of subjects, summary of number of heteroplasmic and homoplasmic mutations of loci, and total
+number of heteroplasmic and homoplasmic mutations. 2. Histograms of heteroplasmic and homoplasmic burden
+of participants and number of mutations observed at mtDNA loci. 3. A .csv file containing annotated
+alternative of heteroplasmic and/or homoplasmic variations observed in the data with corresponding mtDNA
+loci positions.
 }
 \description{
 mtSummary function

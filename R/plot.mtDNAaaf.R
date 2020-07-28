@@ -19,7 +19,7 @@
 #' #aaf = mtAAF()
 #' #plot (aaf)
 #'
-plot.mtDNAaaf <- function(x,  col = "blue", pch='.', cex=0.2, xlab="", ylab="", ...) {
+plot.mtDNAaaf <- function(x,  col="blue", pch='.', cex=0.2, xlab="", ylab="", ...) {
 
   non.zeros <- which( x != 0 )
   plot(x = rep(c(1 : .mtLength),dim(x)[2])[non.zeros],
