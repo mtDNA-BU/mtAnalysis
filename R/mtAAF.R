@@ -4,11 +4,11 @@
 #'
 #' @param allele a data frame (16569 x N) provided by the user. Rows correspond to loci and columns
 #' correspond to subjects. This data frame contains N subjects with mtDNA sequencing data of 16569 loci.
-#' The data frame contains subject ID as the column names. “/” is used to delimited different allele calls
+#' The data frame contains subject ID as the column names. "/" is used to delimited different allele calls
 #' in a locus.
 #' @param freq a data frame (16569 x N) provided by the user. Rows correspond to loci and columns correspond
 #' to subjects. This data frame contains the N subjects with mtDNA sequencing data of 16569 loci. The data
-#' frame contains subject ID as the column names. “/” is used to delimited the allele fractions.
+#' frame contains subject ID as the column names. "/" is used to delimited the allele fractions.
 #' @return AAF, a numeric matrix (16569 x N). Rows correspond to loci and columns correspond to subjects.
 #' It contains subject ID as the column names, and the AAFs of all 16569 mtDNA loci for each subject.
 #' @import graphics
@@ -25,7 +25,7 @@
 #'
 #' aaf =  mtAAF ( allele, freq)
 #' plot(aaf)
-#' }
+#'}
 #'
 mtAAF <- function( allele, freq ){
 
