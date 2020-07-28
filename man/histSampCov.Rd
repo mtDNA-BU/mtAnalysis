@@ -12,7 +12,7 @@ It contains the subject ID as the column names, and the reads coverage of the 16
 subject.}
 
 \item{loci}{one of the following to specify mtDNA loci: 1. a numeric vector (default is c(1:16569)) of
-mitochondrial DNA loci, 2. a character string for the regions(e.g. “coding”, “tRNA”, “Dloop”, …).}
+mitochondrial DNA loci, 2. a character string for the regions(e.g. "coding", "tRNA", "Dloop", …).}
 }
 \description{
 Produce a Histogram of Mean Coverage Across mtDNA Loci for Subjects

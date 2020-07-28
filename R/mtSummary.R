@@ -1,48 +1,48 @@
 #' mtSummary function
 #' Identification of mtDNA variations, output summary statistics,
 #' annotation of heteroplasmic and/or homoplasmic variations.
-#' @param aaf a numeric matrix (16569 x N). Rows correspond to loci and columns correspond to subjects.
-#' It contains subject ID as the column names, and the AAFs of all 16569 mtDNA loci for each subject.
-#' It is generated from mtAAF function.
-#' @param allele a data frame (16569 x N) provided by the user. Rows correspond to loci and columns
-#' correspond to subjects. This data frame contains N subjects with mtDNA sequencing data of 16569 loci.
-#' The data frame contains subject ID as the column names. “/” is used to delimited different allele calls
-#' in a locus.
-#' @param freq a data frame (16569 x N) provided by the user. Rows correspond to loci and columns correspond
-#' to subjects. This data frame contains the N subjects with mtDNA sequencing data of 16569 loci. The data
-#' frame contains subject ID as the column names. “/” is used to delimited the allele fractions.
-#' @param coverage a numeric matrix (16569 x N). Rows correspond to loci and columns correspond to subjects.
-#' It contains the subject ID as the column names, and the reads coverage of the 16569 mtDNA loci for each
-#' subject.
-#' @param coverage.qc a number (default is 100) of threshold for the coverage. If the coverage<coverage.qc,
-#' the allele call at that locus of the participant will not be used.
-#' @param thre.lower a number(default is 0.03) of lower bound of the threshold defining heteroplasmic and
-#' homoplasmic variations.
-#' @param thre.upper a number(default is 0.97) of upper bound of the threshold defining heteroplasmic and
-#' homoplasmic variations.
-#' @param loci one of the following to specify which loci should be used to identify the variations and
-#' annotate: 1. a numeric vector (default is c(1:16569)) of mitochondrial DNA loci, 2. a character string
-#' for the regions(e.g. “coding”, “tRNA”, “Dloop”, …).
-#' @param type a character string of indicator choosing to output annotation to all variations,
-#' heteroplasmic mutations, or homoplasmic variations. “both” returns annotation to all variations (default),
-#'  “heter” returns annotation to heteroplasmic variations and “homo” returns annotation to homoplasmic
-#'  variations.
-#' @param coverSummary : logical (default is True). A user can specify to output summary of mean coverage
-#' across mtDNA loci, and summary of mean coverage across all subjects.
-#' @param varHist logical (default is True). A user can specify to output histograms to visualize the
-#' heteroplasmic and homoplasmic burden of participants and number of mutations observed at each mtDNA locus.
-#' @param annot.select types of annotation scores to be generated.
-#' @param path the path to the directory of the output of annotation file. If not provided, the annotation
-#' file will output to the current working directory.
-#' @param study A string of study names. Default is “Study”.
+#' @param aaf a numeric matrix (16569 x N). It contains subject ID as the row names, and the AAF of
+#' all 16569 mtDNA loci for each subject.
+#' @param allele a data frame (16569 x N) provided by the user. This data frame contains
+#' N subjects with mtDNA sequencing data of 16569 loci. The data frame contains subject ID as
+#' the row names, and the allele calls of all mtDNA loci for each subject as the columns.
+#' "/" is used to delimited different allele calls in a locus.
+#' @param freq a data frame (16569 x N) provided by the user. This data frame contains the N subjects
+#' with mtDNA sequencing data of 16569 loci. The data frame contains subject ID as the row names, and
+#' the allele fractions of the called alleles for each subject as the columns. "/" is used to delimited
+#' the allele fractions.
+#' @param coverage a numeric matrix (16569 x N) containing the subject ID as the row names, and the reads
+#' coverage of the 16569 mitochondrial DNA loci for each subject.
+#' @param coverage.qc a number(default is 100) of threshold for the coverage.
+#' If the coverage<coverage.qc, the allele call at that locus of the subject will not be used.
+#' @param thre.lower a number(default is 0.03) of lower bound of the threshold defining heteroplasmic
+#' and homoplasmic variations
+#' @param thre.upper a number(default is 0.97) of upper bound of the threshold defining heteroplasmic
+#' and homoplasmic variations
+#' @param loci one of: 1. a vector(default is c(1:16569)) of mitochondrial DNA loci to specify which loci
+#' should be used to identify the variations and annotate, 2. a character string for the regions
+#' (e.g. "coding" , "tRNA", "RNR1" , "RNR2",...)
+#' @param type a character of indicator choosing to output annotation to all variations,
+#' heteroplasmic variations, or homoplasmic variations. “both” returns annotation to all
+#' variations (default), "heter" returns annotation to heteroplasmic variations and "homo"
+#' returns annotation to homoplasmic variations.
+#' @param coverSummary logical(default is True). A user can specify to output scatter plot of mean
+#' coverage across mtDNA loci and summary of coverage at each mtDNA loci (across all participants) and
+#' for each individual (across all mtDNA loci).
+#' @param varHist logical(default is True). A user can specify to output histograms to visualize the
+#' heteroplasmic and homoplasmic burden across participants and mtDNA loci.
+#' @param annot.select types of annotation scores based on user's choice
+#' @param path the path of the output annotation file. If not provided, the annotation file will
+#' output to the current working directory
+#' @param study A string of study names. Default is Study.
 #'
-#' @return 1. A list containing summary of mean coverage across mtDNA loci, summary of mean coverage across
-#' all subjects, loci of heteroplasmic and homoplasmic mutations, summary of heteroplasmic and homoplasmic
-#' burden of subjects, summary of number of heteroplasmic and homoplasmic mutations of loci, and total
-#' number of heteroplasmic and homoplasmic mutations. 2. Histograms of heteroplasmic and homoplasmic burden
-#' of participants and number of mutations observed at mtDNA loci. 3. A .csv file containing annotated
-#' alternative of heteroplasmic and/or homoplasmic variations observed in the data with corresponding mtDNA
-#' loci positions.
+#' @return 1. Summary frequency: descriptive statistics of sequencing coverage across individual
+#' and across mtDNA loci; the total number of mtDNA loci with variations and the number of
+#' heteroplasmic/homoplasmic mtDNA loci in the study sample; the min/Q1/mean/median/Q3/largest number
+#' of homoplasmy/heteroplasmy carried by an individual. 2. Plots: a scatter plot of the median coverage
+#' across mtDNA loci; histograms to visualize the heteroplasmic and homoplasmic burden across
+#' participants and mtDNA loci based on user’s choice. 3.	Summary annotation for all of the
+#' heteroplasmic and/or homoplasmic variations observed in the study data based on user's choice.
 #' @import graphics grDevices utils
 #' @export
 #' @examples
@@ -80,16 +80,12 @@ mtSummary<-function(aaf, allele, freq, coverage,
     stop("loci must be numeric vector or character")
   }
 
-  if(is.character(loci)){
-    if(!(all(loci%in%c("coding", "tRNA", "RNR1", "RNR2")) & length(loci)==1)){
+  if(is.character(loci) & !(loci%in%c("coding", "tRNA", "RNR1", "RNR2") & length(loci)==1)){
     stop("loci must be one of coding, tRNA, RNR1, RNR2 if it is character")
-    }
   }
 
-  if(is.numeric(loci)){
-    if(!all(loci %in% (1:.mtLength))){
+  if(is.numeric(loci) & !all(loci %in% (1:.mtLength))){
     stop("loci should be a subset of 1:16569")
-    }
   }
 
   if( ! dir.exists(path) ) stop( paste(" Output path", path,"does not exist.") )
@@ -189,7 +185,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
 
   # output summary statistics of hereoplasmic variations
   # calculate the number of heteroplasmic mutations for each subject
-  heter_burden  <- colSums(aaf_cat==1, na.rm=T)
+  heter_burden  <- colSums(mutation_collect==1, na.rm=T)
   mt_summary_obj$heter_burden_sum<-summary(heter_burden)
 
   # calculate the number of heteroplasmic mutations for each locus
@@ -205,7 +201,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
 
   # output summary statistics of homoplasmic variations
   # calculate the number of homoplasmic variations for each subject
-  homo_burden  <- colSums(aaf_cat==2, na.rm=T)
+  homo_burden  <- colSums(mutation_collect==2, na.rm=T)
   mt_summary_obj$homo_burden_sum<-summary(homo_burden)
 
   # calculate the number of homoplasmic mutations for each locus
@@ -223,10 +219,10 @@ mtSummary<-function(aaf, allele, freq, coverage,
   if(varHist){
 
     #Open an output pdf file
-    pdf(file = paste0(path,"/", study,"_mtHistograms.pdf"))
+    pdf(file = paste0(path, "/mtHistograms.pdf"))
 
     # histogram of heteroplasmic burden across subjects
-    h <- hist(heter_burden, breaks = 100,
+    h <- hist(heter_burden, breaks = 50,
               xlab ="Heteroplasmic burden score" ,
               main = "Histogram of heteroplasmic burden score" )
 
@@ -234,11 +230,11 @@ mtSummary<-function(aaf, allele, freq, coverage,
               xlab ="heteroplasmic variations of mtDNA loci" ,
               main = "Histogram of heteroplasmic variations of mtDNA loci" )
 
-    h <- hist(homo_burden, breaks = 100,
+    h <- hist(homo_burden, breaks = 50,
               xlab ="Homoplasmic burden score" ,
               main = "Histogram of homoplasmic burden score" )
 
-    h <- hist(homo_loci, breaks = 600, xlim = c(0, 150),
+    h <- hist(homo_loci, breaks = 50,
               xlab ="Homoplasmic variations of mtDNA loci" ,
               main = "Histogram of homoplasmic variations of mtDNA loci" )
 

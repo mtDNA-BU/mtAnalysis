@@ -6,7 +6,7 @@
 #' contains the subject ID as the column names, and the reads coverage of the 16569 mtDNA loci for each
 #' subject.
 #' @param loci one of the following to specify mtDNA loci: 1. a numeric vector (default is c(1:16569)) of
-#' mitochondrial DNA loci, 2. a character string for the regions(e.g. “coding”, “tRNA”, “Dloop”, …).
+#' mitochondrial DNA loci, 2. a character string for the regions(e.g. "coding", "tRNA", "Dloop", …).
 #' @param col color to be used in the plot.
 #' @param pch plotting ‘character’, i.e., symbol to use.
 #' @param cex expansion factor for symbols used in the plot.
