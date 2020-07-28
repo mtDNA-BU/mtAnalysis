@@ -25,14 +25,16 @@ Derivation of alternative allele fraction (AAF)
 }
 \examples{
 
+\dontrun{
 #Read input data
-library(ANNOmtDNA)
-#allele_file <- system.file("extdata", "allele.csv", package = "ANNOmtDNA")
-#freq_file   <- system.file("extdata", "freq.csv", package = "ANNOmtDNA")
+allele_file <- "allele.csv"
+freq_file   <- "freq.csv"
 
-#allele <- as.matrix( read.csv(file = allele_file, sep = ",", header=FALSE) )
-#freq   <- as.matrix( read.csv(file = freq_file, sep = ",", header=FALSE) )
+allele <- as.matrix( read.csv(file = allele_file, sep = ",", header=FALSE) )
+freq   <- as.matrix( read.csv(file = freq_file, sep = ",", header=FALSE) )
 
-#aaf =  mtAAF ( allele, freq)
-## plot(aaf)
+aaf =  mtAAF ( allele, freq)
+plot(aaf)
+}
+
 }
