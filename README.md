@@ -6,7 +6,7 @@
 ### Association analysis of heteroplasmic mtDNA mutations.
 
 **Authors:** Xianbang Sun (maintainer, <sxb3000@bu.edu>), Katia
-Bulekova, Chunyu Liu, Jessica L. Fetterman<br> **Date:** “07/28/2020”
+Bulekova, Chunyu Liu, Jessica L. Fetterman<br> **Date:** “08/01/2020”
 
 <!-- badges: start -->
 
@@ -50,27 +50,6 @@ freq      <- matrix(scan(paste0(input_path, "freq/freq.csv"), sep=",", character
                     ncol=length(header), byrow=T)
 ```
 
-Assign the rownames by the column of IDs and remove the ID column
-
-``` r
-rownames(allele) <- allele[,1]
-rownames(freq)<-freq[,1]
-rownames(coverage)<-coverage[,1]
-allele <- allele[,-1]
-freq   <- freq[,-1]
-coverage<- coverage[,-1]
-```
-
-Transpose the allele, freq, and coverage datasets so that rows
-corresponds to loci and columns corresponds to subjects
-
-``` r
-allele <- t(allele)
-freq <- t(freq)
-coverage <- t(coverage)
-class(coverage) <- "numeric"
-```
-
 #### Compute alternative allele fraction (AAF) by mtAAF function
 
 ``` r
@@ -111,15 +90,7 @@ mutation burden of subjects and number of mutations carried by each loci
 for heteroplasmic and homoplasmic mutations
 
 ``` r
-#output_path <- "/output/dir/"
-```
-
-Run the mtSummary function, only include loci of coding region, annotate
-for both of heteroplasmic and homoplasmic mutations.
-
-``` r
-mtSum <- mtSummary(aaf=AAF, allele=allele, freq=freq, coverage=coverage, loci="coding"
-         ,path=output_path, type="both", study="ARIC")
+# output_path <- "/output/dir/"
 ```
 
 Users can specify lower bound and upper bound of the threshold by
@@ -130,7 +101,29 @@ mutation. Users can also choose different gene regions by loci argument.
 For example, to choose tRNA region, set loci=“tRNA”. Users can also
 choose types of mutations to be annotated by type argument. For example,
 to choose heteroplasmic mutations, set type=“heter”, and choose
-homoplasmic mutations, set type=“homo”.
+homoplasmic mutations, set type=“homo”. Run the mtSummary function, only
+include loci of coding region, annotate for both of heteroplasmic and
+homoplasmic mutations.
+
+``` r
+mtSum <- mtSummary(aaf=AAF, allele=allele, freq=freq, coverage=coverage, loci="coding"
+         ,path=output_path, type="both", study="ARIC")
+```
+
+Part of the output of annotated alleles
+
+    #>   mtID ref_allele allele_var n_var n_heter n_homo mut_allele  Pos ref Gene
+    #> 1 3308          T      T/C/G    45       3     42          C 3308   5   91
+    #> 2 3308          T      T/C/G    45       3     42          G 3308   5   91
+    #>   TypeMutation MissensMutation CodonPosition ProteinDomain dbSNP_150_id
+    #> 1            2            4095             2            NA           83
+    #> 2            5            4173             2            NA           NA
+    #>   PolyPhen2 PolyPhen2_score SIFT SIFT_score CADD CADD_score
+    #> 1         3            0.99    1          0    1       2.36
+    #> 2        NA              NA   NA         NA   NA         NA
+    #>   CADD_phred_score
+    #> 1            18.57
+    #> 2               NA
 
 Summary of the mean coverage of loci
 
