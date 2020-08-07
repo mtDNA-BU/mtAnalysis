@@ -7,18 +7,23 @@
 mtAAF(allele, freq)
 }
 \arguments{
-\item{allele}{a data frame (16569 x N) provided by the user. Rows correspond to loci and columns
-correspond to subjects. This data frame contains N subjects with mtDNA sequencing data of 16569 loci.
-The data frame contains subject ID as the column names. "/" is used to delimited different allele calls
-in a locus.}
+\item{allele}{a data frame (16569 x N) provided by the user.
+Rows correspond to loci and columns correspond to subjects.
+This data frame contains N subjects with mtDNA sequencing data of 16569 loci.
+The data frame contains subject ID as the column names.
+"/" is used to delimited different allele calls in a locus.}
 
-\item{freq}{a data frame (16569 x N) provided by the user. Rows correspond to loci and columns correspond
-to subjects. This data frame contains the N subjects with mtDNA sequencing data of 16569 loci. The data
-frame contains subject ID as the column names. "/" is used to delimited the allele fractions.}
+\item{freq}{a data frame (16569 x N) provided by the user.
+Rows correspond to loci and columns correspond to subjects.
+This data frame contains the N subjects with mtDNA sequencing data of 16569
+loci. The data frame contains subject ID as the column names.
+"/" is used to delimited the allele fractions.}
 }
 \value{
-AAF, a numeric matrix (16569 x N). Rows correspond to loci and columns correspond to subjects.
-It contains subject ID as the column names, and the AAFs of all 16569 mtDNA loci for each subject.
+AAF, a numeric matrix (16569 x N).
+Rows correspond to loci and columns correspond to subjects.
+It contains subject ID as the column names, and the AAFs of all 16569 mtDNA
+loci for each subject.
 }
 \description{
 Derivation of alternative allele fraction (AAF)
@@ -26,15 +31,14 @@ Derivation of alternative allele fraction (AAF)
 \examples{
 
 \dontrun{
-#Read input data
+## Read input data
 allele_file <- "allele.csv"
 freq_file   <- "freq.csv"
 
-allele <- as.matrix( read.csv(file = allele_file, sep = ",", header=FALSE) )
-freq   <- as.matrix( read.csv(file = freq_file, sep = ",", header=FALSE) )
+allele <- as.matrix( read.csv(file=allele_file, sep=",", header=FALSE))
+freq   <- as.matrix( read.csv(file=freq_file, sep=",", header=FALSE))
 
-aaf =  mtAAF ( allele, freq)
-plot(aaf)
+aaf=mtAAF(allele, freq)
 }
 
 }

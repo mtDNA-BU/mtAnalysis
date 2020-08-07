@@ -6,7 +6,7 @@
 ### Association analysis of heteroplasmic mtDNA mutations.
 
 **Authors:** Xianbang Sun (maintainer, <sxb3000@bu.edu>), Katia
-Bulekova, Chunyu Liu, Jessica L. Fetterman<br> **Date:** “08/01/2020”
+Bulekova, Chunyu Liu, Jessica L. Fetterman<br> **Date:** “08/07/2020”
 
 <!-- badges: start -->
 
@@ -21,7 +21,7 @@ regions.
 
 *Note:* if you use ANNOmtDNA in published research, please cite:
 
-Xianbang Sun, Katia Oleinik, Chunyu Liu, Jessica L. Fetterman (2020)
+Xianbang Sun, Katia Bulekova, Chunyu Liu, Jessica L. Fetterman (2020)
 mtdnaANNO: an R package for comprehensive annotation of mtDNA sequence
 variation
 
@@ -39,6 +39,10 @@ library(ANNOmtDNA)
 ## Standard workflow
 
 Import the original allele, frequency and coverage datasets
+
+``` r
+input_path = "/path/to/input/directory/"
+```
 
 ``` r
 header      <-  scan(paste0(input_path, "allele/allele.csv"), sep=",", character(), nline=1)
@@ -89,10 +93,6 @@ Specify the path to output the annotation file and histograms of mtDNA
 mutation burden of subjects and number of mutations carried by each loci
 for heteroplasmic and homoplasmic mutations
 
-``` r
-# output_path <- "/output/dir/"
-```
-
 Users can specify lower bound and upper bound of the threshold by
 thre.lower and thre.upper arguments. By default, thre.lower=0.03 and
 thre.upper=0.97. That is, if \(0.03\leq AAF\leq 0.97\), it is a
@@ -106,8 +106,12 @@ include loci of coding region, annotate for both of heteroplasmic and
 homoplasmic mutations.
 
 ``` r
+ output_path <- "/output/dir/"
+```
+
+``` r
 mtSum <- mtSummary(aaf=AAF, allele=allele, freq=freq, coverage=coverage, loci="coding"
-         ,path=output_path, type="both", study="ARIC")
+         , path=output_path, type="both", study="ARIC")
 ```
 
 Part of the output of annotated alleles
@@ -118,12 +122,9 @@ Part of the output of annotated alleles
     #>   TypeMutation MissensMutation CodonPosition ProteinDomain dbSNP_150_id
     #> 1            2            4095             2            NA           83
     #> 2            5            4173             2            NA           NA
-    #>   PolyPhen2 PolyPhen2_score SIFT SIFT_score CADD CADD_score
-    #> 1         3            0.99    1          0    1       2.36
-    #> 2        NA              NA   NA         NA   NA         NA
-    #>   CADD_phred_score
-    #> 1            18.57
-    #> 2               NA
+    #>   PolyPhen2 PolyPhen2_score SIFT SIFT_score CADD CADD_score CADD_phred_score
+    #> 1         3            0.99    1          0    1       2.36            18.57
+    #> 2        NA              NA   NA         NA   NA         NA               NA
 
 Summary of the mean coverage of loci
 
@@ -212,7 +213,7 @@ columns: loci positions (“pos”) and “alleles” to be annotated.
 
 ``` r
 anno <- as.data.frame(matrix(0, 10, 2))
-colnames(anno)<- c("pos","alleles")
+colnames(anno)<- c("pos", "alleles")
 anno$pos <- c(3311:3320)
 anno$alleles <- c("A", "A", "T", "C", "A", "T", "G", "A", "C", "T")
 ```

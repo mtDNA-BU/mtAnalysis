@@ -1,6 +1,6 @@
 Package: ANNOmtDNA
 Title: Annotation of mtDNA sequence variations
-Version: 0.1.3
+Version: 0.2.0
 Authors@R: 
     c(
       person(given = "Xianbang",
@@ -35,5 +35,4 @@ Suggests:
     rmarkdown
 Imports: 
     graphics,
-    ggplot2
 VignetteBuilder: knitr

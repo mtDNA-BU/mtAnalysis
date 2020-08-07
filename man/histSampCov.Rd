@@ -4,15 +4,17 @@
 \alias{histSampCov}
 \title{histSampCov function}
 \usage{
-histSampCov(coverage, loci = c(1:.mtLength))
+histSampCov(coverage, loci = seq_len(.mtLength))
 }
 \arguments{
-\item{coverage}{a numeric matrix (16569 x N). Rows correspond to loci and columns correspond to subjects.
-It contains the subject ID as the column names, and the reads coverage of the 16569 mtDNA loci for each
-subject.}
+\item{coverage}{a numeric matrix (16569 x N).
+Rows correspond to loci and columns correspond to subjects.
+It contains the subject ID as the column names,
+and the reads coverage of the 16569 mtDNA loci for each subject.}
 
-\item{loci}{one of the following to specify mtDNA loci: 1. a numeric vector (default is c(1:16569)) of
-mitochondrial DNA loci, 2. a character string for the regions(e.g. "coding", "tRNA", "Dloop", …).}
+\item{loci}{one of the following to specify mtDNA loci:
+1. a numeric vector (default is c(1:16569)) of mitochondrial DNA loci,
+2. a character string for the regions(e.g. "coding", "tRNA", "Dloop", …).}
 }
 \description{
 Produce a Histogram of Mean Coverage Across mtDNA Loci for Subjects
@@ -20,7 +22,13 @@ Produce a Histogram of Mean Coverage Across mtDNA Loci for Subjects
 \examples{
 
 
-#histSampCov (coverage)
-#histSampCov (coverage, loci="tRNA")
+\dontrun{
+## Read input data
+coverage_file <- "coverage.csv"
+coverage <- as.matrix(read.csv(file=coverage_file, sep=",", header=FALSE))
+
+histSampCov(coverage, loci="coding")
+
+}
 
 }

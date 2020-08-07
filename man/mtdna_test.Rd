@@ -22,9 +22,18 @@ character
 Test function for the package
 }
 \examples{
-coverage_file <- "/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/coverage/coverage.csv"
-allele_file <- "/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/allele/allele.csv"
-freq_file <- "/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/freq/freq.csv"
-path<-"/rprojectnb2/mtdna-alcohol/Sun_Xianbang/Annotation/Output/"
-#mtdna_test (coverage_file, allele_file, freq_file)
+
+\dontrun{
+#Read input data
+coverage_file <- "coverage.csv"
+allele_file <- "allele.csv"
+freq_file   <- "freq.csv"
+
+coverage <- as.matrix( read.csv(file=coverage_file, sep=",", header=FALSE))
+allele <- as.matrix( read.csv(file=allele_file, sep=",", header=FALSE))
+freq   <- as.matrix( read.csv(file=freq_file, sep=",", header=FALSE))
+
+mtdna_test(coverage_file=coverage, allele_file=allele, freq_file=freq)
+}
+
 }

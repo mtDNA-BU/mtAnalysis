@@ -14,23 +14,41 @@ mtAnno(
 )
 }
 \arguments{
-\item{anno}{data frame provided by the user. It has two columns: mtDNA loci positions ("pos") and
+\item{anno}{data frame provided by the user. It has two columns:
+mtDNA loci positions ("pos") and
 alternative alleles ("alleles") to be annotated.}
 
 \item{annot.select}{types of annotation scores to be generated.}
 
-\item{path}{the path to the directory of the output of annotation file. If not provided, the annotation
+\item{path}{the path to the directory of the output of annotation file.
+If not provided, the annotation
 file will output to the current working directory.}
 
 \item{study}{A string of study names. Default is "Study".}
 }
 \value{
-A .csv file containing annotated alternative alleles with corresponding mtDNA loci positions.
+A .csv file containing annotated alternative alleles with
+corresponding mtDNA loci positions.
 }
 \description{
 Annotate Given Alternative Alleles of mtDNA Loci
 }
 \examples{
 
- # mtAnno(anno)
+\dontrun{
+## Read input data
+allele_file <- "allele.csv"
+freq_file   <- "freq.csv"
+
+allele <- as.matrix( read.csv(file = allele_file, sep = ",", header=FALSE) )
+freq   <- as.matrix( read.csv(file = freq_file, sep = ",", header=FALSE) )
+
+aaf =  mtAAF ( allele, freq)
+
+## Annotate Given Alternative Alleles of mtDNA Loci
+mtAnno(aaf)
+
+##
+mtAnno(aaf, annot.select=c("ref","Gene") )
+}
 }

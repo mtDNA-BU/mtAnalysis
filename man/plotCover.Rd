@@ -6,7 +6,7 @@
 \usage{
 plotCover(
   x,
-  loci = c(1:.mtLength),
+  loci = seq_len(.mtLength),
   col = "blue",
   pch = ".",
   cex = 0.2,
@@ -17,16 +17,18 @@ plotCover(
 )
 }
 \arguments{
-\item{x}{a numeric matrix (16569 x N). Rows correspond to loci and columns correspond to subjects. It
-contains the subject ID as the column names, and the reads coverage of the 16569 mtDNA loci for each
-subject.}
+\item{x}{a numeric matrix (16569 x N).
+Rows correspond to loci and columns correspond to subjects.
+It contains the subject ID as the column names,
+and the reads coverage of the 16569 mtDNA loci for each subject.}
 
-\item{loci}{one of the following to specify mtDNA loci: 1. a numeric vector (default is c(1:16569)) of
-mitochondrial DNA loci, 2. a character string for the regions(e.g. "coding", "tRNA", "Dloop", …).}
+\item{loci}{one of the following to specify mtDNA loci:
+1. a numeric vector (default is c(1:16569)) of mitochondrial DNA loci,
+2. a character string for the regions(e.g. "coding", "tRNA", "Dloop", …).}
 
 \item{col}{color to be used in the plot.}
 
-\item{pch}{plotting ‘character’, i.e., symbol to use.}
+\item{pch}{plotting "character", i.e., symbol to use.}
 
 \item{cex}{expansion factor for symbols used in the plot.}
 
@@ -39,12 +41,18 @@ mitochondrial DNA loci, 2. a character string for the regions(e.g. "coding", "tR
 \item{...}{arguments to be passed to plot function.}
 }
 \description{
-Produce a Diagnostic Scatter Plot to Visualize Mean Coverage Across Subjects for Each Locus
+Produce a Diagnostic Scatter Plot to Visualize Mean Coverage Across Subjects
+for Each Locus
 }
 \examples{
 
+\dontrun{
+## Read input data
+coverage_file <- "coverage.csv"
+coverage <- as.matrix(read.csv(file=coverage_file, sep=",", header=FALSE))
 
-#plotCover (coverage)
-#plotCover (coverage, loci="tRNA")
+plotCover(coverage, loci="coding")
+
+}
 
 }
