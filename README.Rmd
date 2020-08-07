@@ -41,7 +41,7 @@ library(ANNOmtDNA)
 ## Standard workflow
 
 Import the original allele, frequency and coverage datasets
-```{r path_def,include = FALSE}
+```{r path_def, include = FALSE}
 input_path = "/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/"
 output_path = Sys.getenv('TMPDIR')
 
@@ -58,18 +58,17 @@ freq      <- matrix(scan(paste0(input_path, "freq/freq.csv"), sep=",", character
                     ncol=length(header), byrow=T)
 ```
 
-Assign the rownames by the column of IDs and remove the ID column
-```{r chunk 3}
-rownames(allele) <- allele[,1]
-rownames(freq)<-freq[,1]
-rownames(coverage)<-coverage[,1]
-allele <- allele[,-1]
-freq   <- freq[,-1]
-coverage<- coverage[,-1]
+```{r chunk 3, echo=F}
+rownames(allele) <- allele[, 1]
+rownames(freq)<-freq[, 1]
+rownames(coverage)<-coverage[, 1]
+allele <- allele[, -1]
+freq   <- freq[, -1]
+coverage<- coverage[, -1]
 ```
 
-Transpose the allele,  freq, and coverage datasets so that rows corresponds to loci and columns corresponds to subjects 
-```{r chunk 4}
+
+```{r chunk 4, echo=F}
 allele <- t(allele)
 freq <- t(freq)
 coverage <- t(coverage)
@@ -99,84 +98,92 @@ histSampCov(coverage)
 #### Summarize and annotate mtDNA mutations by mtSummary function
 Specify the path to output the annotation file and histograms of mtDNA mutation burden of subjects and number of mutations carried by each loci for heteroplasmic and homoplasmic mutations
 ```{r chunk 9}
-#output_path <- "/output/dir/"
+# output_path <- "/output/dir/"
 ```
-
-Run the mtSummary function, only include loci of coding region, annotate for both of heteroplasmic and homoplasmic mutations. 
-```{r chunk 10}
-mtSum <- mtSummary(aaf=AAF, allele=allele, freq=freq, coverage=coverage, loci="coding"
-         ,path=output_path, type="both", study="ARIC")
+```{r chunk 10, echo=F}
+output_path <- "/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/Annotation/Output/"
 ```
 
 Users can specify lower bound and upper bound of the threshold by thre.lower and thre.upper arguments. By default, thre.lower=0.03 and thre.upper=0.97. That is, if $0.03\leq AAF\leq 0.97$, it is a heteroplasmic mutation; and if $AAF>0.97$, it is a homoplasmic mutation. Users can also choose different gene regions by loci argument. For example, to choose tRNA region, set loci="tRNA". Users can also choose types of mutations to be annotated by type argument. For example, to choose heteroplasmic mutations, set type="heter", and choose homoplasmic mutations, set type="homo".
+Run the mtSummary function, only include loci of coding region, annotate for both of heteroplasmic and homoplasmic mutations.
+```{r chunk 11}
+mtSum <- mtSummary(aaf=AAF, allele=allele, freq=freq, coverage=coverage, loci="coding"
+         , path=output_path, type="both", study="ARIC")
+```
+
+Part of the output of annotated alleles
+```{r chunk 12, echo=F}
+annotate_file <- read.csv(paste0(output_path, "/ARIC_annotation_variation.csv"))
+annotate_file[annotate_file$mtID == 3308, ]
+```
 
 Summary of the mean coverage of loci
-```{r chunk 11}
+```{r chunk 13}
 mtSum$coverLoci 
 ```
 
 Summary of the mean coverage of subjects
-```{r chunk 12}
+```{r chunk 14}
 mtSum$coverSubjects  
 ```
 
 Display loci of variation
-```{r chunk 13, eval=F}
+```{r chunk 15, eval=F}
 mtSum$loci_var  
 ```
 
 Summary of the heteroplasmic burden of subjects
-```{r chunk 14}
+```{r chunk 16}
 mtSum$heter_burden_sum  
 ```
 
 Summary of numbers of heteroplasmic mutations loci carried
-```{r chunk 15}
+```{r chunk 17}
 mtSum$heter_loci_sum  
 ```
 
 Display loci of heteroplasmy
-```{r chunk 16, eval=F}
+```{r chunk 18, eval=F}
 mtSum$loci_heter  
 ```
 
 Total Number of heteroplasmic mutations
-```{r chunk 17}
+```{r chunk 19}
 mtSum$heter_total  
 ```
 
 Summary of the homoplasmic burden of subjects
-```{r chunk 18}
+```{r chunk 20}
 mtSum$homo_burden_sum  
 ```
 
 Summary of numbers of homoplasmic mutations loci carried
-```{r chunk 19}
+```{r chunk 21}
 mtSum$homo_loci_sum  
 ```
 
 Display loci of homoplasmy
-```{r chunk 20, eval=F}
+```{r chunk 22, eval=F}
 mtSum$loci_homo  
 ```
 
 Total Number of homoplasmic mutations
-```{r chunk 21}
+```{r chunk 23}
 mtSum$homo_total  
 ```
 
 #### Annotate alternative alleles by mtAnno function
 
 Generate alternative alleles to be annotated for mtDNA loci. It has two columns: loci positions ("pos") and "alleles" to be annotated.
-```{r chunk 22}
+```{r chunk 24}
 anno <- as.data.frame(matrix(0, 10, 2))
-colnames(anno)<- c("pos","alleles")
+colnames(anno)<- c("pos", "alleles")
 anno$pos <- c(3311:3320)
 anno$alleles <- c("A", "A", "T", "C", "A", "T", "G", "A", "C", "T")
 ```
 
 Run the mtAnno function
-```{r chunk 23}
+```{r chunk 25}
 mtAnno(anno=anno, path=output_path)
 ```
 
