@@ -6,7 +6,8 @@
 ### Association analysis of heteroplasmic mtDNA mutations.
 
 **Authors:** Xianbang Sun (maintainer, <sxb3000@bu.edu>), Katia
-Bulekova, Chunyu Liu, Jessica L. Fetterman<br> **Date:** “08/07/2020”
+Bulekova, Chunyu Liu, Jessica L. Fetterman, Jun Ding, Kaiyu Yan, Daniel
+Levy<br> **Date:** “08/08/2020”
 
 <!-- badges: start -->
 
@@ -21,9 +22,9 @@ regions.
 
 *Note:* if you use ANNOmtDNA in published research, please cite:
 
-Xianbang Sun, Katia Bulekova, Chunyu Liu, Jessica L. Fetterman (2020)
-mtdnaANNO: an R package for comprehensive annotation of mtDNA sequence
-variation
+Xianbang Sun, Katia Bulekova, Chunyu Liu, Jessica L. Fetterman, Jun
+Ding, Kaiyu Yan, Daniel Levy (2020) mtdnaANNO: an R package for
+comprehensive annotation of mtDNA sequence variation
 
 ## Installation
 
@@ -45,13 +46,14 @@ input_path = "/path/to/input/directory/"
 ```
 
 ``` r
-header      <-  scan(paste0(input_path, "allele/allele.csv"), sep=",", character(), nline=1)
-coverage <- matrix(scan(paste0(input_path, "coverage/coverage.csv"), sep=",", character()), 
-                   ncol=length(header), byrow=T)
-allele    <- matrix(scan(paste0(input_path, "allele/allele.csv"), sep=",", character()), 
-                    ncol=length(header), byrow=T)
-freq      <- matrix(scan(paste0(input_path, "freq/freq.csv"), sep=",", character()), 
-                    ncol=length(header), byrow=T)
+allele <- read.csv(paste0(input_path, "allele/allele_ANNOmtDNA.csv"), header = T, stringsAsFactors=FALSE,
+                   colClasses = c("character"))
+freq <- read.csv(paste0(input_path,"freq/freq_ANNOmtDNA.csv"), header=T, stringsAsFactors=FALSE,
+                      colClasses = c("character"))
+coverage <- read.csv(paste0(input_path,"coverage/coverage_ANNOmtDNA.csv"), header=T)
+allele <- as.matrix(allele)
+freq <- as.matrix(freq)
+coverage <- data.matrix(coverage)
 ```
 
 #### Compute alternative allele fraction (AAF) by mtAAF function
@@ -122,9 +124,12 @@ Part of the output of annotated alleles
     #>   TypeMutation MissensMutation CodonPosition ProteinDomain dbSNP_150_id
     #> 1            2            4095             2            NA           83
     #> 2            5            4173             2            NA           NA
-    #>   PolyPhen2 PolyPhen2_score SIFT SIFT_score CADD CADD_score CADD_phred_score
-    #> 1         3            0.99    1          0    1       2.36            18.57
-    #> 2        NA              NA   NA         NA   NA         NA               NA
+    #>   PolyPhen2 PolyPhen2_score SIFT SIFT_score CADD CADD_score
+    #> 1         3            0.99    1          0    1       2.36
+    #> 2        NA              NA   NA         NA   NA         NA
+    #>   CADD_phred_score
+    #> 1            18.57
+    #> 2               NA
 
 Summary of the mean coverage of loci
 
@@ -223,3 +228,14 @@ Run the mtAnno function
 ``` r
 mtAnno(anno=anno, path=output_path)
 ```
+
+Part of the output of annotated alleles
+
+    #>      X  pos alleles  Pos ref Gene  TypeMutation MissensMutation
+    #> 1 3311 3311       A 3311   C  ND1 Nonsynonymous             P2H
+    #>   CodonPosition          ProteinDomain dbSNP_150_id PolyPhen2
+    #> 1             2 Transmembrane; Helical           NA    benign
+    #>   PolyPhen2_score    SIFT SIFT_score        CADD CADD_score
+    #> 1            0.01 neutral       0.34 deleterious       2.45
+    #>   CADD_phred_score
+    #> 1            19.12
