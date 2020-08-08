@@ -25,7 +25,7 @@
 histSampCov <- function(coverage, loci=seq_len(.mtLength)) {
 
     if(dim(coverage)[1] != .mtLength){
-        stop("the coverage should have 16569 loci (columns)")
+        stop("the coverage should have 16569 loci (rows)")
     }
 
     if(is.numeric(loci) & !all(loci %in% seq_len(.mtLength))){
