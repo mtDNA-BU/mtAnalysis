@@ -2,15 +2,15 @@
 #'
 #' Derivation of alternative allele fraction (AAF)
 #'
-#' @param allele a data frame (16569 x N) provided by the user.
+#' @param allele a character matrix (16569 x N) provided by the user.
 #' Rows correspond to loci and columns correspond to subjects.
-#' This data frame contains N subjects with mtDNA sequencing data of 16569 loci.
-#' The data frame contains subject ID as the column names.
+#' This matrix contains N subjects with mtDNA sequencing data of 16569 loci.
+#' The matrix contains subject ID as the column names.
 #' "/" is used to delimited different allele calls in a locus.
-#' @param freq a data frame (16569 x N) provided by the user.
+#' @param freq a character matrix (16569 x N) provided by the user.
 #' Rows correspond to loci and columns correspond to subjects.
-#' This data frame contains the N subjects with mtDNA sequencing data of 16569
-#' loci. The data frame contains subject ID as the column names.
+#' This matrix contains the N subjects with mtDNA sequencing data of 16569
+#' loci. The matrix contains subject ID as the column names.
 #' "/" is used to delimited the allele fractions.
 #' @return AAF, a numeric matrix (16569 x N).
 #' Rows correspond to loci and columns correspond to subjects.
@@ -38,7 +38,7 @@ mtAAF <- function( allele, freq ){
     }
 
     if(dim(allele)[1] != .mtLength | dim(freq)[1] != .mtLength){
-        stop("the allele and frequency should have 16569 rows")
+        stop("the allele and frequency should have 16569 loci (rows)")
     }
 
     if((sum(dim(allele) != dim(freq)) > 0)){
