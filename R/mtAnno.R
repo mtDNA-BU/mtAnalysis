@@ -2,7 +2,7 @@
 #'
 #' Annotate Given Alternative Alleles of mtDNA Loci
 #'
-#' @param anno data frame provided by the user. It has two columns:
+#' @param anno a data frame provided by the user. It has two columns:
 #' mtDNA loci positions ("pos") and
 #' alternative alleles ("alleles") to be annotated.
 #' @param annot.select types of annotation scores to be generated.
@@ -61,7 +61,7 @@ mtAnno <- function(anno,
     }
 
     output<-cbind(anno , anno_score)
-    write.csv(output , file=paste0(path, study, "_mtAnno.csv"))
+    write.csv(output , file=paste0(path, study, "_mtAnno.csv"), row.names = F)
 
 }
 
