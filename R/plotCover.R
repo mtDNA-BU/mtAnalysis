@@ -35,6 +35,9 @@ plotCover <- function(x, loci=seq_len(.mtLength), col="blue", pch='.', cex=0.2,
                       ylab="", main="Mean Coverage across all mtDNA loci",
                       ...) {
 
+    if(dim(x)[1] != .mtLength)
+        stop("the coverage should have 16569 loci (rows)")
+
     if(is.numeric(loci) & !all(loci %in% seq_len(.mtLength))){
         stop("loci should be a subset of 1:16569")
     }
