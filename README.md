@@ -33,7 +33,42 @@ You can install the development version of ANNOmtDNA package from
 
 ``` r
 # install.packages("devtools")
-# devtools::install_github("mtDNA-BU/ANNOmtDNA")
+devtools::install_github("mtDNA-BU/ANNOmtDNA")
+#> Downloading GitHub repo mtDNA-BU/ANNOmtDNA@master
+#>   
+   checking for file ‘/scratch/42945.1.ood/RtmpMuhHcG/remotes577a49ae61f7/mtDNA-BU-ANNOmtDNA-a23fdcc/DESCRIPTION’ ...
+  
+✓  checking for file ‘/scratch/42945.1.ood/RtmpMuhHcG/remotes577a49ae61f7/mtDNA-BU-ANNOmtDNA-a23fdcc/DESCRIPTION’
+#> 
+  
+─  preparing ‘ANNOmtDNA’:
+#> 
+  
+   checking DESCRIPTION meta-information ...
+  
+✓  checking DESCRIPTION meta-information
+#> 
+  
+─  checking for LF line-endings in source and make files and shell scripts
+#> 
+  
+─  checking for empty or unneeded directories
+#> 
+  
+─  looking to see if a ‘data/datalist’ file should be added
+#> 
+  
+─  building ‘ANNOmtDNA_0.2.0.tar.gz’
+#> 
+  
+   Warning: invalid uid value replaced by that for user 'nobody'
+#> 
+  
+   Warning: invalid gid value replaced by that for user 'nobody'
+#>    
+#> 
+#> Installing package into '/usr3/graduate/sxb3000/R/x86_64-pc-linux-gnu-library/3.6'
+#> (as 'lib' is unspecified)
 library(ANNOmtDNA)
 ```
 
@@ -231,11 +266,9 @@ mtAnno(anno=anno, path=output_path)
 
 Part of the output of annotated alleles
 
-    #>      X  pos alleles  Pos ref Gene  TypeMutation MissensMutation
-    #> 1 3311 3311       A 3311   C  ND1 Nonsynonymous             P2H
-    #>   CodonPosition          ProteinDomain dbSNP_150_id PolyPhen2
-    #> 1             2 Transmembrane; Helical           NA    benign
-    #>   PolyPhen2_score    SIFT SIFT_score        CADD CADD_score
-    #> 1            0.01 neutral       0.34 deleterious       2.45
-    #>   CADD_phred_score
-    #> 1            19.12
+    #>    pos alleles  Pos ref Gene  TypeMutation MissensMutation CodonPosition
+    #> 1 3311       A 3311   C  ND1 Nonsynonymous             P2H             2
+    #>            ProteinDomain dbSNP_150_id PolyPhen2 PolyPhen2_score    SIFT
+    #> 1 Transmembrane; Helical           NA    benign            0.01 neutral
+    #>   SIFT_score        CADD CADD_score CADD_phred_score
+    #> 1       0.34 deleterious       2.45            19.12
