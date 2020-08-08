@@ -4,16 +4,16 @@
 #' @param aaf a numeric matrix (16569 x N). It contains subject ID as the row
 #' names, and the AAF of
 #' all 16569 mtDNA loci for each subject.
-#' @param allele a data frame (16569 x N) provided by the user.
-#' This data frame contains
+#' @param allele a character matrix (16569 x N) provided by the user.
+#' This matrix contains
 #' N subjects with mtDNA sequencing data of 16569 loci.
-#' The data frame contains subject ID as
+#' The matrix contains subject ID as
 #' the row names, and the allele calls of all mtDNA loci for each subject
 #' as the columns.
 #' "/" is used to delimited different allele calls in a locus.
-#' @param freq a data frame (16569 x N) provided by the user.
-#' This data frame contains the N subjects
-#' with mtDNA sequencing data of 16569 loci. The data frame contains subject ID
+#' @param freq a character matrix (16569 x N) provided by the user.
+#' This matrix contains the N subjects
+#' with mtDNA sequencing data of 16569 loci. The matrix contains subject ID
 #' as the row names, and
 #' the allele fractions of the called alleles for each subject as the columns.
 #' "/" is used to delimited the allele fractions.
@@ -116,14 +116,14 @@ mtSummary<-function(aaf, allele, freq, coverage,
 
     if(dim(aaf)[1] != .mtLength)
         stop("the coverage, allele, frequency and aaf should have
-             16569 loci (columns)")
+             16569 loci (rows)")
 
 
     if(!all(setequal(colnames(allele), colnames(freq)),
             setequal(colnames(allele), colnames(aaf)),
             setequal(colnames(allele), colnames(coverage))))
         stop("the coverage, allele, frequency and aaf should have same
-             subject IDs (columns)")
+             subject IDs (column names)")
 
 
 
@@ -169,7 +169,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
 
     subjectID <- colnames(allele)
     subjectID<-sort(subjectID)
-    allele <- allele[ , subjectID ]
+    allele <- allele[ , subjectID]
     freq <- freq[ , subjectID]
     coverage <-coverage[ , subjectID]
     aaf <-aaf[ , subjectID]
