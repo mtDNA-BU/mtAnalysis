@@ -33,6 +33,9 @@
 plot.mtDNAaaf <- function(x, col="blue", pch='.', cex=0.2, xlab="", ylab="",
                           ...) {
 
+    if(dim(x)[1] != .mtLength)
+        stop("the AAF should have 16569 loci (rows)")
+
     non.zeros <- which(x != 0)
     plot(x=rep(seq_len(.mtLength), dim(x)[2])[non.zeros],
          y=as.vector(x[non.zeros]),
