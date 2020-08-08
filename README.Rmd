@@ -35,7 +35,7 @@ You can install the  development version of ANNOmtDNA package from [GitHub](http
 
 ``` {r install}
 # install.packages("devtools")
-# devtools::install_github("mtDNA-BU/ANNOmtDNA")
+devtools::install_github("mtDNA-BU/ANNOmtDNA")
 library(ANNOmtDNA)
 ```
 ## Standard workflow
