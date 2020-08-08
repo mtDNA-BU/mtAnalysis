@@ -455,7 +455,8 @@ mtSummary<-function(aaf, allele, freq, coverage,
         ## output the annotation as a .csv file to the path users provided
         write (head, file=file.conn, sep=",", ncolumns=length(head), append=T)
 
-        ## this loop used to annote all the heter mutations at each heter loci with the scores chosen(annot.select)
+        ## this loop used to annote all the heter mutations at each heter loci
+        ## with the scores chosen(annot.select)
         for (i in 1:length(loci_heter)) {
 
             pos <- loci_heter[i]
@@ -567,8 +568,8 @@ mtSummary<-function(aaf, allele, freq, coverage,
                ncolumns=length(head),
                append=T)
 
-        ## this loop used to annote all the heter mutations at each
-        ## heter loci with the scores chosen(annot.select)
+        ## this loop used to annote all the homo mutations at each
+        ## homo loci with the scores chosen(annot.select)
         for (i in 1:length(loci_homo)) {
 
             pos <- loci_homo[i]
