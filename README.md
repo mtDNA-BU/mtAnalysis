@@ -34,9 +34,8 @@ You can install the development version of ANNOmtDNA package from
 ``` r
 # install.packages("devtools")
 devtools::install_github("mtDNA-BU/ANNOmtDNA")
-#> Downloading GitHub repo mtDNA-BU/ANNOmtDNA@master
-#> Installing package into '/usr3/graduate/sxb3000/R/x86_64-pc-linux-gnu-library/3.6'
-#> (as 'lib' is unspecified)
+#> Skipping install of 'ANNOmtDNA' from a github remote, the SHA1 (c04351fa) has not changed since last install.
+#>   Use `force = TRUE` to force installation
 library(ANNOmtDNA)
 ```
 
@@ -133,6 +132,9 @@ Part of the output of annotated alleles
     #>   CADD_phred_score
     #> 1            18.57
     #> 2               NA
+
+Output of PDF file of histograms of summarized mutations
+<embed src="/scratch/43046.1.ood/Rtmpmz5Evl//mtHistograms.pdf" width="100%" height="300%" style="display: block; margin: auto;" type="application/pdf" />
 
 Summary of the mean coverage of loci
 
