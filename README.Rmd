@@ -33,7 +33,7 @@ mtdnaANNO: an R package for comprehensive annotation of mtDNA sequence variation
 
 You can install the  development version of ANNOmtDNA package from [GitHub](https://github.com/) with:
 
-``` {r install}
+``` {r install, results="hide"}
 # install.packages("devtools")
 devtools::install_github("mtDNA-BU/ANNOmtDNA")
 library(ANNOmtDNA)
