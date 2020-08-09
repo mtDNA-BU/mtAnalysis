@@ -7,7 +7,7 @@
 
 **Authors:** Xianbang Sun (maintainer, <sxb3000@bu.edu>), Katia
 Bulekova, Chunyu Liu, Jessica L. Fetterman, Jun Ding, Kaiyu Yan, Daniel
-Levy<br> **Date:** “08/08/2020”
+Levy<br> **Date:** “08/09/2020”
 
 <!-- badges: start -->
 
@@ -35,38 +35,6 @@ You can install the development version of ANNOmtDNA package from
 # install.packages("devtools")
 devtools::install_github("mtDNA-BU/ANNOmtDNA")
 #> Downloading GitHub repo mtDNA-BU/ANNOmtDNA@master
-#>   
-   checking for file ‘/scratch/42945.1.ood/RtmpMuhHcG/remotes577a49ae61f7/mtDNA-BU-ANNOmtDNA-a23fdcc/DESCRIPTION’ ...
-  
-✓  checking for file ‘/scratch/42945.1.ood/RtmpMuhHcG/remotes577a49ae61f7/mtDNA-BU-ANNOmtDNA-a23fdcc/DESCRIPTION’
-#> 
-  
-─  preparing ‘ANNOmtDNA’:
-#> 
-  
-   checking DESCRIPTION meta-information ...
-  
-✓  checking DESCRIPTION meta-information
-#> 
-  
-─  checking for LF line-endings in source and make files and shell scripts
-#> 
-  
-─  checking for empty or unneeded directories
-#> 
-  
-─  looking to see if a ‘data/datalist’ file should be added
-#> 
-  
-─  building ‘ANNOmtDNA_0.2.0.tar.gz’
-#> 
-  
-   Warning: invalid uid value replaced by that for user 'nobody'
-#> 
-  
-   Warning: invalid gid value replaced by that for user 'nobody'
-#>    
-#> 
 #> Installing package into '/usr3/graduate/sxb3000/R/x86_64-pc-linux-gnu-library/3.6'
 #> (as 'lib' is unspecified)
 library(ANNOmtDNA)
