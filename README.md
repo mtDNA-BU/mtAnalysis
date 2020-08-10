@@ -135,7 +135,7 @@ Part of the output of annotated alleles
 
 Output of histograms of summarized mutations
 
-<img src="man/figures/README-chunk 13-1.png" width="60%" height="60%" style="display: block; margin: auto;" /><img src="man/figures/README-chunk 13-2.png" width="60%" height="60%" style="display: block; margin: auto;" /><img src="man/figures/README-chunk 13-3.png" width="60%" height="60%" style="display: block; margin: auto;" /><img src="man/figures/README-chunk 13-4.png" width="60%" height="60%" style="display: block; margin: auto;" />
+<img src="man/figures/README-mtHistograms-1.png" width="60%" height="60%" style="display: block; margin: auto;" /><img src="man/figures/README-mtHistograms-2.png" width="60%" height="60%" style="display: block; margin: auto;" /><img src="man/figures/README-mtHistograms-3.png" width="60%" height="60%" style="display: block; margin: auto;" /><img src="man/figures/README-mtHistograms-4.png" width="60%" height="60%" style="display: block; margin: auto;" />
 
 Summary of the mean coverage of loci
 
