@@ -34,8 +34,9 @@ You can install the development version of ANNOmtDNA package from
 ``` r
 # install.packages("devtools")
 devtools::install_github("mtDNA-BU/ANNOmtDNA")
-#> Skipping install of 'ANNOmtDNA' from a github remote, the SHA1 (d1611d84) has not changed since last install.
-#>   Use `force = TRUE` to force installation
+#> Downloading GitHub repo mtDNA-BU/ANNOmtDNA@master
+#> Installing package into '/usr3/graduate/sxb3000/R/x86_64-pc-linux-gnu-library/3.6'
+#> (as 'lib' is unspecified)
 library(ANNOmtDNA)
 ```
 
