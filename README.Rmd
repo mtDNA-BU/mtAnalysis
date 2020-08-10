@@ -68,17 +68,17 @@ AAF <- mtAAF(allele, freq)
 ```
 
 Scatter plot of output of mtAAF function, each point is AAF of a subject at a locus, the x axis is the mtDNA loci and the y axis is the range of AAF (0-100%)
-```{r scatterPlot, fig.height=4, fig.width=8}
+```{r scatterPlot, fig.height=4, fig.width=8, fig.align = 'center'}
 plot(AAF)
 ```
 
 Plot the mean coverage of each locus by plotCover function, the x axis is the mtDNA loci and y axis is the mean coverage
-```{r plotMeanCoverage, fig.height=4, fig.width=8}
+```{r plotMeanCoverage, fig.height=4, fig.width=8, fig.align = 'center'}
 plotCover(coverage)
 ```
 
 Histogram of the mean coverage of each subject by histSampCov function
-```{r histMeanCoverage, fig.height=5, fig.width=5}
+```{r histMeanCoverage, fig.height=5, fig.width=5, fig.align = 'center'}
 histSampCov(coverage)
 ```
 
@@ -89,10 +89,11 @@ Users can specify lower bound and upper bound of the threshold by thre.lower and
 Run the mtSummary function, only include loci of coding region, annotate for both of heteroplasmic and homoplasmic mutations.
 
 ```{r chunk 9, echo=TRUE, eval=FALSE}
- output_path <- "/output/dir/"
+output_path <- "/output/dir/"
 ```
-```{r chunk 10, echo=F}
+```{r chunk 10, echo=F, eval=TRUE}
 output_path <- paste0(tempdir(),"/")
+
 ```
 
 ```{r chunk 11}
@@ -106,11 +107,32 @@ annotate_df <- read.csv(paste0(output_path, "/ARIC_annotation_variation.csv"))
 annotate_df[annotate_df$mtID == 3308, ]
 ```
 
-Output of PDF file of histograms of summarized mutations
-```{r chunk 13, echo=F, out.width="100%", out.height="300%", include=TRUE, fig.align="center", fig.height=10}
-knitr::include_graphics(paste0(output_path, "/mtHistograms.pdf"))
+
+Output of histograms of summarized mutations
+```{r scrollable, include=FALSE, eval=F}
+options(width = 60)
+local({
+  hook_output <- knitr::knit_hooks$get('output')
+  knitr::knit_hooks$set(output = function(x, options) {
+    if (!is.null(options$max.height)) options$attr.output <- c(
+      options$attr.output,
+      sprintf('style="max-height: %s;"', options$max.height)
+    )
+    hook_output(x, options)
+  })
+})
 ```
 
+```{r chunk convert pdf, echo=F, include=F}
+library(pdftools)
+pdf_pages <- pdf_info(paste0(output_path, "mtHistograms.pdf"))$pages
+filenames<-paste0(output_path, "mtHistograms_", seq_len(pdf_pages), ".jpg")
+pdf_convert(paste0(output_path, "mtHistograms.pdf"), format = "jpg", pages=seq_len(pdf_pages), filenames=filenames)
+```
+
+```{r chunk 13, echo=F, fig.align = 'center', out.height="50%", out.width="50%"}
+knitr::include_graphics(filenames)
+```
 
 Summary of the mean coverage of loci
 ```{r chunk 14}
