@@ -124,8 +124,8 @@ local({
 ```
 
 
-```{r chunk display histograms in pdf, echo=F, include=F, eval=T}
-knitr::include_graphics(paste0("./man/figures/mtHistograms.pdf"))
+```{r chunk display histograms in pdf, echo=F, include=T, eval=T}
+knitr::include_graphics('https://github.com/mtDNA-BU/ANNOmtDNA/tree/master/man/figures/mtHistograms.pdf')
 ```
 
 
