@@ -7,7 +7,7 @@
 
 **Authors:** Xianbang Sun (maintainer, <sxb3000@bu.edu>), Katia
 Bulekova, Chunyu Liu, Jessica L. Fetterman, Jun Ding, Kaiyu Yan, Daniel
-Levy<br> **Date:** “08/09/2020”
+Levy<br> **Date:** “08/10/2020”
 
 <!-- badges: start -->
 
@@ -34,9 +34,8 @@ You can install the development version of ANNOmtDNA package from
 ``` r
 # install.packages("devtools")
 devtools::install_github("mtDNA-BU/ANNOmtDNA")
-#> Downloading GitHub repo mtDNA-BU/ANNOmtDNA@master
-#> Installing package into '/usr3/graduate/sxb3000/R/x86_64-pc-linux-gnu-library/3.6'
-#> (as 'lib' is unspecified)
+#> Skipping install of 'ANNOmtDNA' from a github remote, the SHA1 (d1611d84) has not changed since last install.
+#>   Use `force = TRUE` to force installation
 library(ANNOmtDNA)
 ```
 
@@ -135,8 +134,6 @@ Part of the output of annotated alleles
     #> 2               NA
 
 Output of histograms of summarized mutations
-
-<img src="/scratch/43068.1.ood/Rtmp9SakgE/mtHistograms_1.jpg" width="50%" height="50%" style="display: block; margin: auto;" /><img src="/scratch/43068.1.ood/Rtmp9SakgE/mtHistograms_2.jpg" width="50%" height="50%" style="display: block; margin: auto;" /><img src="/scratch/43068.1.ood/Rtmp9SakgE/mtHistograms_3.jpg" width="50%" height="50%" style="display: block; margin: auto;" /><img src="/scratch/43068.1.ood/Rtmp9SakgE/mtHistograms_4.jpg" width="50%" height="50%" style="display: block; margin: auto;" />
 
 Summary of the mean coverage of loci
 
