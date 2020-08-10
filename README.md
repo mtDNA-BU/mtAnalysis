@@ -34,7 +34,7 @@ You can install the development version of ANNOmtDNA package from
 ``` r
 # install.packages("devtools")
 devtools::install_github("mtDNA-BU/ANNOmtDNA")
-#> Skipping install of 'ANNOmtDNA' from a github remote, the SHA1 (c04351fa) has not changed since last install.
+#> Skipping install of 'ANNOmtDNA' from a github remote, the SHA1 (07bcffc8) has not changed since last install.
 #>   Use `force = TRUE` to force installation
 library(ANNOmtDNA)
 ```
@@ -72,7 +72,7 @@ AAF (0-100%)
 plot(AAF)
 ```
 
-![](man/figures/README-scatterPlot-1.png)<!-- -->
+<img src="man/figures/README-scatterPlot-1.png" style="display: block; margin: auto;" />
 
 Plot the mean coverage of each locus by plotCover function, the x axis
 is the mtDNA loci and y axis is the mean coverage
@@ -81,7 +81,7 @@ is the mtDNA loci and y axis is the mean coverage
 plotCover(coverage)
 ```
 
-![](man/figures/README-plotMeanCoverage-1.png)<!-- -->
+<img src="man/figures/README-plotMeanCoverage-1.png" style="display: block; margin: auto;" />
 
 Histogram of the mean coverage of each subject by histSampCov function
 
@@ -89,7 +89,7 @@ Histogram of the mean coverage of each subject by histSampCov function
 histSampCov(coverage)
 ```
 
-![](man/figures/README-histMeanCoverage-1.png)<!-- -->
+<img src="man/figures/README-histMeanCoverage-1.png" style="display: block; margin: auto;" />
 
 #### Summarize and annotate mtDNA mutations by mtSummary function
 
@@ -110,7 +110,7 @@ include loci of coding region, annotate for both of heteroplasmic and
 homoplasmic mutations.
 
 ``` r
- output_path <- "/output/dir/"
+output_path <- "/output/dir/"
 ```
 
 ``` r
@@ -133,8 +133,9 @@ Part of the output of annotated alleles
     #> 1            18.57
     #> 2               NA
 
-Output of PDF file of histograms of summarized mutations
-<embed src="/scratch/43046.1.ood/Rtmpmz5Evl//mtHistograms.pdf" width="100%" height="300%" style="display: block; margin: auto;" type="application/pdf" />
+Output of histograms of summarized mutations
+
+<img src="/scratch/43046.1.ood/RtmpJT05vT/mtHistograms_1.jpg" width="50%" height="50%" style="display: block; margin: auto;" /><img src="/scratch/43046.1.ood/RtmpJT05vT/mtHistograms_2.jpg" width="50%" height="50%" style="display: block; margin: auto;" /><img src="/scratch/43046.1.ood/RtmpJT05vT/mtHistograms_3.jpg" width="50%" height="50%" style="display: block; margin: auto;" /><img src="/scratch/43046.1.ood/RtmpJT05vT/mtHistograms_4.jpg" width="50%" height="50%" style="display: block; margin: auto;" />
 
 Summary of the mean coverage of loci
 
