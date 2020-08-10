@@ -50,7 +50,7 @@ input_path = "/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/"
 
 
 
-```{r chunk 2}
+```{r chunk2}
 allele <- read.csv(paste0(input_path, "allele/allele_ANNOmtDNA.csv"), header = T, stringsAsFactors=FALSE,
                    colClasses = c("character"))
 freq <- read.csv(paste0(input_path,"freq/freq_ANNOmtDNA.csv"), header=T, stringsAsFactors=FALSE,
@@ -63,7 +63,7 @@ coverage <- data.matrix(coverage)
 
 
 #### Compute alternative allele fraction (AAF) by mtAAF function
-```{r chunk 5}
+```{r chunk3}
 AAF <- mtAAF(allele, freq)
 ```
 
@@ -88,21 +88,21 @@ Specify the path to output the annotation file and histograms of mtDNA mutation 
 Users can specify lower bound and upper bound of the threshold by thre.lower and thre.upper arguments. By default, thre.lower=0.03 and thre.upper=0.97. That is, if $0.03\leq AAF\leq 0.97$, it is a heteroplasmic mutation; and if $AAF>0.97$, it is a homoplasmic mutation. Users can also choose different gene regions by loci argument. For example, to choose tRNA region, set loci="tRNA". Users can also choose types of mutations to be annotated by type argument. For example, to choose heteroplasmic mutations, set type="heter", and choose homoplasmic mutations, set type="homo".
 Run the mtSummary function, only include loci of coding region, annotate for both of heteroplasmic and homoplasmic mutations.
 
-```{r chunk 9, echo=TRUE, eval=FALSE}
+```{r chunk4, echo=TRUE, eval=FALSE}
 output_path <- "/output/dir/"
 ```
-```{r chunk 10, echo=F, eval=TRUE}
+```{r chunk5, echo=F, eval=TRUE}
 output_path <- paste0(tempdir(),"/")
 
 ```
 
-```{r chunk 11}
+```{r chunk6}
 mtSum <- mtSummary(aaf=AAF, allele=allele, freq=freq, coverage=coverage, loci="coding"
          , path=output_path, type="both", study="ARIC")
 ```
 
 Part of the output of annotated alleles
-```{r chunk 12, echo=F}
+```{r chunk7, echo=F}
 annotate_df <- read.csv(paste0(output_path, "/ARIC_annotation_variation.csv"))
 annotate_df[annotate_df$mtID == 3308, ]
 ```
@@ -124,7 +124,7 @@ local({
 ```
 
 
-```{r chunk display histograms in pdf, echo=F, include=F, eval=F}
+```{r histograms_pdf, echo=F, include=F, eval=F}
 knitr::include_graphics('https://github.com/mtDNA-BU/ANNOmtDNA/tree/master/man/figures/mtHistograms.pdf')
 ```
 
@@ -137,7 +137,7 @@ pdf_convert(paste0(output_path, "mtHistograms.pdf"), format = "png", pages=seq_l
 ```
 
 
-```{r chunk 13, echo=F, fig.align = 'center', out.height="60%", out.width="60%", eval=T}
+```{r mtHistograms, echo=F, fig.align = 'center', out.height="60%", out.width="60%", eval=T}
 library(EBImage)
 for(i in seq_along(filenames)){
 img <- readImage(filenames[i])
@@ -146,64 +146,64 @@ display(img, method = "raster")
 ```
 
 Summary of the mean coverage of loci
-```{r chunk 14}
+```{r chunk8}
 mtSum$coverLoci 
 ```
 
 Summary of the mean coverage of subjects
-```{r chunk 15}
+```{r chunk9}
 mtSum$coverSubjects  
 ```
 
 Display loci of variation
-```{r chunk 16, eval=F}
+```{r chunk10, eval=F}
 mtSum$loci_var  
 ```
 
 Summary of the heteroplasmic burden of subjects
-```{r chunk 17}
+```{r chunk11}
 mtSum$heter_burden_sum  
 ```
 
 Summary of numbers of heteroplasmic mutations loci carried
-```{r chunk 18}
+```{r chunk12}
 mtSum$heter_loci_sum  
 ```
 
 Display loci of heteroplasmy
-```{r chunk 19, eval=F}
+```{r chunk13, eval=F}
 mtSum$loci_heter  
 ```
 
 Total Number of heteroplasmic mutations
-```{r chunk 20}
+```{r chunk14}
 mtSum$heter_total  
 ```
 
 Summary of the homoplasmic burden of subjects
-```{r chunk 21}
+```{r chunk15}
 mtSum$homo_burden_sum  
 ```
 
 Summary of numbers of homoplasmic mutations loci carried
-```{r chunk 22}
+```{r chunk16}
 mtSum$homo_loci_sum  
 ```
 
 Display loci of homoplasmy
-```{r chunk 23, eval=F}
+```{r chunk17, eval=F}
 mtSum$loci_homo  
 ```
 
 Total Number of homoplasmic mutations
-```{r chunk 24}
+```{r chunk18}
 mtSum$homo_total  
 ```
 
 #### Annotate alternative alleles by mtAnno function
 
 Generate alternative alleles to be annotated for mtDNA loci. It has two columns: loci positions ("pos") and "alleles" to be annotated.
-```{r chunk 25}
+```{r chunk19}
 anno <- as.data.frame(matrix(0, 10, 2))
 colnames(anno)<- c("pos", "alleles")
 anno$pos <- c(3311:3320)
@@ -211,12 +211,12 @@ anno$alleles <- c("A", "A", "T", "C", "A", "T", "G", "A", "C", "T")
 ```
 
 Run the mtAnno function
-```{r chunk 26}
+```{r chunk20}
 mtAnno(anno=anno, path=output_path)
 ```
 
 Part of the output of annotated alleles
-```{r chunk 27, echo=F}
+```{r chunk21, echo=F}
 annotate_df2 <- read.csv(paste0(output_path, "/Study_mtAnno.csv"))
 annotate_df2[annotate_df2$Pos == 3311, ]
 ```
