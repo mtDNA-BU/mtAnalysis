@@ -123,15 +123,26 @@ local({
 })
 ```
 
-```{r chunk convert pdf, echo=F, include=F}
-library(pdftools)
-pdf_pages <- pdf_info(paste0(output_path, "mtHistograms.pdf"))$pages
-filenames<-paste0(output_path, "mtHistograms_", seq_len(pdf_pages), ".jpg")
-pdf_convert(paste0(output_path, "mtHistograms.pdf"), format = "jpg", pages=seq_len(pdf_pages), filenames=filenames)
+
+```{r chunk display histograms in pdf, echo=F, include=F, eval=T}
+knitr::include_graphics(paste0("./man/figures/mtHistograms.pdf"))
 ```
 
-```{r chunk 13, echo=F, fig.align = 'center', out.height="50%", out.width="50%"}
-knitr::include_graphics(filenames)
+
+```{r chunk convert pdf to png, echo=F, include=F, eval=F}
+library(pdftools)
+pdf_pages <- pdf_info(paste0(output_path, "mtHistograms.pdf"))$pages
+filenames<-paste0(output_path, "mtHistograms_", seq_len(pdf_pages), ".png")
+pdf_convert(paste0(output_path, "mtHistograms.pdf"), format = "png", pages=seq_len(pdf_pages), filenames=filenames)
+```
+
+
+```{r chunk 13, echo=F, fig.align = 'center', out.height="60%", out.width="60%", eval=F}
+library(EBImage)
+for(i in seq_along(filenames)){
+img <- readImage(filenames[i])
+display(img, method = "raster")
+}
 ```
 
 Summary of the mean coverage of loci
