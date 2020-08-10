@@ -124,12 +124,12 @@ local({
 ```
 
 
-```{r chunk display histograms in pdf, echo=F, include=T, eval=T}
+```{r chunk display histograms in pdf, echo=F, include=F, eval=F}
 knitr::include_graphics('https://github.com/mtDNA-BU/ANNOmtDNA/tree/master/man/figures/mtHistograms.pdf')
 ```
 
 
-```{r chunk convert pdf to png, echo=F, include=F, eval=F}
+```{r chunk convert pdf to png, echo=F, include=F, eval=T}
 library(pdftools)
 pdf_pages <- pdf_info(paste0(output_path, "mtHistograms.pdf"))$pages
 filenames<-paste0(output_path, "mtHistograms_", seq_len(pdf_pages), ".png")
@@ -137,7 +137,7 @@ pdf_convert(paste0(output_path, "mtHistograms.pdf"), format = "png", pages=seq_l
 ```
 
 
-```{r chunk 13, echo=F, fig.align = 'center', out.height="60%", out.width="60%", eval=F}
+```{r chunk 13, echo=F, fig.align = 'center', out.height="60%", out.width="60%", eval=T}
 library(EBImage)
 for(i in seq_along(filenames)){
 img <- readImage(filenames[i])
