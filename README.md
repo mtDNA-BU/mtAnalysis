@@ -6,8 +6,8 @@
 ### Association analysis of heteroplasmic mtDNA mutations.
 
 **Authors:** Xianbang Sun (maintainer, <sxb3000@bu.edu>), Katia
-Bulekova, Chunyu Liu, Jessica L. Fetterman, Jun Ding, Kaiyu Yan, Daniel
-Levy<br> **Date:** “08/10/2020”
+Bulekova, Kaiyu Yan, Daniel Levy, Jun Ding, Jessica L. Fetterman, Chunyu
+Liu<br> **Date:** “08/11/2020”
 
 <!-- badges: start -->
 
@@ -22,8 +22,8 @@ regions.
 
 *Note:* if you use ANNOmtDNA in published research, please cite:
 
-Xianbang Sun, Katia Bulekova, Chunyu Liu, Jessica L. Fetterman, Jun
-Ding, Kaiyu Yan, Daniel Levy (2020) mtdnaANNO: an R package for
+Xianbang Sun, Katia Bulekova, Kaiyu Yan, Daniel Levy, Jun Ding, Chunyu
+Liu, Jessica L. Fetterman (2020) mtdnaANNO: an R package for
 comprehensive annotation of mtDNA sequence variation
 
 ## Installation
@@ -33,9 +33,7 @@ You can install the development version of ANNOmtDNA package from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("mtDNA-BU/ANNOmtDNA")
-#> Skipping install of 'ANNOmtDNA' from a github remote, the SHA1 (abc545a4) has not changed since last install.
-#>   Use `force = TRUE` to force installation
+# devtools::install_github("mtDNA-BU/ANNOmtDNA")
 library(ANNOmtDNA)
 ```
 
