@@ -131,8 +131,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
         stop("loci must be numeric vector or character")
 
 
-    if(is.character(loci) &
-       !(loci %in% c("coding", "tRNA", "RNR1", "RNR2") &
+    if(is.character(loci) & !all(loci %in% c("coding", "tRNA", "RNR1", "RNR2") &
          length(loci)==1))
         stop("loci must be one of coding, tRNA, RNR1, RNR2 if it is character")
 
