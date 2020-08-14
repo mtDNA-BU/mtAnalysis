@@ -56,6 +56,23 @@ freq <- as.matrix(freq)
 coverage <- data.matrix(coverage)
 ```
 
+allele: a character matrix (16569 x N) provided by the user. Rows
+correspond to loci and columns correspond to subjects. This matrix
+contains N subjects with mtDNA sequencing data of 16569 loci. The matrix
+must contain subject ID as the column names. “/” is used to delimited
+different allele calls in a locus.
+
+freq: a character matrix (16569 x N) provided by the user. Rows
+correspond to loci and columns correspond to subjects. This matrix
+contains the N subjects with mtDNA sequencing data of 16569 loci. The
+matrix must contain subject ID as the column names. “/” is used to
+delimited the allele fractions.
+
+coverage: a numeric matrix (16569 x N). Rows correspond to loci and
+columns correspond to subjects. This matrix contains the reads coverage
+of the 16569 mtDNA loci for each subject. The matrix must contain the
+subject ID as the column names.
+
 #### Compute alternative allele fraction (AAF) by mtAAF function
 
 ``` r
@@ -112,20 +129,20 @@ output_path <- "/output/dir/"
 ```
 
 ``` r
-mtSum <- mtSummary(aaf=AAF, allele=allele, freq=freq, coverage=coverage, loci="coding"
+mtSum <- mtSummary(aaf=AAF, allele=allele, freq=freq, coverage=coverage, loci=c(1:16569)
          , path=output_path, type="both", study="ARIC")
 ```
 
 Part of the output of annotated alleles
 
-    #>   mtID ref_allele allele_var n_var n_heter n_homo mut_allele  Pos ref Gene
-    #> 3 3310          C        C/T     1       0      1          T 3310   2   91
-    #>   TypeMutation MissensMutation CodonPosition ProteinDomain dbSNP_150_id
-    #> 3            3            4636             1            10           NA
-    #>   PolyPhen2 PolyPhen2_score SIFT SIFT_score CADD CADD_score
-    #> 3         1            0.11    2       0.34    1       2.45
-    #>   CADD_phred_score
-    #> 3            19.15
+    #>     mtID ref_allele allele_var n_var n_heter n_homo mut_allele  Pos ref
+    #> 766 3310          C        C/T     1       0      0          T 3310   2
+    #>     Gene TypeMutation MissensMutation CodonPosition ProteinDomain
+    #> 766   91            3            4636             1            10
+    #>     dbSNP_150_id PolyPhen2 PolyPhen2_score SIFT SIFT_score CADD CADD_score
+    #> 766           NA         1            0.11    2       0.34    1       2.45
+    #>     CADD_phred_score
+    #> 766            19.15
 
 Output of histograms of summarized mutations
 
@@ -136,7 +153,7 @@ Summary of the mean coverage of loci
 ``` r
 mtSum$coverLoci 
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#>    4136    5315    5534    5520    5719    6231
+#>   145.9  5333.5  5572.2  5513.0  5727.4  6230.7
 ```
 
 Summary of the mean coverage of subjects
@@ -144,7 +161,7 @@ Summary of the mean coverage of subjects
 ``` r
 mtSum$coverSubjects  
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#>   935.7  4338.6  5325.6  5520.2  6469.6 16544.7
+#>   971.4  4334.7  5317.6  5513.0  6462.6 16415.2
 ```
 
 Display loci of variation
@@ -158,15 +175,15 @@ Summary of the heteroplasmic burden of subjects
 ``` r
 mtSum$heter_burden_sum  
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#>  0.0000  0.0000  0.0000  0.3973  1.0000 68.0000
+#>   0.000   1.000   1.000   1.917   2.000 111.000
 ```
 
 Summary of numbers of heteroplasmic mutations loci carried
 
 ``` r
 mtSum$heter_loci_sum  
-#>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#>  0.0000  0.0000  0.0000  0.1411  0.0000 25.0000
+#>     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+#>    0.000    0.000    0.000    0.466    0.000 1877.000
 ```
 
 Display loci of heteroplasmy
@@ -179,7 +196,7 @@ Total Number of heteroplasmic mutations
 
 ``` r
 mtSum$heter_total  
-#> [1] 1600
+#> [1] 7719
 ```
 
 Summary of the homoplasmic burden of subjects
@@ -187,7 +204,7 @@ Summary of the homoplasmic burden of subjects
 ``` r
 mtSum$homo_burden_sum  
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#>    0.00    6.00   14.00   13.32   18.00   61.00
+#>     0.0    13.0    27.0    25.1    34.0    96.0
 ```
 
 Summary of numbers of homoplasmic mutations loci carried
@@ -195,7 +212,7 @@ Summary of numbers of homoplasmic mutations loci carried
 ``` r
 mtSum$homo_loci_sum  
 #>     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-#>    0.000    0.000    0.000    4.729    0.000 3972.000
+#>    0.000    0.000    0.000    6.102    0.000 3975.000
 ```
 
 Display loci of homoplasmy
@@ -208,7 +225,7 @@ Total Number of homoplasmic mutations
 
 ``` r
 mtSum$homo_total  
-#> [1] 53633
+#> [1] 101075
 ```
 
 #### Annotate alternative alleles by mtAnno function
