@@ -4,8 +4,8 @@
 #'
 #' @param coverage a numeric matrix (16569 x N).
 #' Rows correspond to loci and columns correspond to subjects.
-#' It contains the subject ID as the column names,
-#' and the reads coverage of the 16569 mtDNA loci for each subject.
+#' This matrix contains the reads coverage of the 16569 mtDNA loci for each
+#' subject. The matrix must contain the subject ID as the column names.
 #' @param loci one of the following to specify mtDNA loci:
 #' 1. a numeric vector (default is c(1:16569)) of mitochondrial DNA loci,
 #' 2. a character string for the regions(e.g. "coding", "tRNA", "Dloop", …).
