@@ -1,25 +1,25 @@
 #' mtSummary function
 #' Identification of mtDNA variations, output summary statistics,
 #' annotation of heteroplasmic and/or homoplasmic variations.
-#' @param aaf a numeric matrix (16569 x N). It contains subject ID as the row
-#' names, and the AAF of
-#' all 16569 mtDNA loci for each subject.
+#' @param aaf a numeric matrix (16569 x N).
+#' Rows correspond to loci and columns correspond to subjects.
+#' It contains subject ID as the column names,
+#' and the AAFs of all 16569 mtDNA loci for each subject.
+#' It is generated from mtAAF function.
 #' @param allele a character matrix (16569 x N) provided by the user.
-#' This matrix contains
-#' N subjects with mtDNA sequencing data of 16569 loci.
-#' The matrix contains subject ID as
-#' the row names, and the allele calls of all mtDNA loci for each subject
-#' as the columns.
+#' Rows correspond to loci and columns correspond to subjects.
+#' This matrix contains N subjects with mtDNA sequencing data of 16569 loci.
+#' The matrix must contain subject ID as the column names.
 #' "/" is used to delimited different allele calls in a locus.
 #' @param freq a character matrix (16569 x N) provided by the user.
-#' This matrix contains the N subjects
-#' with mtDNA sequencing data of 16569 loci. The matrix contains subject ID
-#' as the row names, and
-#' the allele fractions of the called alleles for each subject as the columns.
+#' Rows correspond to loci and columns correspond to subjects.
+#' This matrix contains the N subjects with mtDNA sequencing data of 16569
+#' loci. The matrix must contain subject ID as the column names.
 #' "/" is used to delimited the allele fractions.
-#' @param coverage a numeric matrix (16569 x N) containing the subject ID
-#' as the row names, and the reads
-#' coverage of the 16569 mitochondrial DNA loci for each subject.
+#' @param coverage a numeric matrix (16569 x N).
+#' Rows correspond to loci and columns correspond to subjects.
+#' This matrix contains the reads coverage of the 16569 mtDNA loci for each
+#' subject. The matrix must contain the subject ID as the column names.
 #' @param coverage.qc a number(default is 100) of threshold for the coverage.
 #' If the coverage<coverage.qc, the allele call at that locus of the subject
 #' will not be used.
@@ -276,11 +276,11 @@ mtSummary<-function(aaf, allele, freq, coverage,
         pdf(file = paste0(path, "/mtHistograms.pdf"))
 
         ## histogram of heteroplasmic burden across subjects
-        h <- hist(heter_burden, breaks = 50,
+        h <- hist(heter_burden, breaks = 100,
                   xlab ="Heteroplasmic burden score" ,
                   main ="Histogram of heteroplasmic burden score" )
 
-        h <- hist(heter_loci, breaks = 50,
+        h <- hist(heter_loci, breaks = 100,
                   xlab ="Heteroplasmic variations of mtDNA loci" ,
                   main ="Histogram of heteroplasmic variations of mtDNA loci" )
 
@@ -370,8 +370,8 @@ mtSummary<-function(aaf, allele, freq, coverage,
                               ref_allele,
                               x,
                               n_mutation[i],
-                              heter_loci[loci==pos],
-                              homo_loci[loci==pos],
+                              heter_loci[as.character(pos)],
+                              homo_loci[as.character(pos)],
                               point,
                               paste(score, collapse=","), sep=","),
                         file=file.conn, fill=TRUE, append=TRUE)
@@ -387,8 +387,8 @@ mtSummary<-function(aaf, allele, freq, coverage,
                           ref_allele,
                           x,
                           n_mutation[i],
-                          heter_loci[loci == pos],
-                          homo_loci[loci == pos],
+                          heter_loci[as.character(pos)],
+                          homo_loci[as.character(pos)],
                           x2,
                           paste(score, collapse=","), sep=","),
                     file=file.conn, fill=TRUE, append=TRUE)
@@ -478,7 +478,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
                     all <- cbind(pos,
                                  ref_allele,
                                  x,
-                                 heter_loci[loci==pos],
+                                 heter_loci[as.character(pos)],
                                  point,
                                  score)
 
@@ -500,7 +500,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
                 all   <- cbind(pos,
                                ref_allele,
                                x,
-                               heter_loci[loci==pos],
+                               heter_loci[as.character(pos)],
                                x2,
                                score)
                 write.table(all,
@@ -590,7 +590,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
                     all   <- cbind(pos,
                                    ref_allele,
                                    x,
-                                   homo_loci[loci==pos],
+                                   homo_loci[as.character(pos)],
                                    point ,
                                    score)
                     write.table(all,
@@ -610,7 +610,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
                 all   <- cbind(pos,
                                ref_allele,
                                x,
-                               homo_loci[loci == pos],
+                               homo_loci[as.character(pos)],
                                x2 ,
                                score)
                 write.table(all,
