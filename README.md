@@ -129,14 +129,14 @@ output_path <- "/output/dir/"
 ```
 
 ``` r
-mtSum <- mtSummary(aaf=AAF, allele=allele, freq=freq, coverage=coverage, loci=c(1:16569)
-         , path=output_path, type="both", study="ARIC")
+mtSum <- mtSummary(aaf=AAF, allele=allele, freq=freq, coverage=coverage,
+         path=output_path, type="both", study="ARIC")
 ```
 
 Part of the output of annotated alleles
 
     #>     mtID ref_allele allele_var n_var n_heter n_homo mut_allele  Pos ref
-    #> 766 3310          C        C/T     1       0      0          T 3310   2
+    #> 766 3310          C        C/T     1       0      1          T 3310   2
     #>     Gene TypeMutation MissensMutation CodonPosition ProteinDomain
     #> 766   91            3            4636             1            10
     #>     dbSNP_150_id PolyPhen2 PolyPhen2_score SIFT SIFT_score CADD CADD_score
