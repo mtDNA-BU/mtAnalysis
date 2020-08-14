@@ -192,7 +192,7 @@ Display loci of heteroplasmy
 mtSum$loci_heter  
 ```
 
-Total Number of heteroplasmic mutations
+Total number of heteroplasmic mutations
 
 ``` r
 mtSum$heter_total  
@@ -221,7 +221,7 @@ Display loci of homoplasmy
 mtSum$loci_homo  
 ```
 
-Total Number of homoplasmic mutations
+Total number of homoplasmic mutations
 
 ``` r
 mtSum$homo_total  
