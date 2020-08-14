@@ -49,7 +49,6 @@ input_path = "/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/"
 ```
 
 
-
 ```{r chunk2}
 allele <- read.csv(paste0(input_path, "allele/allele_ANNOmtDNA.csv"), header = T, stringsAsFactors=FALSE,
                    colClasses = c("character"))
@@ -61,6 +60,11 @@ freq <- as.matrix(freq)
 coverage <- data.matrix(coverage)
 ```
 
+allele: a character matrix (16569 x N) provided by the user. Rows correspond to loci and columns correspond to subjects. This matrix contains N subjects with mtDNA sequencing data of 16569 loci. The matrix must contain subject ID as the column names. "/" is used to delimited different allele calls in a locus.
+
+freq: a character matrix (16569 x N) provided by the user. Rows correspond to loci and columns correspond to subjects. This matrix contains the N subjects with mtDNA sequencing data of 16569 loci. The matrix must contain subject ID as the column names. "/" is used to delimited the allele fractions.
+
+coverage: a numeric matrix (16569 x N). Rows correspond to loci and columns correspond to subjects. This matrix contains the reads coverage of the 16569 mtDNA loci for each subject. The matrix must contain the subject ID as the column names.
 
 #### Compute alternative allele fraction (AAF) by mtAAF function
 ```{r chunk3}
@@ -92,12 +96,13 @@ Run the mtSummary function, only include loci of coding region, annotate for bot
 output_path <- "/output/dir/"
 ```
 ```{r chunk5, echo=F, eval=TRUE}
+# output_path <-"/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/Annotation/Output/"
 output_path <- paste0(tempdir(),"/")
 
 ```
 
 ```{r chunk6}
-mtSum <- mtSummary(aaf=AAF, allele=allele, freq=freq, coverage=coverage, loci="coding"
+mtSum <- mtSummary(aaf=AAF, allele=allele, freq=freq, coverage=coverage, loci=c(1:16569)
          , path=output_path, type="both", study="ARIC")
 ```
 
