@@ -104,7 +104,7 @@ mtSum <- mtSummary(aaf=AAF, allele=allele, freq=freq, coverage=coverage, loci="c
 Part of the output of annotated alleles
 ```{r chunk7, echo=F}
 annotate_df <- read.csv(paste0(output_path, "/ARIC_annotation_variation.csv"))
-annotate_df[annotate_df$mtID == 3308, ]
+annotate_df[annotate_df$mtID == 3310, ]
 ```
 
 
