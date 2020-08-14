@@ -7,7 +7,7 @@
 
 **Authors:** Xianbang Sun (maintainer, <sxb3000@bu.edu>), Katia
 Bulekova, Kaiyu Yan, Daniel Levy, Jun Ding, Jessica L. Fetterman, Chunyu
-Liu<br> **Date:** “08/11/2020”
+Liu<br> **Date:** “08/14/2020”
 
 <!-- badges: start -->
 
@@ -119,17 +119,13 @@ mtSum <- mtSummary(aaf=AAF, allele=allele, freq=freq, coverage=coverage, loci="c
 Part of the output of annotated alleles
 
     #>   mtID ref_allele allele_var n_var n_heter n_homo mut_allele  Pos ref Gene
-    #> 1 3308          T      T/C/G    45       3     42          C 3308   5   91
-    #> 2 3308          T      T/C/G    45       3     42          G 3308   5   91
+    #> 3 3310          C        C/T     1       0      1          T 3310   2   91
     #>   TypeMutation MissensMutation CodonPosition ProteinDomain dbSNP_150_id
-    #> 1            2            4095             2            NA           83
-    #> 2            5            4173             2            NA           NA
+    #> 3            3            4636             1            10           NA
     #>   PolyPhen2 PolyPhen2_score SIFT SIFT_score CADD CADD_score
-    #> 1         3            0.99    1          0    1       2.36
-    #> 2        NA              NA   NA         NA   NA         NA
+    #> 3         1            0.11    2       0.34    1       2.45
     #>   CADD_phred_score
-    #> 1            18.57
-    #> 2               NA
+    #> 3            19.15
 
 Output of histograms of summarized mutations
 
