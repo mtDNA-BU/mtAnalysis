@@ -102,8 +102,8 @@ output_path <- paste0(tempdir(),"/")
 ```
 
 ```{r chunk6}
-mtSum <- mtSummary(aaf=AAF, allele=allele, freq=freq, coverage=coverage, loci=c(1:16569)
-         , path=output_path, type="both", study="ARIC")
+mtSum <- mtSummary(aaf=AAF, allele=allele, freq=freq, coverage=coverage,
+         path=output_path, type="both", study="ARIC")
 ```
 
 Part of the output of annotated alleles
