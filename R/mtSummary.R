@@ -284,11 +284,11 @@ mtSummary<-function(aaf, allele, freq, coverage,
                   xlab ="Heteroplasmic variations of mtDNA loci" ,
                   main ="Histogram of heteroplasmic variations of mtDNA loci" )
 
-        h <- hist(homo_burden, breaks = 50,
+        h <- hist(homo_burden, breaks = 100,
                   xlab ="Homoplasmic burden score" ,
                   main ="Histogram of homoplasmic burden score" )
 
-        h <- hist(homo_loci, breaks = 50,
+        h <- hist(homo_loci, breaks = 100,
                   xlab ="Homoplasmic variations of mtDNA loci" ,
                   main ="Histogram of homoplasmic variations of mtDNA loci" )
 
