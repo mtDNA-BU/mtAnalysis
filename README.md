@@ -7,7 +7,7 @@
 
 **Authors:** Xianbang Sun (maintainer, <sxb3000@bu.edu>), Katia
 Bulekova, Kaiyu Yan, Daniel Levy, Jun Ding, Jessica L. Fetterman, Chunyu
-Liu<br> **Date:** “08/14/2020”
+Liu<br> **Date:** “08/17/2020”
 
 <!-- badges: start -->
 
