@@ -22,7 +22,7 @@
 #'
 #'}
 #'
-histSampCov <- function(coverage, loci=seq_len(.mtLength)) {
+histSampCov <- function(coverage, loci=seq_len(.mtLength), ...) {
 
     if(dim(coverage)[1] != .mtLength){
         stop("the coverage should have 16569 loci (rows)")
@@ -57,7 +57,7 @@ histSampCov <- function(coverage, loci=seq_len(.mtLength)) {
 
     h <- hist(cov_sub_hist[, 1], breaks=50,
               xlab="Mean coverage of subjects",
-              main="Histogram of Mean Coverage of Subjects")
+              main="Histogram of Mean Coverage of Subjects", ...)
 
     text(h$mids, h$counts, labels=h$counts, adj=c(0.5, -0.5), cex=.8)
 
