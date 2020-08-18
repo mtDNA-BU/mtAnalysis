@@ -55,7 +55,7 @@ histSampCov <- function(coverage, loci=seq_len(.mtLength), ...) {
     cov_sub <- colMeans(coverage, na.rm=T)
     cov_sub_hist <- as.data.frame(cov_sub)
 
-    h <- hist(cov_sub_hist[, 1], breaks=50,
+    h <- hist(cov_sub_hist[, 1],
               xlab="Mean coverage of subjects",
               main="Histogram of Mean Coverage of Subjects", ...)
 
