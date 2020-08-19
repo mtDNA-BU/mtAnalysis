@@ -32,7 +32,7 @@
 #'
 plotCover <- function(x, loci=seq_len(.mtLength), col="blue", pch='.', cex=0.2,
                       xlab="mtloci",
-                      ylab="", main="Mean Coverage across all mtDNA loci",
+                      ylab="", main="Mean Coverage for all mtDNA loci",
                       ...) {
 
     if(dim(x)[1] != .mtLength)
