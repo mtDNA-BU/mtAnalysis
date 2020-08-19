@@ -81,7 +81,7 @@ Plot the mean coverage of each locus by plotCover function, the x axis is the mt
 plotCover(coverage)
 ```
 
-Histogram of the mean coverage of each subject by histSampCov function
+Histogram of the mean coverage of each subject by histSampCov function 
 ```{r histMeanCoverage, fig.height=5, fig.width=5, fig.align = 'center'}
 histSampCov(coverage)
 ```
