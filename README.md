@@ -3,11 +3,11 @@
 
 # ANNOmtDNA
 
-### Association analysis of heteroplasmic mtDNA mutations.
+### Comprehensive annotation to mtDNA mutations.
 
 **Authors:** Xianbang Sun (maintainer, <sxb3000@bu.edu>), Katia
 Bulekova, Kaiyu Yan, Daniel Levy, Jun Ding, Jessica L. Fetterman, Chunyu
-Liu<br> **Date:** “08/17/2020”
+Liu<br> **Date:** “08/19/2020”
 
 <!-- badges: start -->
 
