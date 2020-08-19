@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
 )
 ```
 # ANNOmtDNA
-### Association analysis of heteroplasmic mtDNA mutations.
+### Comprehensive annotation to mtDNA mutations.
 
 **Authors:** Xianbang Sun (maintainer, sxb3000@bu.edu), Katia Bulekova, Kaiyu Yan, Daniel Levy, Jun Ding, Jessica L. Fetterman, Chunyu Liu<br>
 **Date:** "`r format(Sys.Date(), '%m/%d/%Y')`"
