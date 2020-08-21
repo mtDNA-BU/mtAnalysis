@@ -26,28 +26,28 @@ mtSummary(
 )
 }
 \arguments{
-\item{aaf}{a numeric matrix (16569 x N). It contains subject ID as the row
-names, and the AAF of
-all 16569 mtDNA loci for each subject.}
+\item{aaf}{a numeric matrix (16569 x N).
+Rows correspond to loci and columns correspond to subjects.
+It contains subject ID as the column names,
+and the AAFs of all 16569 mtDNA loci for each subject.
+It is generated from mtAAF function.}
 
-\item{allele}{a data frame (16569 x N) provided by the user.
-This data frame contains
-N subjects with mtDNA sequencing data of 16569 loci.
-The data frame contains subject ID as
-the row names, and the allele calls of all mtDNA loci for each subject
-as the columns.
+\item{allele}{a character matrix (16569 x N) provided by the user.
+Rows correspond to loci and columns correspond to subjects.
+This matrix contains N subjects with mtDNA sequencing data of 16569 loci.
+The matrix must contain subject ID as the column names.
 "/" is used to delimited different allele calls in a locus.}
 
-\item{freq}{a data frame (16569 x N) provided by the user.
-This data frame contains the N subjects
-with mtDNA sequencing data of 16569 loci. The data frame contains subject ID
-as the row names, and
-the allele fractions of the called alleles for each subject as the columns.
+\item{freq}{a character matrix (16569 x N) provided by the user.
+Rows correspond to loci and columns correspond to subjects.
+This matrix contains the N subjects with mtDNA sequencing data of 16569
+loci. The matrix must contain subject ID as the column names.
 "/" is used to delimited the allele fractions.}
 
-\item{coverage}{a numeric matrix (16569 x N) containing the subject ID
-as the row names, and the reads
-coverage of the 16569 mitochondrial DNA loci for each subject.}
+\item{coverage}{a numeric matrix (16569 x N).
+Rows correspond to loci and columns correspond to subjects.
+This matrix contains the reads coverage of the 16569 mtDNA loci for each
+subject. The matrix must contain the subject ID as the column names.}
 
 \item{coverage.qc}{a number(default is 100) of threshold for the coverage.
 If the coverage<coverage.qc, the allele call at that locus of the subject

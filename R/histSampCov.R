@@ -9,6 +9,7 @@
 #' @param loci one of the following to specify mtDNA loci:
 #' 1. a numeric vector (default is c(1:16569)) of mitochondrial DNA loci,
 #' 2. a character string for the regions(e.g. "coding", "tRNA", "Dloop", …).
+#' @param ... arguments to be passed to plot function.
 #' @export
 #' @examples
 #'

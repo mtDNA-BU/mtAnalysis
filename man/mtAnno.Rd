@@ -14,7 +14,7 @@ mtAnno(
 )
 }
 \arguments{
-\item{anno}{data frame provided by the user. It has two columns:
+\item{anno}{a data frame provided by the user. It has two columns:
 mtDNA loci positions ("pos") and
 alternative alleles ("alleles") to be annotated.}
 
