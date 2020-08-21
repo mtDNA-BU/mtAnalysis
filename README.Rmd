@@ -129,8 +129,8 @@ local({
 ```
 
 
-```{r histograms_pdf, echo=F, include=F, eval=F}
-knitr::include_graphics('https://github.com/mtDNA-BU/ANNOmtDNA/tree/master/man/figures/mtHistograms.pdf')
+```{r histograms_pdf, echo=T, include=T, eval=T}
+knitr::include_graphics('/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/Annotation/Output/hist_test.svg')
 ```
 
 
@@ -149,6 +149,7 @@ img <- readImage(filenames[i])
 display(img, method = "raster")
 }
 ```
+
 
 Summary of the mean coverage of loci
 ```{r chunk8}
