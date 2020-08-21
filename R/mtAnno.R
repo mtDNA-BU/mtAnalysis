@@ -40,28 +40,28 @@ mtAnno <- function(anno,
                                   "CADD", "CADD_score", "CADD_phred_score"),
                    path="./", study="Study"){
 
-    anno$alleles<-as.character(anno$alleles)
-    anno_score<-NULL
+    anno$alleles <- as.character(anno$alleles)
+    anno_score <- NULL
 
     ## annotate the alleles based on the annotation files
-    for(i in 1:nrow(anno)){
+    for(i in  1:nrow(anno)){
         if(anno$alleles[i] == "A"){
-            score<-.AA[.AA$Pos == anno$pos[i], annot.select]
+            score <- .AA[.AA$Pos == anno$pos[i], annot.select]
         }
         else if(anno$alleles[i] == "T"){
-            score<-.TT[.TT$Pos == anno$pos[i], annot.select]
+            score <- .TT[.TT$Pos == anno$pos[i], annot.select]
         }
         else if(anno$alleles[i] == "G"){
-            score<-.GG[.GG$Pos == anno$pos[i], annot.select]
+            score <- .GG[.GG$Pos == anno$pos[i], annot.select]
         }
         else if(anno$alleles[i] == "C"){
-            score<-.CC[.CC$Pos == anno$pos[i], annot.select]
+            score <- .CC[.CC$Pos == anno$pos[i], annot.select]
         }
-        anno_score<-rbind(anno_score, score)
+        anno_score <- rbind(anno_score, score)
     }
 
-    output<-cbind(anno , anno_score)
-    write.csv(output , file=paste0(path, study, "_mtAnno.csv"), row.names = F)
+    output <- cbind(anno, anno_score)
+    write.csv(output, file=paste0(path, study, "_mtAnno.csv"), row.names = F)
 
 }
 
