@@ -7,7 +7,7 @@
 
 **Authors:** Xianbang Sun (maintainer, <sxb3000@bu.edu>), Katia
 Bulekova, Kaiyu Yan, Daniel Levy, Jun Ding, Jessica L. Fetterman, Chunyu
-Liu<br> **Date:** “08/19/2020”
+Liu<br> **Date:** “08/21/2020”
 
 <!-- badges: start -->
 
@@ -145,6 +145,12 @@ Part of the output of annotated alleles
     #> 766            19.15
 
 Output of histograms of summarized mutations
+
+``` r
+knitr::include_graphics('/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/Annotation/Output/hist_test.svg')
+```
+
+![](/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/Annotation/Output/hist_test.svg)<!-- -->
 
 <img src="man/figures/README-mtHistograms-1.png" width="60%" height="60%" style="display: block; margin: auto;" /><img src="man/figures/README-mtHistograms-2.png" width="60%" height="60%" style="display: block; margin: auto;" /><img src="man/figures/README-mtHistograms-3.png" width="60%" height="60%" style="display: block; margin: auto;" /><img src="man/figures/README-mtHistograms-4.png" width="60%" height="60%" style="display: block; margin: auto;" />
 
