@@ -129,8 +129,15 @@ local({
 ```
 
 
-```{r histograms_pdf, echo=T, include=T, eval=T}
+```{r histograms_pdf, echo=F, include=T, eval=T}
+library(grImport2)
+library(rsvg)
 knitr::include_graphics('/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/Annotation/Output/hist_test.svg')
+#img_test<-readPicture("/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/Annotation/Output/hist_test.svg")
+#grid.picture(img_test, ext="clipbbox" )
+img_test<-rsvg("/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/Annotation/Output/hist_test.svg")
+#plot(img_test)
+#display(img_test, method = "raster", all=T)
 ```
 
 
