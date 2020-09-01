@@ -67,8 +67,11 @@ freq: a character matrix (16569 x N) provided by the user. Rows correspond to lo
 coverage: a numeric matrix (16569 x N). Rows correspond to loci and columns correspond to subjects. This matrix contains the reads coverage of the 16569 mtDNA loci for each subject. The matrix must contain the subject ID as the column names.
 
 #### Compute alternative allele fraction (AAF) by mtAAF function
+
+method is the argument to choose method to compute AAF for the case of multiple alternative alleles. The default method "maxAA" computes AAF as the maximum of frequencies of corresponding alternative alleles; and the alternative method "allAA" computes AAF as 1 minus the frequency of reference allele
+
 ```{r chunk3}
-AAF <- mtAAF(allele, freq)
+AAF <- mtAAF(allele, freq, method = "maxAA")
 ```
 
 Scatter plot of output of mtAAF function, each point is AAF of a subject at a locus, the x axis is the mtDNA loci and the y axis is the range of AAF (0-100%)
@@ -89,7 +92,16 @@ histSampCov(coverage)
 #### Summarize and annotate mtDNA mutations by mtSummary function
 Specify the path to output the annotation file and histograms of mtDNA mutation burden of subjects and number of mutations carried by each loci for heteroplasmic and homoplasmic mutations
 
-Users can specify lower bound and upper bound of the threshold by thre.lower and thre.upper arguments. By default, thre.lower=0.03 and thre.upper=0.97. That is, if $0.03\leq AAF\leq 0.97$, it is a heteroplasmic mutation; and if $AAF>0.97$, it is a homoplasmic mutation. Users can also choose different gene regions by loci argument. For example, to choose tRNA region, set loci="tRNA". Users can also choose types of mutations to be annotated by type argument. For example, to choose heteroplasmic mutations, set type="heter", and choose homoplasmic mutations, set type="homo".
+Users can specify lower bound and upper bound of the threshold by thre.lower and thre.upper arguments. By default, thre.lower=0.03 and thre.upper=0.97. That is, if $0.03\leq AAF\leq 0.97$, it is a heteroplasmic mutation; and if $AAF>0.97$, it is a homoplasmic mutation. Users can also choose different gene regions by loci argument. For example, to choose tRNA region, set loci="tRNA". Users can also choose types of mutations to be annotated by type argument. For example, to choose heteroplasmic mutations, set type="heter", and choose homoplasmic mutations, set type="homo". Users can also specify the types of comprehensive predicted functional scores and categories by annot.select argument. The default is c("Pos", "ref", "Gene", "TypeMutation","MissensMutation", "CodonPosition", "ProteinDomain", "dbSNP_150_id", "PolyPhen2", "PolyPhen2_score", "SIFT", "SIFT_score", "CADD", "CADD_score", "CADD_phred_score")
+
+The types of comprehensive predicted functional scores and categories to choose are
+TypeMutation, MissensMutation, CodonPosition, ProteinDomain, mFOLD_dG, mFOLD_Initial,
+mFOLD_rCRS DG, mFOLD_rCRS Initial, mFOLD_AnticodonAminoAcidChange, mFOLD_Location, PolyPhen2,
+PolyPhen2_score, SIFT, SIFT_score, PROVEAN, PROVEAN_score, MutationAssessor,
+MutationAssessor_score, CADD, CADD_score, CADD_phred_score, PANTHER, PANTHER_score,
+PhD_SNP, PhD_SNP_score, SNAP, SNAP_score, MutationTaster, MutationTaster_score,
+dbSNP_150_id
+
 Run the mtSummary function, only include loci of coding region, annotate for both of heteroplasmic and homoplasmic mutations.
 
 ```{r chunk4, echo=TRUE, eval=FALSE}
@@ -103,7 +115,7 @@ output_path <- paste0(tempdir(),"/")
 
 ```{r chunk6}
 mtSum <- mtSummary(aaf=AAF, allele=allele, freq=freq, coverage=coverage,
-         path=output_path, type="both", study="ARIC")
+         loci="coding", path=output_path, type="both", study="ARIC")
 ```
 
 Part of the output of annotated alleles
