@@ -94,7 +94,7 @@ Specify the path to output the annotation file and histograms of mtDNA mutation 
 
 Users can specify lower bound and upper bound of the threshold by thre.lower and thre.upper arguments. By default, thre.lower=0.03 and thre.upper=0.97. That is, if $0.03\leq AAF\leq 0.97$, it is a heteroplasmic mutation; and if $AAF>0.97$, it is a homoplasmic mutation. Users can also choose different gene regions by loci argument. For example, to choose tRNA region, set loci="tRNA". Users can also choose types of mutations to be annotated by type argument. For example, to choose heteroplasmic mutations, set type="heter", and choose homoplasmic mutations, set type="homo". Users can also specify the types of comprehensive predicted functional scores and categories by annot.select argument. The default is c("Pos", "ref", "Gene", "TypeMutation","MissensMutation", "CodonPosition", "ProteinDomain", "dbSNP_150_id", "PolyPhen2", "PolyPhen2_score", "SIFT", "SIFT_score", "CADD", "CADD_score", "CADD_phred_score")
 
-The types of comprehensive predicted functional scores and categories to choose are
+The types of comprehensive predicted functional scores and categories to choose are:
 TypeMutation, MissensMutation, CodonPosition, ProteinDomain, mFOLD_dG, mFOLD_Initial,
 mFOLD_rCRS DG, mFOLD_rCRS Initial, mFOLD_AnticodonAminoAcidChange, mFOLD_Location, PolyPhen2,
 PolyPhen2_score, SIFT, SIFT_score, PROVEAN, PROVEAN_score, MutationAssessor,
