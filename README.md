@@ -7,7 +7,7 @@
 
 **Authors:** Xianbang Sun (maintainer, <sxb3000@bu.edu>), Katia
 Bulekova, Kaiyu Yan, Daniel Levy, Jun Ding, Jessica L. Fetterman, Chunyu
-Liu<br> **Date:** “08/28/2020”
+Liu<br> **Date:** “09/01/2020”
 
 <!-- badges: start -->
 
@@ -120,9 +120,24 @@ mutation. Users can also choose different gene regions by loci argument.
 For example, to choose tRNA region, set loci=“tRNA”. Users can also
 choose types of mutations to be annotated by type argument. For example,
 to choose heteroplasmic mutations, set type=“heter”, and choose
-homoplasmic mutations, set type=“homo”. Run the mtSummary function, only
-include loci of coding region, annotate for both of heteroplasmic and
-homoplasmic mutations.
+homoplasmic mutations, set type=“homo”. Users can also specify the types
+of comprehensive predicted functional scores and categories by
+annot.select argument. The default is c(“Pos”, “ref”, “Gene”,
+“TypeMutation”,“MissensMutation”, “CodonPosition”, “ProteinDomain”,
+“dbSNP\_150\_id”, “PolyPhen2”, “PolyPhen2\_score”, “SIFT”,
+“SIFT\_score”, “CADD”, “CADD\_score”, “CADD\_phred\_score”)
+
+The types of comprehensive predicted functional scores and categories to
+choose are TypeMutation, MissensMutation, CodonPosition, ProteinDomain,
+mFOLD\_dG, mFOLD\_Initial, mFOLD\_rCRS DG, mFOLD\_rCRS Initial,
+mFOLD\_AnticodonAminoAcidChange, mFOLD\_Location, PolyPhen2,
+PolyPhen2\_score, SIFT, SIFT\_score, PROVEAN, PROVEAN\_score,
+MutationAssessor, MutationAssessor\_score, CADD, CADD\_score,
+CADD\_phred\_score, PANTHER, PANTHER\_score, PhD\_SNP, PhD\_SNP\_score,
+SNAP, SNAP\_score, MutationTaster, MutationTaster\_score, dbSNP\_150\_id
+
+Run the mtSummary function, only include loci of coding region, annotate
+for both of heteroplasmic and homoplasmic mutations.
 
 ``` r
 output_path <- "/output/dir/"
@@ -130,19 +145,19 @@ output_path <- "/output/dir/"
 
 ``` r
 mtSum <- mtSummary(aaf=AAF, allele=allele, freq=freq, coverage=coverage,
-         path=output_path, type="both", study="ARIC")
+         loci="coding", path=output_path, type="both", study="ARIC")
 ```
 
 Part of the output of annotated alleles
 
-    #>     mtID ref_allele allele_var n_var n_heter n_homo mut_allele  Pos ref
-    #> 766 3310          C        C/T     1       0      1          T 3310   2
-    #>     Gene TypeMutation MissensMutation CodonPosition ProteinDomain
-    #> 766   91            3            4636             1            10
-    #>     dbSNP_150_id PolyPhen2 PolyPhen2_score SIFT SIFT_score CADD CADD_score
-    #> 766           NA         1            0.11    2       0.34    1       2.45
-    #>     CADD_phred_score
-    #> 766            19.15
+    #>   mtID ref_allele allele_var n_var n_heter n_homo mut_allele  Pos ref Gene
+    #> 3 3310          C        C/T     1       0      1          T 3310   2   91
+    #>   TypeMutation MissensMutation CodonPosition ProteinDomain dbSNP_150_id
+    #> 3            3            4636             1            10           NA
+    #>   PolyPhen2 PolyPhen2_score SIFT SIFT_score CADD CADD_score
+    #> 3         1            0.11    2       0.34    1       2.45
+    #>   CADD_phred_score
+    #> 3            19.15
 
 Output of histograms of summarized mutations
 
@@ -155,7 +170,7 @@ Summary of the mean coverage of loci
 ``` r
 mtSum$coverLoci 
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#>   145.9  5333.5  5572.2  5513.0  5727.4  6230.7
+#>    4136    5315    5534    5520    5719    6231
 ```
 
 Summary of the mean coverage of subjects
@@ -163,7 +178,7 @@ Summary of the mean coverage of subjects
 ``` r
 mtSum$coverSubjects  
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#>   971.4  4334.7  5317.6  5513.0  6462.6 16415.2
+#>   935.7  4338.6  5325.6  5520.2  6469.6 16544.7
 ```
 
 Display loci of variation
@@ -177,15 +192,15 @@ Summary of the heteroplasmic burden of subjects
 ``` r
 mtSum$heter_burden_sum  
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#>   0.000   1.000   1.000   1.917   2.000 111.000
+#>  0.0000  0.0000  0.0000  0.3973  1.0000 68.0000
 ```
 
 Summary of numbers of heteroplasmic mutations loci carried
 
 ``` r
 mtSum$heter_loci_sum  
-#>     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-#>    0.000    0.000    0.000    0.466    0.000 1877.000
+#>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#>  0.0000  0.0000  0.0000  0.1411  0.0000 25.0000
 ```
 
 Display loci of heteroplasmy
@@ -198,7 +213,7 @@ Total number of heteroplasmic mutations
 
 ``` r
 mtSum$heter_total  
-#> [1] 7719
+#> [1] 1600
 ```
 
 Summary of the homoplasmic burden of subjects
@@ -206,7 +221,7 @@ Summary of the homoplasmic burden of subjects
 ``` r
 mtSum$homo_burden_sum  
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#>     0.0    13.0    27.0    25.1    34.0    96.0
+#>    0.00    6.00   14.00   13.32   18.00   61.00
 ```
 
 Summary of numbers of homoplasmic mutations loci carried
@@ -214,7 +229,7 @@ Summary of numbers of homoplasmic mutations loci carried
 ``` r
 mtSum$homo_loci_sum  
 #>     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-#>    0.000    0.000    0.000    6.102    0.000 3975.000
+#>    0.000    0.000    0.000    4.729    0.000 3972.000
 ```
 
 Display loci of homoplasmy
@@ -227,7 +242,7 @@ Total number of homoplasmic mutations
 
 ``` r
 mtSum$homo_total  
-#> [1] 101075
+#> [1] 53633
 ```
 
 #### Annotate alternative alleles by mtAnno function
