@@ -75,8 +75,14 @@ subject ID as the column names.
 
 #### Compute alternative allele fraction (AAF) by mtAAF function
 
+method is the argument to choose method to compute AAF for the case of
+multiple alternative alleles. The default method “maxAA” computes AAF as
+the maximum of frequencies of corresponding alternative alleles; and the
+alternative method “allAA” computes AAF as 1 minus the frequency of
+reference allele
+
 ``` r
-AAF <- mtAAF(allele, freq)
+AAF <- mtAAF(allele, freq, method = "maxAA")
 ```
 
 Scatter plot of output of mtAAF function, each point is AAF of a subject
@@ -128,7 +134,7 @@ annot.select argument. The default is c(“Pos”, “ref”, “Gene”,
 “SIFT\_score”, “CADD”, “CADD\_score”, “CADD\_phred\_score”)
 
 The types of comprehensive predicted functional scores and categories to
-choose are TypeMutation, MissensMutation, CodonPosition, ProteinDomain,
+choose are: TypeMutation, MissensMutation, CodonPosition, ProteinDomain,
 mFOLD\_dG, mFOLD\_Initial, mFOLD\_rCRS DG, mFOLD\_rCRS Initial,
 mFOLD\_AnticodonAminoAcidChange, mFOLD\_Location, PolyPhen2,
 PolyPhen2\_score, SIFT, SIFT\_score, PROVEAN, PROVEAN\_score,
@@ -192,7 +198,7 @@ Summary of the heteroplasmic burden of subjects
 ``` r
 mtSum$heter_burden_sum  
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#>  0.0000  0.0000  0.0000  0.3973  1.0000 68.0000
+#>  0.0000  0.0000  0.0000  0.3901  1.0000 68.0000
 ```
 
 Summary of numbers of heteroplasmic mutations loci carried
@@ -200,7 +206,7 @@ Summary of numbers of heteroplasmic mutations loci carried
 ``` r
 mtSum$heter_loci_sum  
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#>  0.0000  0.0000  0.0000  0.1411  0.0000 25.0000
+#>  0.0000  0.0000  0.0000  0.1385  0.0000  8.0000
 ```
 
 Display loci of heteroplasmy
@@ -213,7 +219,7 @@ Total number of heteroplasmic mutations
 
 ``` r
 mtSum$heter_total  
-#> [1] 1600
+#> [1] 1571
 ```
 
 Summary of the homoplasmic burden of subjects
@@ -242,7 +248,7 @@ Total number of homoplasmic mutations
 
 ``` r
 mtSum$homo_total  
-#> [1] 53633
+#> [1] 53632
 ```
 
 #### Annotate alternative alleles by mtAnno function
