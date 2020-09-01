@@ -12,6 +12,10 @@
 #' This matrix contains the N subjects with mtDNA sequencing data of 16569
 #' loci. The matrix must contain subject ID as the column names.
 #' "/" is used to delimited the allele fractions.
+#' @param method the method to compute AAF for the case of multiple alternative
+#' alleles. The default method "maxAA" computes AAF as the maximum of
+#' frequencies of corresponding alternative alleles; and the alternative method
+#' "allAA" computes AAF as 1 minus the frequency of reference allele
 #' @return AAF, a numeric matrix (16569 x N).
 #' Rows correspond to loci and columns correspond to subjects.
 #' It contains subject ID as the column names, and the AAFs of all 16569 mtDNA
@@ -31,7 +35,7 @@
 #' aaf=mtAAF(allele, freq)
 #'}
 #'
-mtAAF <- function( allele, freq ){
+mtAAF <- function(allele, freq, method="maxAA"){
 
     if( !is.character(allele) | !is.character(freq) ){
         stop("the mode of allele and freq must be character")
@@ -62,6 +66,7 @@ mtAAF <- function( allele, freq ){
 
     complex.ref <- .mtRef[ (complex.allele -1) %% length(.mtRef) + 1]
 
+    if(method=="allAA"){
     AAF3.m[complex.allele] <- mapply(function(x, y, z){
         pos <- which(x == z);
         if(length(pos) > 0) 1-y[pos] else 1
@@ -69,9 +74,17 @@ mtAAF <- function( allele, freq ){
     x=complex.all2,
     y=complex.freqsplit,
     z=complex.ref)
+    }else if(method=="maxAA"){
+        AAF3.m[complex.allele] <- mapply(function(x, y, z){
+            pos <- which(x == z);
+            if(length(pos) > 0) max(y[-pos]) else max(y)
+        },
+        x=complex.all2,
+        y=complex.freqsplit,
+        z=complex.ref)
+    }
 
     AAF3.m[is.na(AAF3.m)] <- 0
-
 
     colnames(AAF3.m) <- subjectID
     rownames(AAF3.m) <- seq_len(.mtLength)
