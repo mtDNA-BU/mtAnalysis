@@ -4,7 +4,7 @@
 \alias{mtAAF}
 \title{mtAAF function}
 \usage{
-mtAAF(allele, freq)
+mtAAF(allele, freq, method = "maxAA")
 }
 \arguments{
 \item{allele}{a character matrix (16569 x N) provided by the user.
@@ -18,6 +18,11 @@ Rows correspond to loci and columns correspond to subjects.
 This matrix contains the N subjects with mtDNA sequencing data of 16569
 loci. The matrix must contain subject ID as the column names.
 "/" is used to delimited the allele fractions.}
+
+\item{method}{the method to compute AAF for the case of multiple alternative
+alleles. The default method "maxAA" computes AAF as the maximum of
+frequencies of corresponding alternative alleles; and the alternative method
+"allAA" computes AAF as 1 minus the frequency of reference allele}
 }
 \value{
 AAF, a numeric matrix (16569 x N).
