@@ -4,7 +4,8 @@
 \alias{plot.mtDNAaaf}
 \title{plot.mtDNAaaf function}
 \usage{
-\method{plot}{mtDNAaaf}(x, col = "blue", pch = ".", cex = 0.2, xlab = "", ylab = "", ...)
+\method{plot}{mtDNAaaf}(x, col = "blue", pch = ".", cex = 0.2,
+  xlab = "", ylab = "", ...)
 }
 \arguments{
 \item{x}{a numeric matrix (16569 x N).
