@@ -4,17 +4,9 @@
 \alias{plotCover}
 \title{plotCover function}
 \usage{
-plotCover(
-  x,
-  loci = seq_len(.mtLength),
-  col = "blue",
-  pch = ".",
-  cex = 0.2,
-  xlab = "mtloci",
-  ylab = "",
-  main = "Mean Coverage for all mtDNA loci",
-  ...
-)
+plotCover(x, loci = seq_len(.mtLength), col = "blue", pch = ".",
+  cex = 0.2, xlab = "mtloci", ylab = "",
+  main = "Mean Coverage for all mtDNA loci", ...)
 }
 \arguments{
 \item{x}{a numeric matrix (16569 x N).
