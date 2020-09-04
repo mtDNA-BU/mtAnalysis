@@ -6,24 +6,13 @@
 Identification of mtDNA variations, output summary statistics,
 annotation of heteroplasmic and/or homoplasmic variations.}
 \usage{
-mtSummary(
-  aaf,
-  allele,
-  freq,
-  coverage,
-  coverage.qc = 100,
-  thre.lower = 0.03,
-  thre.upper = 0.97,
-  loci = c(1:.mtLength),
-  type = "both",
-  coverSummary = T,
-  varHist = T,
-  annot.select = c("Pos", "ref", "Gene", "TypeMutation", "MissensMutation",
-    "CodonPosition", "ProteinDomain", "dbSNP_150_id", "PolyPhen2", "PolyPhen2_score",
-    "SIFT", "SIFT_score", "CADD", "CADD_score", "CADD_phred_score"),
-  path = "./",
-  study = "Study"
-)
+mtSummary(aaf, allele, freq, coverage, coverage.qc = 100,
+  thre.lower = 0.03, thre.upper = 0.97, loci = c(1:.mtLength),
+  type = "both", coverSummary = T, varHist = T,
+  annot.select = c("Pos", "ref", "Gene", "TypeMutation",
+  "MissensMutation", "CodonPosition", "ProteinDomain", "dbSNP_150_id",
+  "PolyPhen2", "PolyPhen2_score", "SIFT", "SIFT_score", "CADD",
+  "CADD_score", "CADD_phred_score"), path = "./", study = "Study")
 }
 \arguments{
 \item{aaf}{a numeric matrix (16569 x N).
