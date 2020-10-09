@@ -54,6 +54,8 @@
 #' the annotation file will
 #' output to the current working directory
 #' @param study A string of study names. Default is Study.
+#' @param anno A logical value (default is False) indicating whether output the
+#' annotation results in a .csv file
 #'
 #' @return 1. Summary frequency: descriptive statistics of sequencing coverage
 #' across individual
@@ -100,7 +102,8 @@ mtSummary<-function(aaf, allele, freq, coverage,
                                    "SIFT", "SIFT_score", "CADD", "CADD_score",
                                    "CADD_phred_score"),
                     path="./",
-                    study="Study") {
+                    study="Study",
+                    anno=T) {
 
     if(!all(is.character(allele), is.character(freq) ,
             is.numeric(aaf), is.numeric(coverage)))
@@ -125,6 +128,17 @@ mtSummary<-function(aaf, allele, freq, coverage,
         stop("the coverage, allele, frequency and aaf should have same
              subject IDs (column names)")
 
+    if(!(is.logical(coverSummary) & length(coverSummary)==1)){
+        stop("coverSummary must be logical value")
+    }
+
+    if(!(is.logical(varHist) & length(varHist)==1)){
+        stop("varHist must be logical value")
+    }
+
+    if(!(is.logical(anno) & length(anno)==1)){
+        stop("anno must be logical value")
+    }
 
 
     if(!all(mode(loci) %in% c("numeric","character"), is.vector(loci)))
@@ -299,6 +313,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
         dev.off()
     }
 
+    if(anno){
     ## annotation for all heter and/or homo variations at each
     ## mutation loci based on user's choice
     ## if type=="both", annotate both heter/homo variations
@@ -631,6 +646,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
         ## Copy file to the permanent location:
         out.file.name <- paste0(path,study, "_annotation_homoplasmy.csv")
         file.copy(temp.file.name, out.file.name , overwrite = T)
+    }
     }
     return(mt_summary_obj)
 }
