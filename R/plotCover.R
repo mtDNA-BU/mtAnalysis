@@ -16,6 +16,8 @@
 #' @param xlab a label for the x axis.
 #' @param ylab a label for the y axis.
 #' @param main a title for the plot.
+#' @param type a string: "median" to calculate median coverage at individual
+#' level, "mean" to calculate mean coverage at individual level
 #' @param ... arguments to be passed to plot function.
 #' @import graphics
 #' @export
@@ -33,7 +35,14 @@
 plotCover <- function(x, loci=seq_len(.mtLength), col="blue", pch='.', cex=0.2,
                       xlab="mtloci",
                       ylab="", main="Mean Coverage for all mtDNA loci",
+                      type="median",
                       ...) {
+
+    if(length(type)!=1){
+        stop("type must be a string of median or mean")
+    }else if(type!="median" | type!="mean"){
+        stop("type must be a string of median or mean")
+    }
 
     if(dim(x)[1] != .mtLength)
         stop("the coverage should have 16569 loci (rows)")
@@ -59,6 +68,19 @@ plotCover <- function(x, loci=seq_len(.mtLength), col="blue", pch='.', cex=0.2,
 
     if (is.character(x) )stop("coverage should be a numeric matrix")
 
+
+    if(type=="median"){
+        ## scatter plot of the median coverage across loci
+        plot(x=loci,
+             y=apply(x[loci, ], 2, FUN = median),
+             col=col,
+             pch=pch,
+             cex=cex,
+             xlab=xlab,
+             ylab=ylab,
+             main=main, ...)
+
+    }else if(type=="mean"){
     ## scatter plot of the mean coverage across loci
     plot(x=loci,
          y=rowMeans(x[loci, ], na.rm=T),
@@ -69,5 +91,5 @@ plotCover <- function(x, loci=seq_len(.mtLength), col="blue", pch='.', cex=0.2,
          ylab=ylab,
          main=main, ...)
 
-
+    }
 }
