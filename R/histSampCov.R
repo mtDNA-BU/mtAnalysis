@@ -9,6 +9,8 @@
 #' @param loci one of the following to specify mtDNA loci:
 #' 1. a numeric vector (default is c(1:16569)) of mitochondrial DNA loci,
 #' 2. a character string for the regions(e.g. "coding", "tRNA", "Dloop", …).
+#' @param type a string: "median" to calculate median coverage at individual
+#' level, "mean" to calculate mean coverage at individual level
 #' @param ... arguments to be passed to plot function.
 #' @export
 #' @examples
@@ -23,7 +25,13 @@
 #'
 #'}
 #'
-histSampCov <- function(coverage, loci=seq_len(.mtLength), ...) {
+histSampCov <- function(coverage, loci=seq_len(.mtLength), type="median", ...) {
+
+    if(length(type)!=1){
+        stop("type must be a string of median or mean")
+    }else if(type!="median" | type!="mean"){
+        stop("type must be a string of median or mean")
+    }
 
     if(dim(coverage)[1] != .mtLength){
         stop("the coverage should have 16569 loci (rows)")
@@ -52,6 +60,21 @@ histSampCov <- function(coverage, loci=seq_len(.mtLength), ...) {
     rownames(coverage) <- as.character(loci)
 
 
+    if(type=="median"){
+
+        ## histogram of median coverage of subjects across loci
+        cov_sub <- apply(coverage, 2, FUN = median)
+        cov_sub_hist <- as.data.frame(cov_sub)
+
+        h <- hist(cov_sub_hist[, 1],
+                  xlab="Median coverage of subjects",
+                  main="Histogram of Median Coverage of Subjects", ...)
+
+        text(h$mids, h$counts, labels=h$counts, adj=c(0.5, -0.5), cex=.8)
+
+
+    }else if(type=="mean"){
+
     ## histogram of mean coverage of subjects across loci
     cov_sub <- colMeans(coverage, na.rm=T)
     cov_sub_hist <- as.data.frame(cov_sub)
@@ -61,5 +84,6 @@ histSampCov <- function(coverage, loci=seq_len(.mtLength), ...) {
               main="Histogram of Mean Coverage of Subjects", ...)
 
     text(h$mids, h$counts, labels=h$counts, adj=c(0.5, -0.5), cex=.8)
+    }
 
 }
