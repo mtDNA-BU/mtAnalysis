@@ -72,7 +72,7 @@ plotCover <- function(x, loci=seq_len(.mtLength), col="blue", pch='.', cex=0.2,
     if(type=="median"){
         ## scatter plot of the median coverage across loci
         plot(x=loci,
-             y=apply(x[loci, ], 2, FUN = median),
+             y=apply(x[loci, ], 1, FUN = median),
              col=col,
              pch=pch,
              cex=cex,
