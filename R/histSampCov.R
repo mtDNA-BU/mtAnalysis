@@ -29,7 +29,7 @@ histSampCov <- function(coverage, loci=seq_len(.mtLength), type="median", ...) {
 
     if(length(type)!=1){
         stop("type must be a string of median or mean")
-    }else if(type!="median" | type!="mean"){
+    }else if(type!="median" & type!="mean"){
         stop("type must be a string of median or mean")
     }
 
