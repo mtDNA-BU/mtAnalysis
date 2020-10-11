@@ -40,7 +40,7 @@ plotCover <- function(x, loci=seq_len(.mtLength), col="blue", pch='.', cex=0.2,
 
     if(length(type)!=1){
         stop("type must be a string of median or mean")
-    }else if(type!="median" | type!="mean"){
+    }else if(type!="median" & type!="mean"){
         stop("type must be a string of median or mean")
     }
 
