@@ -258,6 +258,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
 
     ## calculate the number of heteroplasmic mutations for each locus
     heter_loci  <- rowSums(aaf_cat == 1, na.rm=T)
+    mt_summary_obj$heter_loci <- heter_loci
     mt_summary_obj$heter_loci_sum <- summary(heter_loci)
 
     ## loci with heteroplasmic variations
@@ -274,6 +275,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
 
     ## calculate the number of homoplasmic mutations for each locus
     homo_loci  <- rowSums(aaf_cat == 2, na.rm=T)
+    mt_summary_obj$homo_loci <- homo_loci
     mt_summary_obj$homo_loci_sum <- summary(homo_loci)
 
     ## loci with homoplasmic variations
@@ -348,7 +350,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
             allele_all_var <- allele_all_var[ freq_all_var >= thre.lower ]
 
             ## combine with the reference allele
-            if( sum(mutation_collect[i,] <= 1, na.rm = T) > 0 ){
+            if( sum(mutation_collect[i,] == 0, na.rm = T) > 0 ){
                 allele_all_var <- c( .mtRef[loci_var[i] ], allele_all_var)
             }
             allele_all_var <- allele_all_var[ !duplicated(allele_all_var) ]
@@ -356,7 +358,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
             allele_both[i] <- allele_all_var
         }
 
-        head <- c("mtID","ref_allele", "allele_var", "n_var",
+        head <- c("mtID", "ref_allele", "allele_all", "n_var",
                   "n_heter", "n_homo", "mut_allele", annot.select)
 
         ## Open file for writing
@@ -377,9 +379,8 @@ mtSummary<-function(aaf, allele, freq, coverage,
             if(length(x2) > 1){
 
                 pos.not  <- which( !(x2 == ref_allele ))
-
-                for (k in seq_along(pos.not)){
-                    point    <- x2[pos.not[k]]
+                if(length(pos.not)==1){
+                    point    <- x2[pos.not]
                     score = switch(point,
                                    "A" = .AA[.AA$Pos == pos,annot.select],
                                    "C" = .CC[.CC$Pos == pos,annot.select],
@@ -395,6 +396,53 @@ mtSummary<-function(aaf, allele, freq, coverage,
                               paste(score, collapse=","), sep=","),
                         file=file.conn, fill=TRUE, append=TRUE)
 
+
+                }else if(length(pos.not)>1){
+                    var_index <- (mutation_collect[i,] > 0)
+
+                    ## identify the alleles at the variation locus
+                    allele_all <- allele2[i,]
+                    allele_var <- allele_all[var_index]
+                    allele_var <- allele_var[ !is.na(allele_var)]
+
+                    ## identify the corresponding frequencies of
+                    ## the alleles at the variation loci
+                    freq_all<-freq2[i,]
+                    freq_var<-freq_all[var_index]
+                    freq_var <- freq_var[ !is.na(freq_var)]
+
+                    allele_all_var <- unlist(strsplit(allele_var,split="/"),
+                                             use.names = F)
+                    freq_all_var <- as.numeric(unlist(strsplit(freq_var ,
+                                                               split="/"),
+                                                      use.names = F))
+
+                    ## only includes alleles which have frequency
+                    ## within the [thre.lower, 1] interval
+                    allele_all_var_heter <- allele_all_var[ freq_all_var >= thre.lower & freq_all_var<=thre.upper]
+                    allele_all_var_homo <- allele_all_var[ freq_all_var > thre.upper ]
+
+                for (k in seq_along(pos.not)){
+                    point    <- x2[pos.not[k]]
+                    score = switch(point,
+                                   "A" = .AA[.AA$Pos == pos,annot.select],
+                                   "C" = .CC[.CC$Pos == pos,annot.select],
+                                   "G" = .GG[.GG$Pos == pos,annot.select],
+                                   "T" = .TT[.TT$Pos == pos,annot.select] )
+                    n_heter1 <- sum(point == allele_all_var_heter)
+                    n_homo1 <- sum(point == allele_all_var_homo)
+                    n_var1 <- n_heter1 + n_homo1
+                    cat(paste(pos,
+                              ref_allele,
+                              x,
+                              n_var1,
+                              n_heter1,
+                              n_homo1,
+                              point,
+                              paste(score, collapse=","), sep=","),
+                        file=file.conn, fill=TRUE, append=TRUE)
+
+                }
                 }
             } else if(length(x2) == 1 & x2 != ref_allele){
                 score = switch(x2,
@@ -438,7 +486,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
             allele_var <- allele_all[heter_index]
             allele_var <- allele_var[ !is.na(allele_var)]
 
-            ## identify the corresponding freqencies of the alleles at the variation loci
+            ## identify the corresponding frequencies of the alleles at the variation loci
             freq_all <- freq2[i,]
             freq_var <- freq_all[heter_index]
             freq_var <- freq_var[ !is.na(freq_var)]
@@ -454,7 +502,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
                                              freq_all_var <= thre.upper]
 
             ## combine with the reference allele
-            if(sum(heter_collect[i,] <= 1, na.rm = T) > 0){
+            if(sum(heter_collect[i,] == 0, na.rm = T) > 0){
                 allele_all_var <- c(.mtRef[loci_heter[i]], allele_all_var)
             }
 
@@ -463,7 +511,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
             allele_heter[i] <- allele_all_var
         }
 
-        head <- c("mtID", "ref_allele", "allele_heter", "n_heter", "mut_allele",
+        head <- c("mtID", "ref_allele", "allele_all", "n_heter", "mut_allele",
                   annot.select)
 
         ## Open file for writing
@@ -486,9 +534,8 @@ mtSummary<-function(aaf, allele, freq, coverage,
             if(length(x2) > 1){
 
                 pos.not <- which(!(x2 == ref_allele))
-
-                for (k in seq_along(pos.not)){
-                    point    <- x2[pos.not[k]]
+                if(length(pos.not)==1){
+                    point    <- x2[pos.not]
                     score = switch(point,
                                    "A" = .AA[.AA$Pos == pos,annot.select],
                                    "C" = .CC[.CC$Pos == pos,annot.select],
@@ -508,6 +555,52 @@ mtSummary<-function(aaf, allele, freq, coverage,
                                 col.names=F,
                                 quote=F,
                                 append=T)
+
+                }else if(length(pos.not)>1){
+                    heter_index <- (heter_collect[i,] == 1)
+
+                    ## identify the alleles at the variation locus
+                    allele_all <- allele2[i,]
+                    allele_var <- allele_all[heter_index]
+                    allele_var <- allele_var[ !is.na(allele_var)]
+
+                    ## identify the corresponding frequencies of the alleles at the variation loci
+                    freq_all <- freq2[i,]
+                    freq_var <- freq_all[heter_index]
+                    freq_var <- freq_var[ !is.na(freq_var)]
+
+                    allele_all_var <- unlist(strsplit(allele_var,split="/"),
+                                             use.names = F)
+
+                    freq_all_var <- as.numeric(unlist(strsplit(freq_var ,split="/"),
+                                                      use.names = F))
+
+                    ## only includes alleles which have frequency within the [thre.lower, thre.upper] interval
+                    allele_all_var <- allele_all_var[freq_all_var >= thre.lower &
+                                                         freq_all_var <= thre.upper]
+
+                for (k in seq_along(pos.not)){
+                    point    <- x2[pos.not[k]]
+                    score = switch(point,
+                                   "A" = .AA[.AA$Pos == pos,annot.select],
+                                   "C" = .CC[.CC$Pos == pos,annot.select],
+                                   "G" = .GG[.GG$Pos == pos,annot.select],
+                                   "T" = .TT[.TT$Pos == pos,annot.select] )
+                    all <- cbind(pos,
+                                 ref_allele,
+                                 x,
+                                 sum(point == allele_all_var),
+                                 point,
+                                 score)
+
+                    write.table(all,
+                                file= file.conn,
+                                sep=",",
+                                row.names=F,
+                                col.names=F,
+                                quote=F,
+                                append=T)
+                }
                 }
             }else if(length(x2) == 1 & x2 != ref_allele){
                 score = switch(x2,
@@ -566,7 +659,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
             allele_all_var<-allele_all_var[freq_all_var > thre.upper]
 
             ## combine with the reference allele
-            if(sum(homo_collect[i,] <= 1, na.rm = T) > 0){
+            if(sum(homo_collect[i,] == 0, na.rm = T) > 0){
                 allele_all_var <- c(.mtRef[loci_homo[i]], allele_all_var)
             }
             allele_all_var <- allele_all_var[!duplicated(allele_all_var)]
@@ -574,7 +667,8 @@ mtSummary<-function(aaf, allele, freq, coverage,
             allele_homo[i] <- allele_all_var
         }
 
-        head <- c("mtID","ref_allele","allele_homo","n_homo","mut_allele",annot.select)
+        head <- c("mtID", "ref_allele", "allele_all", "n_homo", "mut_allele",
+                  annot.select)
 
         #Open file for writing
         temp.file.name <- tempfile("homo",fileext=c(".csv"))
@@ -599,8 +693,8 @@ mtSummary<-function(aaf, allele, freq, coverage,
             if(length(x2)>1){
 
                 pos.not  <- which(!(x2==ref_allele))
-                for (k in seq_along(pos.not)){
-                    point    <- x2[pos.not[k]]
+                if(length(pos.not)==1){
+                    point    <- x2[pos.not]
                     score = switch(point,
                                    "A" = .AA[.AA$Pos == pos,annot.select],
                                    "C" = .CC[.CC$Pos == pos,annot.select],
@@ -619,6 +713,48 @@ mtSummary<-function(aaf, allele, freq, coverage,
                                 col.names=F,
                                 quote=F,
                                 append=T)
+
+                }else if(length(pos.not)>1){
+                    homo_index <- (homo_collect[i,]==2)
+                    ## identify the alleles at the variation locus
+                    allele_all <- allele2[i,]
+                    allele_var <- allele_all[homo_index]
+                    allele_var <- allele_var[!is.na(allele_var)]
+
+                    ## identify the corresponding freqencies of the alleles
+                    ## at the variation loci
+                    freq_all <- freq2[i,]
+                    freq_var <- freq_all[homo_index]
+                    freq_var <- freq_var[!is.na(freq_var)]
+
+                    allele_all_var <- unlist(strsplit(allele_var, split="/"))
+                    freq_all_var <- as.numeric(unlist(strsplit(freq_var, split="/")))
+
+                    ## only includes alleles which have frequency within
+                    ##the [thre.lower, thre.upper] interval
+                    allele_all_var<-allele_all_var[freq_all_var > thre.upper]
+
+                    for (k in seq_along(pos.not)){
+                        point    <- x2[pos.not[k]]
+                        score = switch(point,
+                                       "A" = .AA[.AA$Pos == pos,annot.select],
+                                       "C" = .CC[.CC$Pos == pos,annot.select],
+                                       "G" = .GG[.GG$Pos == pos,annot.select],
+                                       "T" = .TT[.TT$Pos == pos,annot.select] )
+                        all   <- cbind(pos,
+                                       ref_allele,
+                                       x,
+                                       sum(point==allele_all_var),
+                                       point ,
+                                       score)
+                        write.table(all,
+                                    file= file.conn,
+                                    sep=",",
+                                    row.names=F,
+                                    col.names=F,
+                                    quote=F,
+                                    append=T)
+                    }
                 }
             } else if(length(x2)==1 & x2 != ref_allele){
                 score = switch(x2,
