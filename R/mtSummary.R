@@ -42,9 +42,7 @@
 #' variations and "homo"
 #' returns annotation to homoplasmic variations.
 #' @param coverSummary logical(default is True). A user can specify to output
-#' scatter plot of mean
-#' coverage across mtDNA loci and summary of coverage at each
-#' mtDNA loci (across all participants) and
+#' summary of mean coverage at each mtDNA loci (across all participants) and
 #' for each individual (across all mtDNA loci).
 #' @param varHist logical(default is True). A user can specify to output
 #' histograms to visualize the
@@ -251,9 +249,13 @@ mtSummary<-function(aaf, allele, freq, coverage,
     mt_summary_obj$loci_var <- loci_var
     n_mutation <- n_mutation[n_mutation > 0]
 
+    ## output IDs of individuals
+    mt_summary_obj$IDs <- subjectID
+
     ## output summary statistics of hereoplasmic variations
     ## calculate the number of heteroplasmic mutations for each subject
     heter_burden  <- colSums(mutation_collect == 1, na.rm=T)
+    mt_summary_obj$heter_burden <- heter_burden
     mt_summary_obj$heter_burden_sum <- summary(heter_burden)
 
     ## calculate the number of heteroplasmic mutations for each locus
@@ -271,6 +273,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
     ## output summary statistics of homoplasmic variations
     ## calculate the number of homoplasmic variations for each subject
     homo_burden  <- colSums(mutation_collect == 2, na.rm=T)
+    mt_summary_obj$homo_burden <- homo_burden
     mt_summary_obj$homo_burden_sum <- summary(homo_burden)
 
     ## calculate the number of homoplasmic mutations for each locus
