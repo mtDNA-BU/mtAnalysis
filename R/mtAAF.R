@@ -85,6 +85,8 @@ mtAAF <- function(allele, freq, method="maxAA"){
     }
 
     AAF3.m[is.na(AAF3.m)] <- 0
+    AAF3.m[AAF3.m>1] <- 1
+    AAF3.m[AAF3.m<0] <- 0
 
     colnames(AAF3.m) <- subjectID
     rownames(AAF3.m) <- seq_len(.mtLength)
