@@ -788,6 +788,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
         file.copy(temp.file.name, out.file.name , overwrite = T)
     }
     }
+
     return(mt_summary_obj)
 }
 
