@@ -389,7 +389,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
                                    "C" = .CC[.CC$Pos == pos,annot.select],
                                    "G" = .GG[.GG$Pos == pos,annot.select],
                                    "T" = .TT[.TT$Pos == pos,annot.select] )
-                    if(point=="D" | point="I"){
+                    if(point=="D" | point=="I"){
                         score <- .AA[.AA$Pos == pos,c("Pos", "ref", "gene")]
                         NA_len <- length(annot.select)-length(score)
                         score <- c(score, rep(NA, NA_len))
@@ -437,7 +437,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
                                    "C" = .CC[.CC$Pos == pos,annot.select],
                                    "G" = .GG[.GG$Pos == pos,annot.select],
                                    "T" = .TT[.TT$Pos == pos,annot.select])
-                    if(point=="D" | point="I"){
+                    if(point=="D" | point=="I"){
                         score <- .AA[.AA$Pos == pos,c("Pos", "ref", "gene")]
                         NA_len <- length(annot.select)-length(score)
                         score <- c(score, rep(NA, NA_len))
@@ -463,7 +463,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
                                "C" = .CC[.CC$Pos == pos,annot.select],
                                "G" = .GG[.GG$Pos == pos,annot.select],
                                "T" = .TT[.TT$Pos == pos,annot.select])
-                if(point=="D" | point="I"){
+                if(point=="D" | point=="I"){
                     score <- .AA[.AA$Pos == pos,c("Pos", "ref", "gene")]
                     NA_len <- length(annot.select)-length(score)
                     score <- c(score, rep(NA, NA_len))
@@ -556,7 +556,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
                                    "C" = .CC[.CC$Pos == pos,annot.select],
                                    "G" = .GG[.GG$Pos == pos,annot.select],
                                    "T" = .TT[.TT$Pos == pos,annot.select])
-                    if(point=="D" | point="I"){
+                    if(point=="D" | point=="I"){
                         score <- .AA[.AA$Pos == pos,c("Pos", "ref", "gene")]
                         NA_len <- length(annot.select)-length(score)
                         score <- c(score, rep(NA, NA_len))
@@ -600,7 +600,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
                                    "C" = .CC[.CC$Pos == pos,annot.select],
                                    "G" = .GG[.GG$Pos == pos,annot.select],
                                    "T" = .TT[.TT$Pos == pos,annot.select])
-                    if(point=="D" | point="I"){
+                    if(point=="D" | point=="I"){
                         score <- .AA[.AA$Pos == pos,c("Pos", "ref", "gene")]
                         NA_len <- length(annot.select)-length(score)
                         score <- c(score, rep(NA, NA_len))
@@ -621,7 +621,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
                                "C" = .CC[.CC$Pos == pos,annot.select],
                                "G" = .GG[.GG$Pos == pos,annot.select],
                                "T" = .TT[.TT$Pos == pos,annot.select])
-                if(point=="D" | point="I"){
+                if(point=="D" | point=="I"){
                     score <- .AA[.AA$Pos == pos,c("Pos", "ref", "gene")]
                     NA_len <- length(annot.select)-length(score)
                     score <- c(score, rep(NA, NA_len))
@@ -707,7 +707,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
                                    "C" = .CC[.CC$Pos == pos,annot.select],
                                    "G" = .GG[.GG$Pos == pos,annot.select],
                                    "T" = .TT[.TT$Pos == pos,annot.select])
-                    if(point=="D" | point="I"){
+                    if(point=="D" | point=="I"){
                         score <- .AA[.AA$Pos == pos,c("Pos", "ref", "gene")]
                         NA_len <- length(annot.select)-length(score)
                         score <- c(score, rep(NA, NA_len))
@@ -747,7 +747,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
                                        "C" = .CC[.CC$Pos == pos,annot.select],
                                        "G" = .GG[.GG$Pos == pos,annot.select],
                                        "T" = .TT[.TT$Pos == pos,annot.select])
-                        if(point=="D" | point="I"){
+                        if(point=="D" | point=="I"){
                             score <- .AA[.AA$Pos == pos,c("Pos", "ref", "gene")]
                             NA_len <- length(annot.select)-length(score)
                             score <- c(score, rep(NA, NA_len))
@@ -767,7 +767,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
                                "C" = .CC[.CC$Pos == pos,annot.select],
                                "G" = .GG[.GG$Pos == pos,annot.select],
                                "T" = .TT[.TT$Pos == pos,annot.select])
-                if(point=="D" | point="I"){
+                if(point=="D" | point=="I"){
                     score <- .AA[.AA$Pos == pos,c("Pos", "ref", "gene")]
                     NA_len <- length(annot.select)-length(score)
                     score <- c(score, rep(NA, NA_len))
