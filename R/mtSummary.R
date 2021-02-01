@@ -1,7 +1,7 @@
 #' mtSummary function
 #' Identification of mtDNA variations, output summary statistics,
 #' annotation of heteroplasmic and/or homoplasmic variations.
-#' @param aaf a numeric matrix (16569 x N).
+#' @param aaf a numeric matrix (16569 x N) provided by the user.
 #' Rows correspond to loci and columns correspond to subjects.
 #' It contains subject ID as the column names,
 #' and the AAFs of all 16569 mtDNA loci for each subject.
@@ -16,7 +16,7 @@
 #' This matrix contains the N subjects with mtDNA sequencing data of 16569
 #' loci. The matrix must contain subject ID as the column names.
 #' "/" is used to delimited the allele fractions.
-#' @param coverage a numeric matrix (16569 x N).
+#' @param coverage a numeric matrix (16569 x N) provided by the user.
 #' Rows correspond to loci and columns correspond to subjects.
 #' This matrix contains the reads coverage of the 16569 mtDNA loci for each
 #' subject. The matrix must contain the subject ID as the column names.
@@ -389,6 +389,11 @@ mtSummary<-function(aaf, allele, freq, coverage,
                                    "C" = .CC[.CC$Pos == pos,annot.select],
                                    "G" = .GG[.GG$Pos == pos,annot.select],
                                    "T" = .TT[.TT$Pos == pos,annot.select] )
+                    if(point=="D" | point="I"){
+                        score <- .AA[.AA$Pos == pos,c("Pos", "ref", "gene")]
+                        NA_len <- length(annot.select)-length(score)
+                        score <- c(score, rep(NA, NA_len))
+                    }
                     cat(paste(pos,
                               ref_allele,
                               x,
@@ -431,7 +436,12 @@ mtSummary<-function(aaf, allele, freq, coverage,
                                    "A" = .AA[.AA$Pos == pos,annot.select],
                                    "C" = .CC[.CC$Pos == pos,annot.select],
                                    "G" = .GG[.GG$Pos == pos,annot.select],
-                                   "T" = .TT[.TT$Pos == pos,annot.select] )
+                                   "T" = .TT[.TT$Pos == pos,annot.select])
+                    if(point=="D" | point="I"){
+                        score <- .AA[.AA$Pos == pos,c("Pos", "ref", "gene")]
+                        NA_len <- length(annot.select)-length(score)
+                        score <- c(score, rep(NA, NA_len))
+                    }
                     n_heter1 <- sum(point == allele_all_var_heter)
                     n_homo1 <- sum(point == allele_all_var_homo)
                     n_var1 <- n_heter1 + n_homo1
@@ -452,7 +462,12 @@ mtSummary<-function(aaf, allele, freq, coverage,
                                "A" = .AA[.AA$Pos == pos,annot.select],
                                "C" = .CC[.CC$Pos == pos,annot.select],
                                "G" = .GG[.GG$Pos == pos,annot.select],
-                               "T" = .TT[.TT$Pos == pos,annot.select] )
+                               "T" = .TT[.TT$Pos == pos,annot.select])
+                if(point=="D" | point="I"){
+                    score <- .AA[.AA$Pos == pos,c("Pos", "ref", "gene")]
+                    NA_len <- length(annot.select)-length(score)
+                    score <- c(score, rep(NA, NA_len))
+                }
                 cat(paste(pos,
                           ref_allele,
                           x,
@@ -463,7 +478,6 @@ mtSummary<-function(aaf, allele, freq, coverage,
                           paste(score, collapse=","), sep=","),
                     file=file.conn, fill=TRUE, append=TRUE)
             }
-
 
         }
 
@@ -520,8 +534,6 @@ mtSummary<-function(aaf, allele, freq, coverage,
         ## Open file for writing
         temp.file.name <- tempfile("heter", fileext=c(".csv"))
         file.conn <- file( temp.file.name, "w")
-
-        ## output the annotation as a .csv file to the path users provided
         write (head, file=file.conn, sep=",", ncolumns=length(head), append=T)
 
         ## this loop used to annote all the heter mutations at each heter loci
@@ -543,21 +555,19 @@ mtSummary<-function(aaf, allele, freq, coverage,
                                    "A" = .AA[.AA$Pos == pos,annot.select],
                                    "C" = .CC[.CC$Pos == pos,annot.select],
                                    "G" = .GG[.GG$Pos == pos,annot.select],
-                                   "T" = .TT[.TT$Pos == pos,annot.select] )
-                    all <- cbind(pos,
-                                 ref_allele,
-                                 x,
-                                 heter_loci[as.character(pos)],
-                                 point,
-                                 score)
-
-                    write.table(all,
-                                file= file.conn,
-                                sep=",",
-                                row.names=F,
-                                col.names=F,
-                                quote=F,
-                                append=T)
+                                   "T" = .TT[.TT$Pos == pos,annot.select])
+                    if(point=="D" | point="I"){
+                        score <- .AA[.AA$Pos == pos,c("Pos", "ref", "gene")]
+                        NA_len <- length(annot.select)-length(score)
+                        score <- c(score, rep(NA, NA_len))
+                    }
+                    cat(paste(pos,
+                              ref_allele,
+                              x,
+                              heter_loci[as.character(pos)],
+                              point,
+                              paste(score, collapse=","), sep=","),
+                        file=file.conn, fill=TRUE, append=TRUE)
 
                 }else if(length(pos.not)>1){
                     heter_index <- (heter_collect[i,] == 1)
@@ -578,7 +588,8 @@ mtSummary<-function(aaf, allele, freq, coverage,
                     freq_all_var <- as.numeric(unlist(strsplit(freq_var ,split="/"),
                                                       use.names = F))
 
-                    ## only includes alleles which have frequency within the [thre.lower, thre.upper] interval
+                    ## only includes alleles which have frequency
+                    ## within the [thre.lower, thre.upper] interval
                     allele_all_var <- allele_all_var[freq_all_var >= thre.lower &
                                                          freq_all_var <= thre.upper]
 
@@ -588,21 +599,20 @@ mtSummary<-function(aaf, allele, freq, coverage,
                                    "A" = .AA[.AA$Pos == pos,annot.select],
                                    "C" = .CC[.CC$Pos == pos,annot.select],
                                    "G" = .GG[.GG$Pos == pos,annot.select],
-                                   "T" = .TT[.TT$Pos == pos,annot.select] )
-                    all <- cbind(pos,
-                                 ref_allele,
-                                 x,
-                                 sum(point == allele_all_var),
-                                 point,
-                                 score)
+                                   "T" = .TT[.TT$Pos == pos,annot.select])
+                    if(point=="D" | point="I"){
+                        score <- .AA[.AA$Pos == pos,c("Pos", "ref", "gene")]
+                        NA_len <- length(annot.select)-length(score)
+                        score <- c(score, rep(NA, NA_len))
+                    }
+                    cat(paste(pos,
+                              ref_allele,
+                              x,
+                              sum(point == allele_all_var),
+                              point,
+                              paste(score, collapse=","), sep=","),
+                        file=file.conn, fill=TRUE, append=TRUE)
 
-                    write.table(all,
-                                file= file.conn,
-                                sep=",",
-                                row.names=F,
-                                col.names=F,
-                                quote=F,
-                                append=T)
                 }
                 }
             }else if(length(x2) == 1 & x2 != ref_allele){
@@ -610,21 +620,20 @@ mtSummary<-function(aaf, allele, freq, coverage,
                                "A" = .AA[.AA$Pos == pos,annot.select],
                                "C" = .CC[.CC$Pos == pos,annot.select],
                                "G" = .GG[.GG$Pos == pos,annot.select],
-                               "T" = .TT[.TT$Pos == pos,annot.select] )
+                               "T" = .TT[.TT$Pos == pos,annot.select])
+                if(point=="D" | point="I"){
+                    score <- .AA[.AA$Pos == pos,c("Pos", "ref", "gene")]
+                    NA_len <- length(annot.select)-length(score)
+                    score <- c(score, rep(NA, NA_len))
+                }
+                cat(paste(pos,
+                          ref_allele,
+                          x,
+                          heter_loci[as.character(pos)],
+                          x2,
+                          paste(score, collapse=","), sep=","),
+                    file=file.conn, fill=TRUE, append=TRUE)
 
-                all   <- cbind(pos,
-                               ref_allele,
-                               x,
-                               heter_loci[as.character(pos)],
-                               x2,
-                               score)
-                write.table(all,
-                            file=file.conn,
-                            sep=",",
-                            row.names=F,
-                            col.names=F,
-                            quote=F,
-                            append=T)
             }
         }
 
@@ -676,12 +685,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
         #Open file for writing
         temp.file.name <- tempfile("homo",fileext=c(".csv"))
         file.conn <- file( temp.file.name, "w")
-
-        # output the annotation as a .csv file to the path users provided
-        write (head,
-               file= file.conn,sep=",",
-               ncolumns=length(head),
-               append=T)
+        write (head, file= file.conn, sep=",", ncolumns=length(head), append=T)
 
         ## this loop used to annote all the homo mutations at each
         ## homo loci with the scores chosen(annot.select)
@@ -702,20 +706,19 @@ mtSummary<-function(aaf, allele, freq, coverage,
                                    "A" = .AA[.AA$Pos == pos,annot.select],
                                    "C" = .CC[.CC$Pos == pos,annot.select],
                                    "G" = .GG[.GG$Pos == pos,annot.select],
-                                   "T" = .TT[.TT$Pos == pos,annot.select] )
-                    all   <- cbind(pos,
-                                   ref_allele,
-                                   x,
-                                   homo_loci[as.character(pos)],
-                                   point ,
-                                   score)
-                    write.table(all,
-                                file= file.conn,
-                                sep=",",
-                                row.names=F,
-                                col.names=F,
-                                quote=F,
-                                append=T)
+                                   "T" = .TT[.TT$Pos == pos,annot.select])
+                    if(point=="D" | point="I"){
+                        score <- .AA[.AA$Pos == pos,c("Pos", "ref", "gene")]
+                        NA_len <- length(annot.select)-length(score)
+                        score <- c(score, rep(NA, NA_len))
+                    }
+                    cat(paste(pos,
+                              ref_allele,
+                              x,
+                              homo_loci[as.character(pos)],
+                              point,
+                              paste(score, collapse=","), sep=","),
+                        file=file.conn, fill=TRUE, append=TRUE)
 
                 }else if(length(pos.not)>1){
                     homo_index <- (homo_collect[i,]==2)
@@ -734,7 +737,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
                     freq_all_var <- as.numeric(unlist(strsplit(freq_var, split="/")))
 
                     ## only includes alleles which have frequency within
-                    ##the [thre.lower, thre.upper] interval
+                    ## the (thre.upper, 1] interval
                     allele_all_var<-allele_all_var[freq_all_var > thre.upper]
 
                     for (k in seq_along(pos.not)){
@@ -743,20 +746,19 @@ mtSummary<-function(aaf, allele, freq, coverage,
                                        "A" = .AA[.AA$Pos == pos,annot.select],
                                        "C" = .CC[.CC$Pos == pos,annot.select],
                                        "G" = .GG[.GG$Pos == pos,annot.select],
-                                       "T" = .TT[.TT$Pos == pos,annot.select] )
-                        all   <- cbind(pos,
-                                       ref_allele,
-                                       x,
-                                       sum(point==allele_all_var),
-                                       point ,
-                                       score)
-                        write.table(all,
-                                    file= file.conn,
-                                    sep=",",
-                                    row.names=F,
-                                    col.names=F,
-                                    quote=F,
-                                    append=T)
+                                       "T" = .TT[.TT$Pos == pos,annot.select])
+                        if(point=="D" | point="I"){
+                            score <- .AA[.AA$Pos == pos,c("Pos", "ref", "gene")]
+                            NA_len <- length(annot.select)-length(score)
+                            score <- c(score, rep(NA, NA_len))
+                        }
+                        cat(paste(pos,
+                                  ref_allele,
+                                  x,
+                                  sum(point==allele_all_var),
+                                  point,
+                                  paste(score, collapse=","), sep=","),
+                            file=file.conn, fill=TRUE, append=TRUE)
                     }
                 }
             } else if(length(x2)==1 & x2 != ref_allele){
@@ -764,20 +766,19 @@ mtSummary<-function(aaf, allele, freq, coverage,
                                "A" = .AA[.AA$Pos == pos,annot.select],
                                "C" = .CC[.CC$Pos == pos,annot.select],
                                "G" = .GG[.GG$Pos == pos,annot.select],
-                               "T" = .TT[.TT$Pos == pos,annot.select] )
-                all   <- cbind(pos,
-                               ref_allele,
-                               x,
-                               homo_loci[as.character(pos)],
-                               x2 ,
-                               score)
-                write.table(all,
-                            file= file.conn,
-                            sep=",",
-                            row.names=F,
-                            col.names=F,
-                            quote=F,
-                            append=T)
+                               "T" = .TT[.TT$Pos == pos,annot.select])
+                if(point=="D" | point="I"){
+                    score <- .AA[.AA$Pos == pos,c("Pos", "ref", "gene")]
+                    NA_len <- length(annot.select)-length(score)
+                    score <- c(score, rep(NA, NA_len))
+                }
+                cat(paste(pos,
+                          ref_allele,
+                          x,
+                          homo_loci[as.character(pos)],
+                          x2,
+                          paste(score, collapse=","), sep=","),
+                    file=file.conn, fill=TRUE, append=TRUE)
             }
         }
         close(file.conn)
