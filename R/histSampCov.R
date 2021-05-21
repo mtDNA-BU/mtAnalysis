@@ -12,6 +12,7 @@
 #' @param type a string: "median" to calculate median coverage at individual
 #' level, "mean" to calculate mean coverage at individual level
 #' @param ... arguments to be passed to plot function.
+#' @import graphics grDevices utils stats
 #' @export
 #' @examples
 #'
