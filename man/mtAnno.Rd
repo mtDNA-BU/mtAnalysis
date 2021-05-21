@@ -4,10 +4,14 @@
 \alias{mtAnno}
 \title{mtAnno function}
 \usage{
-mtAnno(anno, annot.select = c("Pos", "ref", "Gene", "TypeMutation",
-  "MissensMutation", "CodonPosition", "ProteinDomain", "dbSNP_150_id",
-  "PolyPhen2", "PolyPhen2_score", "SIFT", "SIFT_score", "CADD",
-  "CADD_score", "CADD_phred_score"), path = "./", study = "Study")
+mtAnno(
+  anno,
+  annot.select = c("Pos", "ref", "Gene", "TypeMutation", "MissensMutation",
+    "CodonPosition", "ProteinDomain", "dbSNP_150_id", "PolyPhen2", "PolyPhen2_score",
+    "SIFT", "SIFT_score", "CADD", "CADD_score", "CADD_phred_score"),
+  path = "./",
+  study = "Study"
+)
 }
 \arguments{
 \item{anno}{a data frame provided by the user. It has two columns:

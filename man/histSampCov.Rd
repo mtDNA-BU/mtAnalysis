@@ -4,7 +4,7 @@
 \alias{histSampCov}
 \title{histSampCov function}
 \usage{
-histSampCov(coverage, loci = seq_len(.mtLength), ...)
+histSampCov(coverage, loci = seq_len(.mtLength), type = "median", ...)
 }
 \arguments{
 \item{coverage}{a numeric matrix (16569 x N).
@@ -15,6 +15,9 @@ subject. The matrix must contain the subject ID as the column names.}
 \item{loci}{one of the following to specify mtDNA loci:
 1. a numeric vector (default is c(1:16569)) of mitochondrial DNA loci,
 2. a character string for the regions(e.g. "coding", "tRNA", "Dloop", …).}
+
+\item{type}{a string: "median" to calculate median coverage at individual
+level, "mean" to calculate mean coverage at individual level}
 
 \item{...}{arguments to be passed to plot function.}
 }

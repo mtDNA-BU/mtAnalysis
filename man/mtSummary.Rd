@@ -6,16 +6,28 @@
 Identification of mtDNA variations, output summary statistics,
 annotation of heteroplasmic and/or homoplasmic variations.}
 \usage{
-mtSummary(aaf, allele, freq, coverage, coverage.qc = 100,
-  thre.lower = 0.03, thre.upper = 0.97, loci = c(1:.mtLength),
-  type = "both", coverSummary = T, varHist = T,
-  annot.select = c("Pos", "ref", "Gene", "TypeMutation",
-  "MissensMutation", "CodonPosition", "ProteinDomain", "dbSNP_150_id",
-  "PolyPhen2", "PolyPhen2_score", "SIFT", "SIFT_score", "CADD",
-  "CADD_score", "CADD_phred_score"), path = "./", study = "Study")
+mtSummary(
+  aaf,
+  allele,
+  freq,
+  coverage,
+  coverage.qc = 100,
+  thre.lower = 0.03,
+  thre.upper = 0.97,
+  loci = c(1:.mtLength),
+  type = "both",
+  coverSummary = T,
+  varHist = T,
+  annot.select = c("Pos", "ref", "Gene", "TypeMutation", "MissensMutation",
+    "CodonPosition", "ProteinDomain", "dbSNP_150_id", "PolyPhen2", "PolyPhen2_score",
+    "SIFT", "SIFT_score", "CADD", "CADD_score", "CADD_phred_score"),
+  path = "./",
+  study = "Study",
+  anno = T
+)
 }
 \arguments{
-\item{aaf}{a numeric matrix (16569 x N).
+\item{aaf}{a numeric matrix (16569 x N) provided by the user.
 Rows correspond to loci and columns correspond to subjects.
 It contains subject ID as the column names,
 and the AAFs of all 16569 mtDNA loci for each subject.
@@ -33,7 +45,7 @@ This matrix contains the N subjects with mtDNA sequencing data of 16569
 loci. The matrix must contain subject ID as the column names.
 "/" is used to delimited the allele fractions.}
 
-\item{coverage}{a numeric matrix (16569 x N).
+\item{coverage}{a numeric matrix (16569 x N) provided by the user.
 Rows correspond to loci and columns correspond to subjects.
 This matrix contains the reads coverage of the 16569 mtDNA loci for each
 subject. The matrix must contain the subject ID as the column names.}
@@ -65,9 +77,7 @@ variations and "homo"
 returns annotation to homoplasmic variations.}
 
 \item{coverSummary}{logical(default is True). A user can specify to output
-scatter plot of mean
-coverage across mtDNA loci and summary of coverage at each
-mtDNA loci (across all participants) and
+summary of mean coverage at each mtDNA loci (across all participants) and
 for each individual (across all mtDNA loci).}
 
 \item{varHist}{logical(default is True). A user can specify to output
@@ -81,6 +91,9 @@ the annotation file will
 output to the current working directory}
 
 \item{study}{A string of study names. Default is Study.}
+
+\item{anno}{A logical value (default is False) indicating whether output the
+annotation results in a .csv file}
 }
 \value{
 1. Summary frequency: descriptive statistics of sequencing coverage

@@ -4,9 +4,18 @@
 \alias{plotCover}
 \title{plotCover function}
 \usage{
-plotCover(x, loci = seq_len(.mtLength), col = "blue", pch = ".",
-  cex = 0.2, xlab = "mtloci", ylab = "",
-  main = "Mean Coverage for all mtDNA loci", ...)
+plotCover(
+  x,
+  loci = seq_len(.mtLength),
+  col = "blue",
+  pch = ".",
+  cex = 0.2,
+  xlab = "mtloci",
+  ylab = "",
+  main = "Mean Coverage for all mtDNA loci",
+  type = "median",
+  ...
+)
 }
 \arguments{
 \item{x}{a numeric matrix (16569 x N).
@@ -29,6 +38,9 @@ subject. The matrix must contain the subject ID as the column names.}
 \item{ylab}{a label for the y axis.}
 
 \item{main}{a title for the plot.}
+
+\item{type}{a string: "median" to calculate median coverage at individual
+level, "mean" to calculate mean coverage at individual level}
 
 \item{...}{arguments to be passed to plot function.}
 }
