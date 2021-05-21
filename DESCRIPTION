@@ -37,6 +37,7 @@ Imports:
     graphics,
     stats,
     data.table,
+    stringi,
     Rcpp
 LinkingTo: Rcpp
 VignetteBuilder: knitr
