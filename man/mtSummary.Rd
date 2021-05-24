@@ -2,9 +2,7 @@
 % Please edit documentation in R/mtSummary.R
 \name{mtSummary}
 \alias{mtSummary}
-\title{mtSummary function
-Identification of mtDNA variations, output summary statistics,
-annotation of heteroplasmic and/or homoplasmic variations.}
+\title{mtSummary function}
 \usage{
 mtSummary(
   aaf,
@@ -112,7 +110,6 @@ heteroplasmic and/or homoplasmic variations observed in
 the study data based on user's choice.
 }
 \description{
-mtSummary function
 Identification of mtDNA variations, output summary statistics,
 annotation of heteroplasmic and/or homoplasmic variations.
 }
