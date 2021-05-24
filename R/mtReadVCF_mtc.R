@@ -3,6 +3,7 @@
 #' Extract allele, freq and coverage datasets from the VCF file containing
 #' results called by mitoCaller. The datasets are the input of mtAAF and
 #' mtSummary functions.
+#'
 #' @param VCF_file a string of path and name of VCF file to import
 #' @param n_sample number of subjects
 #' @return A list contains the three matrices of allele, freq and coverage
