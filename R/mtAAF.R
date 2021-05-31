@@ -49,7 +49,7 @@ mtAAF <- function(allele, freq, method="maxAA"){
         stop("the allele and frequency should have the same dimension")
     }
 
-    subjectID <- colnames(allele)
+    subjectID <- intersect(colnames(allele), colnames(freq))
     subjectID<-sort(subjectID)
     allele <- allele[ , subjectID]
     freq <- freq[ , subjectID]
