@@ -4,13 +4,13 @@
 #'
 #' @param allele a character matrix (16569 x N) provided by the user.
 #' Rows correspond to loci and columns correspond to subjects.
-#' This matrix contains N subjects with mtDNA sequencing data of 16569 loci.
+#' This matrix contains alleles of each subject at each locus.
 #' The matrix must contain subject ID as the column names.
 #' "/" is used to delimited different allele calls in a locus.
 #' @param freq a character matrix (16569 x N) provided by the user.
 #' Rows correspond to loci and columns correspond to subjects.
-#' This matrix contains the N subjects with mtDNA sequencing data of 16569
-#' loci. The matrix must contain subject ID as the column names.
+#' This matrix contains the allele fractions of the corresponding allele matrix.
+#' The matrix must contain subject ID as the column names.
 #' "/" is used to delimited the allele fractions.
 #' @param method the method to compute AAF for the case of multiple alternative
 #' alleles. The default method "maxAA" computes AAF as the maximum of
