@@ -10,7 +10,7 @@
 #' It is generated from mtAAF function.
 #' @param allele a character matrix (16569 x N) provided by the user.
 #' Rows correspond to loci and columns correspond to subjects.
-#' This matrix contains alleles of each subject at each locus.
+#' This matrix contains the alleles of each subject at each locus.
 #' The matrix must contain subject ID as the column names.
 #' "/" is used to delimited different allele calls in a locus.
 #' @param freq a character matrix (16569 x N) provided by the user.
