@@ -48,9 +48,9 @@ input_path = "/path/to/input/directory/"
 ``` r
 allele <- read.csv(paste0(input_path, "allele/allele_ANNOmtDNA.csv"), header = T, stringsAsFactors=FALSE,
                    colClasses = c("character"))
-freq <- read.csv(paste0(input_path,"freq/freq_ANNOmtDNA.csv"), header=T, stringsAsFactors=FALSE,
+freq <- read.csv(paste0(input_path, "freq/freq_ANNOmtDNA.csv"), header=T, stringsAsFactors=FALSE,
                       colClasses = c("character"))
-coverage <- read.csv(paste0(input_path,"coverage/coverage_ANNOmtDNA.csv"), header=T)
+coverage <- read.csv(paste0(input_path, "coverage/coverage_ANNOmtDNA.csv"), header=T)
 allele <- as.matrix(allele)
 freq <- as.matrix(freq)
 coverage <- data.matrix(coverage)
