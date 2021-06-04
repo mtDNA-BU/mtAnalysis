@@ -4,8 +4,7 @@
 #' results called by mitoCaller. The datasets are the input of mtAAF and
 #' mtSummary functions.
 #'
-#' @param VCF_file a string of path and name of VCF file to import
-#' @param n_sample number of subjects
+#' @param file a string of path and name of VCF file to import
 #' @return A list contains the three matrices of allele, freq and coverage
 #' with dimensions of 16569 x N. Rows correspond to loci and columns correspond
 #' to subjects. It contains subject ID as the column names.
@@ -13,12 +12,29 @@
 #' @export
 #' @examples
 #'
+#'\dontrun{
+#' ## Read mitoCaller VCF file
+#' mtVCF_mtc <- mtReadVCF_mtc(file="dir/example.vcf")
+#' allele <- mtVCF_mtc$allele
+#' freq   <- mtVCF_mtc$freq
+#' coverage <- mtVCF_mtc$coverage
+#'
+#' ## compute AAF
+#' aaf=mtAAF(allele, freq)
+#'}
+#'
 
 
-# VCF_file <- "/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/Dissertation/VCF/OutputCHS.vcf"
-mtReadVCF_mtc <- function(VCF_file, n_sample){
 
-  dat_vcf <- fread(VCF_file, skip="CHROM", data.table=F)
+mtReadVCF_mtc <- function(file){
+
+  if( !file.exists(file) ) stop(paste("Input file", file, " does not exist."))
+
+  dat_vcf <- fread(file, skip="CHROM", data.table=F)
+  if ( nrow(dat_vcf) < 1 | ncol(dat_vcf) < 10) stop("Input must have at least one
+                                                    subject and one variation")
+
+  n_sample <- ncol(dat_vcf)-9
   pos_var <- dat_vcf$POS
   pos_nonvar <- setdiff(c(1:.mtLength), dat_vcf$POS)
   allele_pos_nonvar <- .mtRef[pos_nonvar]
