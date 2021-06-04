@@ -81,10 +81,10 @@ plot(AAF)
 
 Plot the mean coverage of each locus by plotCover function, the x axis is the mtDNA loci and y axis is the mean coverage
 ```{r plotMeanCoverage, fig.height=4, fig.width=8, fig.align = 'center'}
-plotCover(coverage)
+plotCover(coverage, type="mean")
 ```
 
-Histogram of the mean coverage of each subject by histSampCov function 
+Histogram of the median coverage of each subject by histSampCov function 
 ```{r histMeanCoverage, fig.height=5, fig.width=5, fig.align = 'center'}
 histSampCov(coverage)
 ```
