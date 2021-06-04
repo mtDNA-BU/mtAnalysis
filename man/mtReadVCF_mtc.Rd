@@ -4,12 +4,10 @@
 \alias{mtReadVCF_mtc}
 \title{mtReadVCF_mtc function}
 \usage{
-mtReadVCF_mtc(VCF_file, n_sample)
+mtReadVCF_mtc(file)
 }
 \arguments{
-\item{VCF_file}{a string of path and name of VCF file to import}
-
-\item{n_sample}{number of subjects}
+\item{file}{a string of path and name of VCF file to import}
 }
 \value{
 A list contains the three matrices of allele, freq and coverage
@@ -22,5 +20,16 @@ results called by mitoCaller. The datasets are the input of mtAAF and
 mtSummary functions.
 }
 \examples{
+
+\dontrun{
+## Read mitoCaller VCF file
+mtVCF_mtc <- mtReadVCF_mtc(file="dir/example.vcf")
+allele <- mtVCF_mtc$allele
+freq   <- mtVCF_mtc$freq
+coverage <- mtVCF_mtc$coverage
+
+## compute AAF
+aaf=mtAAF(allele, freq)
+}
 
 }
