@@ -22,7 +22,7 @@
 #' Rows correspond to loci and columns correspond to subjects.
 #' This matrix contains the reads coverage of the 16569 mtDNA loci for each
 #' subject. The matrix must contain the subject ID as the column names.
-#' @param coverage.qc a number(default is 100) of threshold for the coverage.
+#' @param coverage.qc a number(default is 250) of threshold for the coverage.
 #' If the coverage<coverage.qc, the allele call at that locus of the subject
 #' will not be used.
 #' @param thre.lower a number(default is 0.03) of lower bound of the threshold
@@ -90,7 +90,7 @@
 #'}
 
 mtSummary<-function(aaf, allele, freq, coverage,
-                    coverage.qc=100,
+                    coverage.qc=250,
                     thre.lower=0.03, thre.upper=0.97,
                     loci=c(1 : .mtLength),
                     type="both",
