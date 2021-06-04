@@ -99,12 +99,12 @@ Plot the mean coverage of each locus by plotCover function, the x axis
 is the mtDNA loci and y axis is the mean coverage
 
 ``` r
-plotCover(coverage)
+plotCover(coverage, type="mean")
 ```
 
 <img src="man/figures/README-plotMeanCoverage-1.png" style="display: block; margin: auto;" />
 
-Histogram of the mean coverage of each subject by histSampCov function
+Histogram of the median coverage of each subject by histSampCov function
 
 ``` r
 histSampCov(coverage)
