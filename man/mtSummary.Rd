@@ -9,7 +9,7 @@ mtSummary(
   allele,
   freq,
   coverage,
-  coverage.qc = 100,
+  coverage.qc = 250,
   thre.lower = 0.03,
   thre.upper = 0.97,
   loci = c(1:.mtLength),
@@ -48,7 +48,7 @@ Rows correspond to loci and columns correspond to subjects.
 This matrix contains the reads coverage of the 16569 mtDNA loci for each
 subject. The matrix must contain the subject ID as the column names.}
 
-\item{coverage.qc}{a number(default is 100) of threshold for the coverage.
+\item{coverage.qc}{a number(default is 250) of threshold for the coverage.
 If the coverage<coverage.qc, the allele call at that locus of the subject
 will not be used.}
 
