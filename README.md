@@ -23,7 +23,7 @@ regions.
 *Note:* if you use ANNOmtDNA in published research, please cite:
 
 Xianbang Sun, Katia Bulekova, Kaiyu Yan, Daniel Levy, Jun Ding, Chunyu
-Liu, Jessica L. Fetterman (2020) mtdnaANNO: an R package for
+Liu, Jessica L. Fetterman (2020) ANNOmtDNA: an R package for
 comprehensive annotation of mtDNA sequence variation
 
 ## Installation
