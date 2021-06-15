@@ -235,7 +235,7 @@ mtSummary<-function(aaf, allele, freq, coverage,
     ## The reads of these loci are not reliable, so these loci should be removed
     loci_removed <- .mtLociNUMT   # c(301,302,310,316,3107,16182)
     loci_removed <- as.character(loci_removed)
-    loci_left <- setdiff(rownames(aaf), loci_removed)
+    loci_left <- setdiff(rownames(aaf_cat), loci_removed)
     aaf_cat <- aaf_cat[loci_left,]
 
     ## only include mutations loci: at least one subject has mutation at that locus
