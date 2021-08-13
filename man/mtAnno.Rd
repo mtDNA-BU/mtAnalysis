@@ -18,7 +18,16 @@ mtAnno(
 mtDNA loci positions ("pos") and
 alternative alleles ("alleles") to be annotated.}
 
-\item{annot.select}{types of annotation scores to be generated.}
+\item{annot.select}{A character vector of variation position, alternative
+allele, corresponding gene and types of annotation scores to output based on
+user's choice. The available choices are "Pos", "ref", "Gene", "TypeMutation",
+"MissensMutation", "CodonPosition", "ProteinDomain", "mFOLD_dG",
+"mFOLD_Initial", "mFOLD_rCRS.DG", "mFOLD_rCRS.Initial",
+"mFOLD_AnticodonAminoAcidChange", "mFOLD_Location", "PolyPhen2",
+"PolyPhen2_score", "SIFT", "SIFT_score", "PROVEAN", "PROVEAN_score",
+"MutationAssessor", "MutationAssessor_score", "CADD", "CADD_score",
+"CADD_phred_score", "PANTHER", "PANTHER_score", "PhD_SNP", "PhD_SNP_score",
+"SNAP", "SNAP_score", "MutationTaster", "MutationTaster_score", "dbSNP_150_id"}
 
 \item{path}{the path to the directory of the output of annotation file.
 If not provided, the annotation
