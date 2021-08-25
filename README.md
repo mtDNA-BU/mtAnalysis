@@ -140,7 +140,8 @@ mFOLD\_AnticodonAminoAcidChange, mFOLD\_Location, PolyPhen2,
 PolyPhen2\_score, SIFT, SIFT\_score, PROVEAN, PROVEAN\_score,
 MutationAssessor, MutationAssessor\_score, CADD, CADD\_score,
 CADD\_phred\_score, PANTHER, PANTHER\_score, PhD\_SNP, PhD\_SNP\_score,
-SNAP, SNAP\_score, MutationTaster, MutationTaster\_score, dbSNP\_150\_id
+SNAP, SNAP\_score, MutationTaster, MutationTaster\_score, dbSNP\_150\_id,
+APOGEE\_boost\_consensus, APOGEE\_boost\_mean\_prob, APOGEE\_boost\_mean
 
 Run the mtSummary function, only include loci of coding region, annotate
 for both of heteroplasmic and homoplasmic mutations.
