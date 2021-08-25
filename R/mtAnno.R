@@ -14,7 +14,8 @@
 #' "PolyPhen2_score", "SIFT", "SIFT_score", "PROVEAN", "PROVEAN_score",
 #' "MutationAssessor", "MutationAssessor_score", "CADD", "CADD_score",
 #' "CADD_phred_score", "PANTHER", "PANTHER_score", "PhD_SNP", "PhD_SNP_score",
-#' "SNAP", "SNAP_score", "MutationTaster", "MutationTaster_score", "dbSNP_150_id"
+#' "SNAP", "SNAP_score", "MutationTaster", "MutationTaster_score", "dbSNP_150_id",
+#' "APOGEE_boost_consensus", "APOGEE_boost_mean_prob", "APOGEE_boost_mean"
 #' @param path the path to the directory of the output of annotation file.
 #' If not provided, the annotation
 #' file will output to the current working directory.
