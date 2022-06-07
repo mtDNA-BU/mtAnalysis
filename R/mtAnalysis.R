@@ -1,5 +1,22 @@
 # function to run association analysis of heteroplasmies
 
+#' Title
+#'
+#' @param aaf
+#' @param family
+#' @param Methods
+#' @param pheno
+#' @param trait
+#' @param covars
+#' @param G_coding
+#' @param region
+#' @param aaf_cat_SNPInfo
+#' @param kins
+#'
+#' @return
+#' @export
+#'
+#' @examples
 mtAnalysis<-function(aaf, family, Methods, pheno, trait, covars, G_coding,
                      region, aaf_cat_SNPInfo=aaf_cat_SNPInfo,
                      kins=NULL){
