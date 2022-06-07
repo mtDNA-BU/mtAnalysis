@@ -4,7 +4,7 @@ mtAnalysis<-function(aaf, family, Methods, pheno, trait, covars, G_coding,
                      region, aaf_cat_SNPInfo=aaf_cat_SNPInfo,
                      kins=NULL){
 
-    if(G_coding=="heter"){
+    if(G_coding =="heter"){
         aaf_cat <- ((aaf >= thre_spec_lower) & (aaf <= thre_spec_upper))
         aaf_cat <- aaf_cat + 0
 
