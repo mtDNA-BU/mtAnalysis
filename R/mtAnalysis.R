@@ -82,11 +82,11 @@ mtAnalysis<-function(aaf, family, Methods, pheno, trait, covars, G_coding,
                                      snpNames = "Name" ,aggregateBy = "gene",
                                      verbose = FALSE)
 
-            skat_test1<-skatMeta(scores, SNPInfo = aaf_cat_SNPInfo, wts = wts1,
+            skat_test1<-seqMeta::skatMeta(scores, SNPInfo = aaf_cat_SNPInfo, wts = wts1,
                                  snpNames = "Name" ,aggregateBy = "gene",
                                  verbose = FALSE)
 
-            skatO_test1<-skatOMeta(scores, rho=c(0,1),
+            skatO_test1<-seqMeta::skatOMeta(scores, rho=c(0,1),
                                    SNPInfo = aaf_cat_SNPInfo,
                                    burden.wts = wts1, skat.wts=wts1,
                                    snpNames = "Name" ,aggregateBy = "gene",
