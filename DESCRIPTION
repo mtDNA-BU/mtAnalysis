@@ -38,6 +38,7 @@ Imports:
     stats,
     data.table,
     stringi,
-    Rcpp
+    Rcpp,
+    seqMeta
 LinkingTo: Rcpp
 VignetteBuilder: knitr

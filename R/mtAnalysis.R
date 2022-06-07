@@ -74,11 +74,11 @@ mtAnalysis<-function(aaf, family, Methods, pheno, trait, covars, G_coding,
 
         seqMeta_cov$y <- pheno[,trait]
         tryCatch({
-            scores<-prepScores2(Z = aaf_cat_region_t, formula=formula_null, family = family,
+            scores<-seqMeta::prepScores2(Z = aaf_cat_region_t, formula=formula_null, family = family,
                                 SNPInfo = aaf_cat_SNPInfo, snpNames = "Name",
                                 aggregateBy = "gene", sparse = TRUE, data = seqMeta_cov)
 
-            burden_test1<-burdenMeta(scores, SNPInfo = aaf_cat_SNPInfo, wts = wts1,
+            burden_test1<-seqMeta::burdenMeta(scores, SNPInfo = aaf_cat_SNPInfo, wts = wts1,
                                      snpNames = "Name" ,aggregateBy = "gene",
                                      verbose = FALSE)
 
