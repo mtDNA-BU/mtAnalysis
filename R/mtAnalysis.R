@@ -177,3 +177,11 @@ mtAnalysis<-function(aaf, family, Methods, pheno, trait, covars, G_coding,
 
 
 
+
+
+
+
+
+
+
+
