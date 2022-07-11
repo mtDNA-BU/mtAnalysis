@@ -18,6 +18,8 @@ mtAnalysis(
 )
 }
 \arguments{
+\item{aaf}{test1}
+
 \item{kins}{}
 }
 \value{

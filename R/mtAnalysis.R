@@ -4,7 +4,7 @@
 
 #' Title
 #'
-#' @param aaf
+#' @param aaf test1
 #' @param family
 #' @param Methods
 #' @param pheno
@@ -161,3 +161,19 @@ mtAnalysis<-function(aaf, family, Methods, pheno, trait, covars, G_coding,
 
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
