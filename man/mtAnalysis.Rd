@@ -2,7 +2,7 @@
 % Please edit documentation in R/mtAnalysis.R
 \name{mtAnalysis}
 \alias{mtAnalysis}
-\title{Title}
+\title{mtAnalysis function}
 \usage{
 mtAnalysis(
   aaf,
@@ -20,11 +20,13 @@ mtAnalysis(
 \arguments{
 \item{aaf}{test1}
 
+\item{covars}{test2}
+
 \item{kins}{}
 }
 \value{
 
 }
 \description{
-Title
+mtAnalysis function
 }

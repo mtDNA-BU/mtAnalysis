@@ -4,14 +4,14 @@
 
 
 
-#' Title
+#' mtAnalysis function
 #'
 #' @param aaf test1
 #' @param family
 #' @param Methods
 #' @param pheno
 #' @param trait
-#' @param covars
+#' @param covars test2
 #' @param G_coding
 #' @param region
 #' @param aaf_cat_SNPInfo
