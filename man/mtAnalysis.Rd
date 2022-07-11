@@ -20,7 +20,13 @@ mtAnalysis(
 \arguments{
 \item{aaf}{test1}
 
+\item{pheno}{test4}
+
 \item{covars}{test2}
+
+\item{G_coding}{test5}
+
+\item{aaf_cat_SNPInfo}{test3}
 
 \item{kins}{}
 }

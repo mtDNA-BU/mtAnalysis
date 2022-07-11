@@ -9,12 +9,12 @@
 #' @param aaf test1
 #' @param family
 #' @param Methods
-#' @param pheno
+#' @param pheno test4
 #' @param trait
 #' @param covars test2
-#' @param G_coding
+#' @param G_coding test5
 #' @param region
-#' @param aaf_cat_SNPInfo
+#' @param aaf_cat_SNPInfo test3
 #' @param kins
 #'
 #' @return
