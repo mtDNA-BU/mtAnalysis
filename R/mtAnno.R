@@ -1,6 +1,6 @@
 #' mtAnno function
 #'
-#' Annotate Given Alternative Alleles of mtDNA Loci
+#' @description Annotate Given Alternative Alleles of mtDNA Loci.
 #'
 #' @param anno a data frame provided by the user. It has two columns:
 #' mtDNA loci positions ("pos") and

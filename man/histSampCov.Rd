@@ -22,7 +22,8 @@ level, "mean" to calculate mean coverage at individual level}
 \item{...}{arguments to be passed to plot function.}
 }
 \description{
-Produce a Histogram of Mean Coverage Across mtDNA Loci for Subjects
+Produce a Histogram of Mean Coverage Across mtDNA Loci for
+Subjects.
 }
 \examples{
 

@@ -1,6 +1,6 @@
 #' mtSummary function
 #'
-#' Identification of mtDNA variations, output summary statistics,
+#' @description Identification of mtDNA variations, output summary statistics,
 #' annotation of heteroplasmic and/or homoplasmic variations.
 #'
 #' @param aaf a numeric matrix (16569 x N) provided by the user.

@@ -1,7 +1,7 @@
 #' plotCover function
 #'
-#' Produce a Diagnostic Scatter Plot to Visualize Mean Coverage Across Subjects
-#' for Each Locus
+#' @description Produce a Diagnostic Scatter Plot to Visualize Mean Coverage
+#' Across Subjects for Each Locus.
 #'
 #' @param x a numeric matrix (16569 x N).
 #' Rows correspond to loci and columns correspond to subjects.

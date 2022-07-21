@@ -1,6 +1,6 @@
 #' mtAAF function
 #'
-#' Derivation of alternative allele fraction (AAF)
+#' @description Derivation of alternative allele fraction (AAF).
 #'
 #' @param allele a character matrix (16569 x N) provided by the user.
 #' Rows correspond to loci and columns correspond to subjects.

@@ -31,7 +31,7 @@ It contains subject ID as the column names, and the AAFs of all 16569 mtDNA
 loci for each subject.
 }
 \description{
-Derivation of alternative allele fraction (AAF)
+Derivation of alternative allele fraction (AAF).
 }
 \examples{
 

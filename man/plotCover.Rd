@@ -45,8 +45,8 @@ level, "mean" to calculate mean coverage at individual level}
 \item{...}{arguments to be passed to plot function.}
 }
 \description{
-Produce a Diagnostic Scatter Plot to Visualize Mean Coverage Across Subjects
-for Each Locus
+Produce a Diagnostic Scatter Plot to Visualize Mean Coverage
+Across Subjects for Each Locus.
 }
 \examples{
 

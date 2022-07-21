@@ -1,6 +1,6 @@
 #' mtReadVCF_mtc function
 #'
-#' Extract allele, freq and coverage datasets from the VCF file containing
+#' @description Extract allele, freq and coverage datasets from the VCF file containing
 #' results called by mitoCaller. The datasets are the input of mtAAF and
 #' mtSummary functions.
 #'

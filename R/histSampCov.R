@@ -1,6 +1,7 @@
 #' histSampCov function
 #'
-#' Produce a Histogram of Mean Coverage Across mtDNA Loci for Subjects
+#' @description Produce a Histogram of Mean Coverage Across mtDNA Loci for
+#' Subjects.
 #'
 #' @param coverage a numeric matrix (16569 x N).
 #' Rows correspond to loci and columns correspond to subjects.

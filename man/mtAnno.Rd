@@ -41,7 +41,7 @@ A .csv file containing annotated alternative alleles with
 corresponding mtDNA loci positions.
 }
 \description{
-Annotate Given Alternative Alleles of mtDNA Loci
+Annotate Given Alternative Alleles of mtDNA Loci.
 }
 \examples{
 
