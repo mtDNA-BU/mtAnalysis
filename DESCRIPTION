@@ -11,14 +11,18 @@ Authors@R:
            family = "Liu",
            role = c("aut", "cre"),
            email = "liuc@bu.edu"),     
-      person(given = "Jessica",
-           family = "Fetterman",
+      person(given = "Xue",
+           family = "Liu",
            role = "aut",
-           email = "jefetter@bu.edu"),
+           email = "xliu168@bu.edu"),
       person(given = "Katia",
            family = "Bulekova",
-           role = c("aut") ,
-           email = "ktrn@bu.edu"))
+           role = c("aut"),
+           email = "ktrn@bu.edu"),
+      person(given = "Meng",
+           family = "Lai",
+           role = c("aut"),
+           email = "menglai@bu.edu"))
 Description: ANNOmtDNA is an R/BioConductor package for identifying and annotating mtDNA sequence variations. This package allows to identify mtDNA sequence variations with user-specified thresholds, and provide several plots to visualize mtDNA sequence variations. It also annotates all mtDNA variations and predicts functionality for mtDNA variants in the coding and tRNA regions. 
 License: MIT + file LICENSE
 URL: https://github.com/mtDNA-BU/ANNOmtDNA
