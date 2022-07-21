@@ -6,33 +6,87 @@
 \usage{
 mtAnalysis(
   aaf,
+  coverage,
+  coverage.qc = 250,
   family,
-  Methods,
   pheno,
   trait,
   covars,
-  G_coding,
-  region,
-  aaf_cat_SNPInfo = aaf_cat_SNPInfo,
+  G_coding = "heter",
+  rho_skatO = c(0, 1),
+  heter_scale = F,
+  region = c(1:16569),
+  thre_lower = 0.03,
+  thre_upper = 0.97,
+  maf_max = 0.01,
   kins = NULL
 )
 }
 \arguments{
-\item{aaf}{test1}
+\item{aaf}{a numeric matrix (16569 x N) provided by the user.
+Rows correspond to loci and columns correspond to subjects.
+It contains subject ID as the column names,
+and the AAFs of all 16569 mtDNA loci for each subject.
+It is generated from mtAAF function.}
 
-\item{pheno}{test4}
+\item{coverage}{a numeric matrix (16569 x N) provided by the user.
+Rows correspond to loci and columns correspond to subjects.
+This matrix contains the reads coverage of the 16569 mtDNA loci for each
+subject. The matrix must contain the subject ID as the column names.}
 
-\item{covars}{test2}
+\item{coverage.qc}{a number(default is 250) of threshold for the coverage.
+If the coverage<coverage.qc, the allele call at that locus of the subject
+will not be used.}
 
-\item{G_coding}{test5}
+\item{family}{a character string to specify data type of outcome: "gaussian"
+for continuous data and "binomial" for binary data.}
 
-\item{aaf_cat_SNPInfo}{test3}
+\item{pheno}{a data frame containing data of covariates and outcome. Rows are
+subjects and columns are variables. It must have the same sample size as the
+aaf matrix. It must contain the subject ID as the row names.}
 
-\item{kins}{}
+\item{trait}{a character string of outcome name to be analyzed.}
+
+\item{covars}{a character vector indicating the names of covariates.}
+
+\item{G_coding}{Coding definition of heteroplasmy. "heter" for coding
+definition 1, and "heter2" for coding definition 2. See details.}
+
+\item{rho_skatO}{A sequence of values that specify combinations of SKAT and a
+burden test to be considered in SKAT-O (default is c(0,1)).}
+
+\item{heter_scale}{logical(default is False). A user can specify to
+standardize the genetic dosage of heteroplasmies of each variant.}
+
+\item{region}{a numeric vector to specify the gene region to be analyzed
+(default is c(1:16569)).}
+
+\item{thre_lower}{a number (default is 0.03) of lower bound of the threshold
+defining heteroplasmic mutations}
+
+\item{thre_upper}{a number (default is 0.97) of upper bound of the threshold
+defining heteroplasmic mutations}
+
+\item{maf_max}{upper bound of frequency of heteroplasmies at population level
+to be included}
+
+\item{kins}{Kinship matrix for related subjects. Only support for continuous
+outcomes currently.}
 }
 \value{
-
+A data frame containing the results of association analysis of
+heteroplasmies by the four methods.
 }
 \description{
-mtAnalysis function
+Association analysis of heteroplasmies with disease traits by
+four common methods of burden test, SKAT, SKAT-O and ACAT-O. ACAT-O is used
+to combine results of burden test and SKAT.
+}
+\details{
+By coding definition 1 (G_coding="heter"), the genetic dosage of
+heteroplasmy is 1 if the corresponding alternative allele fraction (aaf)
+satisfies thre_lower≤aaf≤thre_upper, and 0 otherwise. By coding definition 2
+(G_coding="heter2"), the genetic dosage of heteroplasmy is the aaf itself if
+the corresponding alternative allele fraction (aaf) satisfies
+thre_lower≤aaf≤thre_upper, and 0 otherwise.
 }
