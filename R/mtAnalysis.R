@@ -65,7 +65,8 @@ mtAnalysis<-function(aaf, coverage, coverage.qc=250, family, pheno,
 
     if(!all(is.numeric(aaf), is.numeric(coverage)))
         stop("the aaf and coverage should be numeric")
-
+    if(dim(aaf)!=dim(coverage))
+        stop("the dimention of aaf and coverage should be the same")
 
 
 
