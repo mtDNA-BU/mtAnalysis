@@ -63,12 +63,17 @@ mtAssociation<-function(aaf, coverage, coverage.qc=250, family, pheno,
                      region=c(1:16569), thre_lower=0.03, thre_upper=0.97, maf_max=0.01,
                      kins=NULL){
 
-    if(!all(is.numeric(aaf), is.numeric(coverage)))
-        stop("the aaf and coverage should be numeric")
-    if(dim(aaf)!=dim(coverage))
-        stop("the dimention of aaf and coverage should be the same")
+    ### check inputs ###
 
+    #aaf
 
+    if(!is.numeric(aaf) || !is.numeric(coverage))
+        stop("Both aaf and coverage should be numeric matrix")
+
+    if(setequal(dim(aaf),dim(coverage)))
+        stop("The dimention of aaf and coverage should be the same")
+
+    ###
 
 
 
