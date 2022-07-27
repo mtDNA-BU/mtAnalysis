@@ -63,15 +63,41 @@ mtAssociation<-function(aaf, coverage, coverage.qc=250, family, pheno,
                      region=c(1:16569), thre_lower=0.03, thre_upper=0.97, maf_max=0.01,
                      kins=NULL){
 
-    ### check inputs ###
+    ### check input type ###
 
-    #aaf
+    if(!is.numeric(aaf)) stop("aaf is not a numeric matrix")
+    if(!is.numeric(coverage)) stop("coverage is not a numeric matrix")
+    if(!is.numeric(coverage.qc)) stop("coverage.qc is not numeric")
 
-    if(!is.numeric(aaf) || !is.numeric(coverage))
-        stop("Both aaf and coverage should be numeric matrix")
+    if(!family %in% c("gaussian","binomial"))
+        stop('family must be a string input of "gaussian" or "binomial"')
 
+    if(!G_coding %in% c("heter","heter2"))
+        stop('family must be a string input of "heter" or "heter2"')
+
+    if(!is.numeric(region)) stop("region is not a numeric vector")
+    if(!is.numeric(thre_lower)) stop("thre_lower is not numeric")
+    if(!is.numeric(thre_upper)) stop("thre_upper is not numeric")
+    if(!is.numeric(maf_max)) stop("maf_max is not numeric")
+    if(!is.numeric(rho_skatO)) stop("rho_skatO is not numeric")
+    if(!is.logical(heter_scale)) stop("heter_scale is not logical")
+
+    if(!covars %in% names(pheno))
+        stop("covars must match the covariate names in dataframe pheno")
+    if(!trait %in% names(pheno))
+        stop("trait match the outcome variable name in dataframe pheno")
+
+    #check range
+
+    #if(!is.numeric()) stop(" is not numeric")
+    # if(!is.character(covars)) stop("covars must be character vector")
+    # if(!is.character(trait)) stop("trait must be character vector")
+
+
+    #check dimension
     if(setequal(dim(aaf),dim(coverage)))
-        stop("The dimention of aaf and coverage should be the same")
+        stop("The dimension of aaf and coverage do not match")
+
 
     ###
 
