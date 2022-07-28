@@ -63,49 +63,99 @@ mtAssociation<-function(aaf, coverage, coverage.qc=250, family, pheno,
                      region=c(1:16569), thre_lower=0.03, thre_upper=0.97, maf_max=0.01,
                      kins=NULL){
 
-    ### check input type ###
+    ###input type check ###
 
-    if(!is.numeric(aaf)) stop("aaf is not a numeric matrix")
-    if(!is.numeric(coverage)) stop("coverage is not a numeric matrix")
-    if(!is.numeric(coverage.qc)) stop("coverage.qc is not numeric")
+    if(!is.numeric(aaf))
+        stop("Argument aaf is not a numeric matrix")
+    if(!is.numeric(coverage))
+        stop("Argument coverage is not a numeric matrix")
+    if(is.null(colnames(aaf)))
+        stop("Argument aaf must contain the subject ID as the column names")
+    if(is.null(colnames(coverage)))
+        stop("Argument coverage must contain the subject ID as the column names")
+
+    if(!is.numeric(coverage.qc))
+        stop("Argument coverage.qc is not numeric")
 
     if(!family %in% c("gaussian","binomial"))
-        stop('family must be a string input of "gaussian" or "binomial"')
+        stop('Argument family must be a string input of "gaussian" or "binomial"')
 
     if(!G_coding %in% c("heter","heter2"))
-        stop('family must be a string input of "heter" or "heter2"')
+        stop('Argument family must be a string input of "heter" or "heter2"')
 
-    if(!is.numeric(region)) stop("region is not a numeric vector")
-    if(!is.numeric(thre_lower)) stop("thre_lower is not numeric")
-    if(!is.numeric(thre_upper)) stop("thre_upper is not numeric")
-    if(!is.numeric(maf_max)) stop("maf_max is not numeric")
-    if(!is.numeric(rho_skatO)) stop("rho_skatO is not numeric")
-    if(!is.logical(heter_scale)) stop("heter_scale is not logical")
+    if(!is.numeric(region))
+        stop("Argument region is not a numeric vector")
+    if(!is.numeric(thre_lower))
+        stop("Argument thre_lower is not numeric")
+    if(!is.numeric(thre_upper))
+        stop("Argument thre_upper is not numeric")
+    if(!is.numeric(maf_max))
+        stop("Argument maf_max is not numeric")
 
+    if(!is.numeric(rho_skatO))
+        stop("Argument rho_skatO is not numeric")
+    if(sum(duplicated(rho_skatO))!=0)
+        stop("Argument rho_skatO contains duplicates")
+
+    if(!is.logical(heter_scale))
+        stop("Argument heter_scale is not logical")
+
+    if (dim(pheno)[1] != dim(aaf)[2])
+        stop("dataframe pheno must have the same sample size as the aaf matrix")
+    if (sum(!colnames(aaf) %in% row.names(pheno)) >0)
+        stop("pheno row names must have all subject IDs present in aaf column names")
+    if(!is.character(colnames(pheno)))
+        stop("Argument pheno must contain variabe names as column names")
+
+    if(!is.character(covars))
+        stop("Argument covars is not a character vector")
+    if(!is.character(trait) || length(trait)!=1)
+        stop("Argument trait is not a single character string")
     if(!covars %in% names(pheno))
-        stop("covars must match the covariate names in dataframe pheno")
+        stop("Argument covars must match the covariate names in dataframe pheno")
     if(!trait %in% names(pheno))
-        stop("trait match the outcome variable name in dataframe pheno")
+        stop("Argument trait must match the outcome variable name in dataframe pheno")
 
-    #check range
+    if(!is.null(kins)){
+        if (sum(!colnames(aaf) %in% colnames(kins)) >0)
+            stop("matrix kins must have all subject IDs present in aaf column names")
+    }
 
-    #if(!is.numeric()) stop(" is not numeric")
-    # if(!is.character(covars)) stop("covars must be character vector")
-    # if(!is.character(trait)) stop("trait must be character vector")
+    ### input range check ###
 
+    if (min(region)<1 || max(region)>16569)
+        stop("Argument region out of range 1:16569")
 
-    #check dimension
-    if(setequal(dim(aaf),dim(coverage)))
-        stop("The dimension of aaf and coverage do not match")
+    if (thre_lower < 0 || thre_lower > 1)
+        stop("Argument thre_lower out of range")
+    if (thre_upper < 0 || thre_upper > 1)
+        stop("Argument thre_upper out of range")
+    if (thre_lower >= thre_upper)
+        stop("Argument thre_lower must be smaller than thre_upper")
 
+    if (maf_max < 0 || maf_max > 1)
+        stop("Argument maf_max out of range")
+    if (sum(rho_skatO<0 | rho_skatO>1) != 0)
+        stop("Argument rho_skatO out of range")
+
+    ### dimension check ###
+    if(dim(aaf)[1] != 16569)
+        stop("Argument aaf dimension out of range")
+    if(dim(coverage)[1] != 16569)
+        stop("Argument coverage dimension out of range")
+
+    if(!setequal(dim(aaf),dim(coverage)))
+        stop("The dimensions of aaf and coverage do not match")
 
     ###
-
-
 
     ID_samples <- colnames(aaf)
     coverage <- coverage[,ID_samples]
     pheno <- pheno[ID_samples,]
+    region <- unique(region)
+    if(!is.null(kins)){
+        kins <- kins[ID_samples , ID_samples]
+    }
 
     rownames(aaf) <- c(1:.mtLength)
     rownames(coverage) <- c(1:.mtLength)
