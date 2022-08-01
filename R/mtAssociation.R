@@ -64,6 +64,13 @@ mtAssociation<-function(aaf, coverage, coverage.qc=250, family, pheno,
                      kins=NULL){
 
     ###input type check ###
+    if (length(coverage.qc)!=1) stop("Argument coverage.qc must be of length one")
+    if (length(family)!=1) stop("Argument family must be of length one")
+    if (length(G_coding)!=1) stop("Argument G_coding must be of length one")
+    if (length(heter_scale)!=1) stop("Argument heter_scale must be of length one")
+    if (length(thre_lower)!=1) stop("Argument thre_lower must be of length one")
+    if (length(thre_upper)!=1) stop("Argument thre_upper must be of length one")
+    if (length(maf_max)!=1) stop("Argument maf_max must be of length one")
 
     if(!is.numeric(aaf))
         stop("Argument aaf is not a numeric matrix")
@@ -76,6 +83,8 @@ mtAssociation<-function(aaf, coverage, coverage.qc=250, family, pheno,
 
     if(!is.numeric(coverage.qc))
         stop("Argument coverage.qc is not numeric")
+    if(coverage.qc<0)
+        stop("Argument coverage.qc must be positive")
 
     if(!family %in% c("gaussian","binomial"))
         stop('Argument family must be a string input of "gaussian" or "binomial"')
@@ -85,6 +94,8 @@ mtAssociation<-function(aaf, coverage, coverage.qc=250, family, pheno,
 
     if(!is.numeric(region))
         stop("Argument region is not a numeric vector")
+    if(sum(region!=round(region))>0)
+        stop("Argument region must have integer entries")
     if(!is.numeric(thre_lower))
         stop("Argument thre_lower is not numeric")
     if(!is.numeric(thre_upper))
