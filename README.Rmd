@@ -28,3 +28,222 @@ knitr::opts_chunk$set(
 Xianbang Sun, Katia Bulekova, Kaiyu Yan, Daniel Levy, Jun Ding, Chunyu Liu, Jessica L. Fetterman (2020)
 mtAnalysis: an R package for comprehensive annotation of mtDNA sequence variation
 
+
+## Installation
+
+You can install the  development version of mtAnalysis package from [GitHub](https://github.com/) with:
+
+``` {r install, results="hide"}
+# install.packages("devtools")
+# devtools::install_github("mtDNA-BU/mtAnalysis")
+library(mtAnalysis)
+```
+## Standard workflow
+
+Import the original allele, frequency and coverage datasets
+```{r path_def_user, include = TRUE, eval=FALSE}
+input_path = "/path/to/input/directory/"
+```
+```{r path_def, include = FALSE}
+input_path = "/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/ARIC/"
+```
+
+
+```{r chunk2}
+allele <- read.csv(paste0(input_path, "allele/allele_ANNOmtDNA.csv"), header = T, stringsAsFactors=FALSE,
+                   colClasses = c("character"))
+freq <- read.csv(paste0(input_path, "freq/freq_ANNOmtDNA.csv"), header=T, stringsAsFactors=FALSE,
+                      colClasses = c("character"))
+coverage <- read.csv(paste0(input_path, "coverage/coverage_ANNOmtDNA.csv"), header=T)
+allele <- as.matrix(allele)
+freq <- as.matrix(freq)
+coverage <- data.matrix(coverage)
+```
+
+allele: a character matrix (16569 x N) provided by the user. Rows correspond to loci and columns correspond to subjects. This matrix contains the alleles of each subject at each locus. The matrix must contain subject ID as the column names. "/" is used to delimited different allele calls in a locus.
+
+freq: a character matrix (16569 x N) provided by the user. Rows correspond to loci and columns correspond to subjects. This matrix contains the allele fractions of the corresponding allele matrix. The matrix must contain subject ID as the column names. "/" is used to delimited the allele fractions.
+
+coverage: a numeric matrix (16569 x N). Rows correspond to loci and columns correspond to subjects. This matrix contains the reads coverage of the 16569 mtDNA loci for each subject. The matrix must contain the subject ID as the column names.
+
+#### Compute alternative allele fraction (AAF) by mtAAF function
+
+method is the argument to choose method to compute AAF for the case of multiple alternative alleles. The default method "maxAA" computes AAF as the maximum of frequencies of corresponding alternative alleles; and the alternative method "allAA" computes AAF as 1 minus the frequency of reference allele
+
+```{r chunk3}
+AAF <- mtAAF(allele, freq, method = "maxAA")
+```
+
+Scatter plot of output of mtAAF function, each point is AAF of a subject at a locus, the x axis is the mtDNA loci and the y axis is the range of AAF (0-100%)
+```{r scatterPlot, fig.height=4, fig.width=8, fig.align = 'center'}
+plot(AAF)
+```
+
+Plot the mean coverage of each locus by plotCover function, the x axis is the mtDNA loci and y axis is the mean coverage
+```{r plotMeanCoverage, fig.height=4, fig.width=8, fig.align = 'center'}
+plotCover(coverage, type="mean")
+```
+
+Histogram of the median coverage of each subject by histSampCov function 
+```{r histMeanCoverage, fig.height=5, fig.width=5, fig.align = 'center'}
+histSampCov(coverage)
+```
+
+#### Summarize and annotate mtDNA mutations by mtSummary function
+Specify the path to output the annotation file and histograms of mtDNA mutation burden of subjects and number of mutations carried by each loci for heteroplasmic and homoplasmic mutations
+
+Users can specify lower bound and upper bound of the threshold by thre.lower and thre.upper arguments. By default, thre.lower=0.03 and thre.upper=0.97. That is, if $0.03\leq AAF\leq 0.97$, it is a heteroplasmic mutation; and if $AAF>0.97$, it is a homoplasmic mutation. Users can also choose different gene regions by loci argument. For example, to choose tRNA region, set loci="tRNA". Users can also choose types of mutations to be annotated by type argument. For example, to choose heteroplasmic mutations, set type="heter", and choose homoplasmic mutations, set type="homo". Users can also specify the types of comprehensive predicted functional scores and categories by annot.select argument. The default is c("Pos", "ref", "Gene", "TypeMutation","MissensMutation", "CodonPosition", "ProteinDomain", "dbSNP_150_id", "PolyPhen2", "PolyPhen2_score", "SIFT", "SIFT_score", "CADD", "CADD_score", "CADD_phred_score")
+
+The types of comprehensive predicted functional scores and categories to choose are:
+TypeMutation, MissensMutation, CodonPosition, ProteinDomain, mFOLD_dG, mFOLD_Initial,
+mFOLD_rCRS DG, mFOLD_rCRS Initial, mFOLD_AnticodonAminoAcidChange, mFOLD_Location, PolyPhen2,
+PolyPhen2_score, SIFT, SIFT_score, PROVEAN, PROVEAN_score, MutationAssessor,
+MutationAssessor_score, CADD, CADD_score, CADD_phred_score, PANTHER, PANTHER_score,
+PhD_SNP, PhD_SNP_score, SNAP, SNAP_score, MutationTaster, MutationTaster_score,
+dbSNP_150_id
+
+Run the mtSummary function, only include loci of coding region, annotate for both of heteroplasmic and homoplasmic mutations.
+
+```{r chunk4, echo=TRUE, eval=FALSE}
+output_path <- "/output/dir/"
+```
+```{r chunk5, echo=F, eval=TRUE}
+# output_path <-"/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/Annotation/Output/"
+output_path <- paste0(tempdir(),"/")
+
+```
+
+```{r chunk6}
+mtSum <- mtSummary(aaf=AAF, allele=allele, freq=freq, coverage=coverage,
+         loci="coding", path=output_path, type="both", study="ARIC")
+```
+
+Part of the output of annotated alleles
+```{r chunk7, echo=F}
+annotate_df <- read.csv(paste0(output_path, "/ARIC_annotation_variation.csv"))
+annotate_df[annotate_df$mtID == 3310, ]
+```
+
+
+Output of histograms of summarized mutations
+```{r scrollable, include=FALSE, eval=F}
+options(width = 60)
+local({
+  hook_output <- knitr::knit_hooks$get('output')
+  knitr::knit_hooks$set(output = function(x, options) {
+    if (!is.null(options$max.height)) options$attr.output <- c(
+      options$attr.output,
+      sprintf('style="max-height: %s;"', options$max.height)
+    )
+    hook_output(x, options)
+  })
+})
+```
+
+
+```{r histograms_pdf, echo=F, include=T, eval=T}
+library(grImport2)
+library(rsvg)
+knitr::include_graphics('/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/Annotation/Output/hist_test.svg')
+#img_test<-readPicture("/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/Annotation/Output/hist_test.svg")
+#grid.picture(img_test, ext="clipbbox" )
+img_test<-rsvg("/restricted/projectnb/mtdna-alcohol/Sun_Xianbang/Annotation/Output/hist_test.svg")
+#plot(img_test)
+#display(img_test, method = "raster", all=T)
+```
+
+
+```{r chunk convert pdf to png, echo=F, include=F, eval=T}
+library(pdftools)
+pdf_pages <- pdf_info(paste0(output_path, "mtHistograms.pdf"))$pages
+filenames<-paste0(output_path, "mtHistograms_", seq_len(pdf_pages), ".png")
+pdf_convert(paste0(output_path, "mtHistograms.pdf"), format = "png", pages=seq_len(pdf_pages), filenames=filenames)
+```
+
+
+```{r mtHistograms, echo=F, fig.align = 'center', out.height="60%", out.width="60%", eval=T}
+library(EBImage)
+for(i in seq_along(filenames)){
+img <- readImage(filenames[i])
+display(img, method = "raster")
+}
+```
+
+
+Summary of the mean coverage of loci
+```{r chunk8}
+mtSum$coverLoci 
+```
+
+Summary of the mean coverage of subjects
+```{r chunk9}
+mtSum$coverSubjects  
+```
+
+Display loci of variation
+```{r chunk10, eval=F}
+mtSum$loci_var  
+```
+
+Summary of the heteroplasmic burden of subjects
+```{r chunk11}
+mtSum$heter_burden_sum  
+```
+
+Summary of numbers of heteroplasmic mutations loci carried
+```{r chunk12}
+mtSum$heter_loci_sum  
+```
+
+Display loci of heteroplasmy
+```{r chunk13, eval=F}
+mtSum$loci_heter  
+```
+
+Total number of heteroplasmic mutations
+```{r chunk14}
+mtSum$heter_total  
+```
+
+Summary of the homoplasmic burden of subjects
+```{r chunk15}
+mtSum$homo_burden_sum  
+```
+
+Summary of numbers of homoplasmic mutations loci carried
+```{r chunk16}
+mtSum$homo_loci_sum  
+```
+
+Display loci of homoplasmy
+```{r chunk17, eval=F}
+mtSum$loci_homo  
+```
+
+Total number of homoplasmic mutations
+```{r chunk18}
+mtSum$homo_total  
+```
+
+#### Annotate alternative alleles by mtAnno function
+
+Generate alternative alleles to be annotated for mtDNA loci. It has two columns: loci positions ("pos") and "alleles" to be annotated.
+```{r chunk19}
+anno <- as.data.frame(matrix(0, 10, 2))
+colnames(anno)<- c("pos", "alleles")
+anno$pos <- c(3311:3320)
+anno$alleles <- c("A", "A", "T", "C", "A", "T", "G", "A", "C", "T")
+```
+
+Run the mtAnno function
+```{r chunk20}
+mtAnno(anno=anno, path=output_path)
+```
+
+Part of the output of annotated alleles
+```{r chunk21, echo=F}
+annotate_df2 <- read.csv(paste0(output_path, "/Study_mtAnno.csv"))
+annotate_df2[annotate_df2$Pos == 3311, ]
+```
+
+
