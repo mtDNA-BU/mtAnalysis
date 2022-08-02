@@ -12,7 +12,7 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 
 // GetAlleles
 CharacterVector GetAlleles(std::vector<std::string> Both, IntegerMatrix Allele, int n_sample);
-RcppExport SEXP _ANNOmtDNA_GetAlleles(SEXP BothSEXP, SEXP AlleleSEXP, SEXP n_sampleSEXP) {
+RcppExport SEXP _mtAnalysis_GetAlleles(SEXP BothSEXP, SEXP AlleleSEXP, SEXP n_sampleSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -25,7 +25,7 @@ END_RCPP
 }
 // GetFreq
 CharacterVector GetFreq(NumericMatrix Freq);
-RcppExport SEXP _ANNOmtDNA_GetFreq(SEXP FreqSEXP) {
+RcppExport SEXP _mtAnalysis_GetFreq(SEXP FreqSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -36,12 +36,12 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_ANNOmtDNA_GetAlleles", (DL_FUNC) &_ANNOmtDNA_GetAlleles, 3},
-    {"_ANNOmtDNA_GetFreq", (DL_FUNC) &_ANNOmtDNA_GetFreq, 1},
+    {"_mtAnalysis_GetAlleles", (DL_FUNC) &_mtAnalysis_GetAlleles, 3},
+    {"_mtAnalysis_GetFreq", (DL_FUNC) &_mtAnalysis_GetFreq, 1},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_ANNOmtDNA(DllInfo *dll) {
+RcppExport void R_init_mtAnalysis(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }

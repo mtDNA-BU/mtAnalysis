@@ -10,7 +10,7 @@
 #' @param n_sample Number of elements
 #' @export
 GetAlleles <- function(Both, Allele, n_sample) {
-    .Call(`_ANNOmtDNA_GetAlleles`, Both, Allele, n_sample)
+    .Call(`_mtAnalysis_GetAlleles`, Both, Allele, n_sample)
 }
 
 #' Compute .. frequency values
@@ -20,6 +20,6 @@ GetAlleles <- function(Both, Allele, n_sample) {
 #' @param Freq Frequency matrix
 #' @export
 GetFreq <- function(Freq) {
-    .Call(`_ANNOmtDNA_GetFreq`, Freq)
+    .Call(`_mtAnalysis_GetFreq`, Freq)
 }
 
