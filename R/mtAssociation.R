@@ -58,6 +58,7 @@
 #' @export
 #'
 #' @examples
+
 mtAssociation<-function(aaf, coverage, coverage.qc=250, family, pheno,
                      trait, covars, G_coding="heter", rho_skatO=c(0,1), heter_scale=F,
                      region=c(1:16569), thre_lower=0.03, thre_upper=0.97, maf_max=0.01,
