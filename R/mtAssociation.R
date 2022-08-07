@@ -58,6 +58,21 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#' ## Read input data
+#'
+#' aaf_file <- "aaf.csv"
+#' coverage_file <- "coverage.csv"
+#' pheno_file <- "pheno.csv"
+#'
+#' aaf <- as.matrix(read.csv(file = aaf_file, sep = ","))
+#' coverage <- as.matrix(read.csv(file = coverage_file, sep = ","))
+#' pheno <- read.csv(file = pheno_file, sep = ",")
+#'
+#' mtAssociation(aaf=aaf, coverage=coverage, family="gaussian", pheno=pheno,
+#' trait="BMI", covars=c("AGE", "SEX"))
+#'
+#'}
 
 mtAssociation<-function(aaf, coverage, coverage.qc=250, family, pheno,
                      trait, covars, G_coding="heter", rho_skatO=c(0,1), heter_scale=F,

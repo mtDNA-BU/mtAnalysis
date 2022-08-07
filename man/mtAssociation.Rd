@@ -90,3 +90,20 @@ satisfies thre_lower≤aaf≤thre_upper, and 0 otherwise. By coding definition 2
 the corresponding alternative allele fraction (aaf) satisfies
 thre_lower≤aaf≤thre_upper, and 0 otherwise.
 }
+\examples{
+\dontrun{
+## Read input data
+
+aaf_file <- "aaf.csv"
+coverage_file <- "coverage.csv"
+pheno_file <- "pheno.csv"
+
+aaf <- as.matrix(read.csv(file = aaf_file, sep = ","))
+coverage <- as.matrix(read.csv(file = coverage_file, sep = ","))
+pheno <- read.csv(file = pheno_file, sep = ",")
+
+mtAssociation(aaf=aaf, coverage=coverage, family="gaussian", pheno=pheno,
+trait="BMI", covars=c("AGE", "SEX"))
+
+}
+}
