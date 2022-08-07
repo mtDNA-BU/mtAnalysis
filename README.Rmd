@@ -40,7 +40,7 @@ You can install the  development version of mtAnalysis package from [GitHub](htt
 library(mtAnalysis)
 ```
 
-In addition, our package require the seqMeta package. The instructions for the 
+In addition, our package requires the seqMeta package. The instructions for the 
 installation of the seqMeta package can be found at 
 https://github.com/DavisBrian/seqMeta
 
@@ -92,7 +92,7 @@ plotCover(coverage, type="mean")
 
 Histogram of the median coverage of each subject by histSampCov function 
 ```{r histMeanCoverage, fig.height=5, fig.width=5, fig.align = 'center'}
-histSampCov(coverage)
+histSampCov(coverage, ylim=c(0,1200))
 ```
 
 #### Summarize and annotate mtDNA mutations by mtSummary function

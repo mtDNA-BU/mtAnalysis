@@ -36,7 +36,7 @@ You can install the development version of mtAnalysis package from
 library(mtAnalysis)
 ```
 
-In addition, our package require the seqMeta package. The instructions
+In addition, our package requires the seqMeta package. The instructions
 for the installation of the seqMeta package can be found at
 <https://github.com/DavisBrian/seqMeta>
 
@@ -110,7 +110,7 @@ plotCover(coverage, type="mean")
 Histogram of the median coverage of each subject by histSampCov function
 
 ``` r
-histSampCov(coverage)
+histSampCov(coverage, ylim=c(0,1200))
 ```
 
 <img src="man/figures/README-histMeanCoverage-1.png" style="display: block; margin: auto;" />
