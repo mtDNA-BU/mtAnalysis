@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 # mtAnalysis
 ### Comprehensive annotation to mtDNA mutations.
 
-**Authors:** Xianbang Sun (maintainer, sxb3000@bu.edu), Katia Bulekova, Kaiyu Yan, Daniel Levy, Jun Ding, Jessica L. Fetterman, Chunyu Liu<br>
+**Authors:** Xianbang Sun (maintainer, sxb3000@bu.edu), Katia Bulekova, Xue Liu, Meng Lai, Chunyu Liu<br>
 **Date:** "`r format(Sys.Date(), '%m/%d/%Y')`"
 
 <!-- badges: start -->
@@ -27,6 +27,7 @@ knitr::opts_chunk$set(
 
 Xianbang Sun, Katia Bulekova, Kaiyu Yan, Daniel Levy, Jun Ding, Chunyu Liu, Jessica L. Fetterman (2020)
 mtAnalysis: an R package for comprehensive annotation of mtDNA sequence variation
+and association analysis
 
 
 ## Installation
@@ -38,6 +39,11 @@ You can install the  development version of mtAnalysis package from [GitHub](htt
 # devtools::install_github("mtDNA-BU/mtAnalysis")
 library(mtAnalysis)
 ```
+
+In addition, our package require the seqMeta package. The instructions for the 
+installation of the seqMeta package can be found at 
+https://github.com/DavisBrian/seqMeta
+
 ## Standard workflow
 
 Import the original allele, frequency and coverage datasets
