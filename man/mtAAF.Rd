@@ -40,8 +40,8 @@ Derivation of alternative allele fraction (AAF).
 allele_file <- "allele.csv"
 freq_file   <- "freq.csv"
 
-allele <- as.matrix( read.csv(file=allele_file, sep=",", header=FALSE))
-freq   <- as.matrix( read.csv(file=freq_file, sep=",", header=FALSE))
+allele <- as.matrix( read.csv(file=allele_file, sep=","))
+freq   <- as.matrix( read.csv(file=freq_file, sep=","))
 
 aaf=mtAAF(allele, freq)
 }
